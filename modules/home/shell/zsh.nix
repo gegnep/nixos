@@ -8,7 +8,7 @@
   programs.zsh = {
     enable = true;
     history.size = 1000;
-    dotDir = "${config.xdg.configHome}/zsh";  # Use XDG config directory
+    dotDir = "${config.xdg.configHome}/zsh";
 
     shellAliases = {
       ll = "ls -l";

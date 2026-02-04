@@ -48,7 +48,7 @@
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovty" = {
     description = "Switch to tty2 on boot";
-    after = [ "systemd-user-sessions.service" "plymouth-quit-wait.service" ];
+    after = [ "systemd-user-sessions.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";

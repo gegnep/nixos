@@ -36,6 +36,4 @@
     nerd-fonts.droid-sans-mono
     nerd-fonts.hack
   ];
-
-  environment.etc."nixos".source = "/home/pengeg/nixos";
 }

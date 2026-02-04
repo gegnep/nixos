@@ -61,6 +61,5 @@
     cowsay
     desktop-file-utils
     cabextract
-    appimage-run
   ];
 }

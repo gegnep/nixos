@@ -27,7 +27,6 @@
       "console=tty2"
 
       "quiet"
-      "splash"
       "rd.udev.log_level=3"
     ];
     consoleLogLevel = 0;
