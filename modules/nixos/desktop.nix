@@ -42,4 +42,17 @@ in
     xdgOpenUsePortal = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
+
+  # Boot to tty2
+  systemd.services."getty@tty2".enable = true;
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovty" = {
+    description = "Switch to tty2 on boot";
+    after = [ "systemd-user-sessions.service" "plymouth-quit-wait.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.kbd}/bin/chvt 2";
+    };
+  };
 }
