@@ -4,7 +4,14 @@
   networking = {
     nameservers = [ "100.100.100.100" "1.1.1.1" "1.0.0.1" ];
     search = [ "ermine-gentoo.ts.net" ];
-    firewall.enable = false;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
+      trustedInterfaces = [ "tailscale0" ];
+      allowedTCPPortRanges = [{ from = 27000; to = 27050; }];
+      allowedUDPPortRanges = [{ from = 27000; to = 27050; }];
+    };
   };
 
   services.resolved = {
