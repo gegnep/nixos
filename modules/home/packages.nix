@@ -19,6 +19,7 @@
     zstd
     gnupg
     xdg-utils
+    lazygit
 
     # Nix tools
     nix-output-monitor

@@ -37,8 +37,12 @@
   services.scx.enable = true;
 
   # Misc services
-  services.flatpak.enable = true;
-  services.udisks2.enable = true;
+  services = {
+    flatpak.enable = true;
+    udisks2.enable = true;
+    tumbler.enable = true;
+    gvfs.enable = true;
+  };
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;

@@ -24,6 +24,7 @@ in
     klick
     qpwgraph
     alsa-scarlett-gui
+    pavucontrol
 
     # Plugins (LV2, VST2, VST3, LADSPA)
     calf
