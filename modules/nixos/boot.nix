@@ -25,9 +25,14 @@
       "video=HDMI-A-1:1920x1080@100"
       "amdgpu.ppfeaturemask=0xfffd7fff"
       "console=tty2"
-    ];
 
-    # v4l2loopback for OBS virtual camera
+      "quiet"
+      "splash"
+      "rd.udev.log_level=3"
+    ];
+    consoleLogLevel = 0;
+    initrd.verbose = false;
+
     kernelModules = [ "v4l2loopback" ];
     extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
     extraModprobeConfig = ''
