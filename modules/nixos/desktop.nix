@@ -8,10 +8,6 @@
   environment.systemPackages = [
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
-  boot.plymouth = {
-    enable = true;
-    theme = "catppuccin-mocha";
-  };
   catppuccin = {
     enable = true;
     flavor = "mocha";
