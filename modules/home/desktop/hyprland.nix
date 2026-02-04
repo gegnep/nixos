@@ -15,6 +15,9 @@
     pcmanfm
     feh
     xrandr
+    imv
+    mpv
+    zathura
 
     # Quickshell/Noctalia dependencies
     qt6Packages.qt5compat
