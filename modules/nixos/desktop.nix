@@ -1,8 +1,5 @@
 { pkgs, inputs, ... }:
 
-let
-  system = pkgs.system;
-in
 {
   time.timeZone = "America/Kentucky/Louisville";
   i18n.defaultLocale = "en_US.UTF-8";
