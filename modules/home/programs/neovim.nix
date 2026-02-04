@@ -265,6 +265,12 @@
       map("n", "<C-k>", "<C-w>k")
       map("n", "<C-l>", "<C-w>l")
 
+      -- Resize windows
+      map("n", "<C-Up>", ":resize +2<CR>")
+      map("n", "<C-Down>", ":resize -2<CR>")
+      map("n", "<C-Left>", ":vertical resize -2<CR>")
+      map("n", "<C-Right>", ":vertical resize +2<CR>")
+
       -- Force transparency (backup)
       vim.cmd [[
         highlight Normal guibg=NONE ctermbg=NONE
