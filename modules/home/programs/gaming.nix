@@ -5,6 +5,10 @@
     r2modman
     protonup-rs
     steam-run
+    mangohud
+    gamescope
+    gamemode
+    lutris
     deadlock-mod-manager
 
     (prismlauncher.override {
