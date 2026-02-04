@@ -9,5 +9,6 @@
     ./users.nix
     ./desktop.nix
     ./programs.nix
+    ./performance.nix
   ];
 }
