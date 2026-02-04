@@ -5,7 +5,6 @@
     r2modman
     protonup-rs
     steam-run
-    appimage-run
     deadlock-mod-manager
 
     (prismlauncher.override {
