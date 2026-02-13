@@ -29,7 +29,7 @@
     };
 
     initContent = ''
-      source ./.p10k.zsh
+      source ${./.p10k.zsh}
 
       # Auto-start Hyprland on tty2
       if [[ "$(tty)" == "/dev/tty2" ]] && [[ -z "$DISPLAY" ]] && [[ -z "$WAYLAND_DISPLAY" ]]; then
