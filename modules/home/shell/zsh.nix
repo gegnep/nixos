@@ -12,9 +12,8 @@
 
     shellAliases = {
       ll = "ls -l";
-      update = "cd /etc/nixos && sudo nixos-rebuild switch --flake";
-      update-flake = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake";
-      shtdwn = "update-flake && shutdown -h +5 &";
+      update = "nh os switch";
+      shtdwn = "shutdown -h now";
       svim = "sudo -E nvim";
       claude-dev = "nix develop ~/dev-shell -c claude";
     };
