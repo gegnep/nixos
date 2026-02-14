@@ -37,9 +37,10 @@ in
     geonkick
 
     # Windows VST support
-    yabridge
-    yabridgectl
-    wineWowPackages.stable
+    # TODO: yabridge broken on unstable
+    #yabridge
+    #yabridgectl
+    wineWow64Packages.stable
     winetricks
   ];
 
