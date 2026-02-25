@@ -13,7 +13,7 @@
   home.packages = with pkgs; [
     chatterino7
     ungoogled-chromium
-    davinci-resolve
+    #davinci-resolve
     wootility
     gimp-with-plugins
   ];

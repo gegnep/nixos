@@ -25,7 +25,7 @@
   fonts.packages = with pkgs; [
     fira-sans
     roboto
-    jetbrains-mono
+    #jetbrains-mono
     noto-fonts
     noto-fonts-color-emoji
     noto-fonts-cjk-sans

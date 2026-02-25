@@ -16,7 +16,7 @@ in
 
   home.packages = with pkgs; [
     # DAWs
-    bitwig-studio
+    #bitwig-studio
     tenacity
     musescore
 
@@ -27,14 +27,13 @@ in
     pavucontrol
 
     # Plugins (LV2, VST2, VST3, LADSPA)
-    calf
-    lsp-plugins
-    x42-plugins
-    x42-gmsynth
-    dragonfly-reverb
-    guitarix
-    fil-plugins
-    geonkick
+    #calf
+    #lsp-plugins
+    #x42-plugins
+    #x42-gmsynth
+    #dragonfly-reverb
+    #fil-plugins
+    #geonkick
 
     # Windows VST support
     # TODO: yabridge broken on unstable
