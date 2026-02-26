@@ -44,8 +44,8 @@ return {
     tall = { key = "*-F4", f3_safe = false, ingame_only = false },
 
     -- startup actions
-    toggle_fullscreen_key = "Shift-O",
-    launch_paceman_key = "Shift-P",
+    toggle_fullscreen_key = "Shift-F11",
+    launch_paceman_key = "Shift-F12",
 
     -- during game actions
     toggle_ninbot_key = "*-apostrophe",
@@ -65,7 +65,7 @@ return {
 
     -- ==== MISC ====
     res_1440 = true,
-    sens_change = { enabled = true, normal = 10.73476381, tall = 0.72416075 }, -- make sure raw input is off
+    sens_change = { enabled = false, normal = 10.73476381, tall = 0.72416075 }, -- make sure raw input is off
     enable_resize_animations = false,
 
 }
