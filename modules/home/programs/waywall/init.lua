@@ -246,6 +246,9 @@ helpers.res_image(
 
 -- ==== DEBUG TEXT ====
 waywall.listen("load", function()
+
+    waywall.exec("sh -c 'wl-paste --watch --type text/plain xsel --clipboard --input &'")
+
     if cfg.debug_text then
         debug_text1 = waywall.text(debug_text,
             { x = 10, y = 10, color = "#FFFF00", size = 3 })
