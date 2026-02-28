@@ -9,7 +9,7 @@
     gamemode
 
     # Mod Managers
-    r2modman
+    gale
     deadlock-mod-manager
 
     # Minecraft
