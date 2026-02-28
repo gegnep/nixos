@@ -133,8 +133,11 @@
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
         "systemctl --user start hyprpolkitagent"
-        "noctalia-shell"
         "keepassxc --minimized"
+      ];
+
+      exec = [
+        "noctalia-qs -c noctalia-shell"
       ];
 
       # Window rules
