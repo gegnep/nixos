@@ -16,5 +16,6 @@
     #davinci-resolve
     wootility
     gimp-with-plugins
+    teams-for-linux
   ];
 }
