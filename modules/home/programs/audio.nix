@@ -16,7 +16,7 @@ in
 
   home.packages = with pkgs; [
     # DAWs
-    #bitwig-studio
+    bitwig-studio
     tenacity
     musescore
 
@@ -36,9 +36,8 @@ in
     #geonkick
 
     # Windows VST support
-    # TODO: yabridge broken on unstable
-    #yabridge
-    #yabridgectl
+    yabridge
+    yabridgectl
     wineWow64Packages.stable
     winetricks
   ];
