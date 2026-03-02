@@ -18,15 +18,6 @@
     imv
     mpv
     zathura
-
-    # Quickshell/Noctalia dependencies
-    qt6Packages.qt5compat
-    libsForQt5.qtgraphicaleffects
-    cava
-    gpu-screen-recorder
-    material-symbols
-
-    python3
   ];
 
   wayland.windowManager.hyprland = {

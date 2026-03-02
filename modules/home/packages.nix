@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     # CLI tools
-    neofetch
+    fastfetch
     nnn
     tldr
     ripgrep
