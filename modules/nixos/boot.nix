@@ -21,11 +21,8 @@
       inputs.cachynix.packages.${pkgs.stdenv.hostPlatform.system}.linux-cachyos-latest-x86-64-v3;
 
     kernelParams = [
-      "video=DP-3:2560x1440@170D"
-      "video=HDMI-A-1:1920x1080@100"
       "amdgpu.ppfeaturemask=0xfffd7fff"
       "console=tty2"
-
       "quiet"
       "rd.udev.log_level=3"
     ];
