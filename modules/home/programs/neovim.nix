@@ -1,9 +1,9 @@
 { pkgs, ... }:
 
 {
-  home.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     neovide
-  ]
+  ];
 
   programs.neovim = {
     enable = true;
