@@ -25,7 +25,6 @@
   fonts.packages = with pkgs; [
     fira-sans
     roboto
-    #jetbrains-mono
     noto-fonts
     noto-fonts-color-emoji
     noto-fonts-cjk-sans
@@ -35,5 +34,6 @@
     nerd-fonts._0xproto
     nerd-fonts.droid-sans-mono
     nerd-fonts.hack
+    nerd-fonts.jetbrains-mono
   ];
 }
