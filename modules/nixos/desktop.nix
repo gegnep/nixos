@@ -34,13 +34,6 @@
   services = {
     flatpak.enable = true;
     udisks2.enable = true;
-    tumbler.enable = true;
-    gvfs.enable = true;
-  };
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # Boot to tty2

@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  home.systemPackages = with pkgs; [
+    neovide
+  ]
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
