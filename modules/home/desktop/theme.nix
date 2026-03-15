@@ -7,12 +7,6 @@
 
   dconf.enable = true;
 
-  catppuccin = {
-    enable = true;
-    flavor = "mocha";
-    accent = "lavender";
-  };
-
   home.pointerCursor = {
     gtk.enable = true;
     package = pkgs.phinger-cursors;
