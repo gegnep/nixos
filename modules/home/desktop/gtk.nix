@@ -5,6 +5,8 @@
     nwg-look
   ];
 
+  dconf.enable = true;
+
   home.pointerCursor = {
     gtk.enable = true;
     package = pkgs.phinger-cursors;

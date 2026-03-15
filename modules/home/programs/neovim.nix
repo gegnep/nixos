@@ -233,8 +233,8 @@
 
       -- Neovide vs terminal transparency
       if vim.g.neovide then
-        vim.g.neovide_transparency = 0.9
-        vim.o.guifont = "JetBrainsMono Nerd Font:h14"
+        vim.g.neovide_opacity = 0.9
+        vim.o.guifont = "Hack Nerd Font:h11"
       else
         require("catppuccin").setup({ flavour = "mocha", transparent_background = true })
         vim.cmd.colorscheme "catppuccin"
