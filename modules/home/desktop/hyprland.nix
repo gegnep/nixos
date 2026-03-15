@@ -18,6 +18,8 @@
     imv
     mpv
     zathura
+    peazip
+    neovide
   ];
 
   wayland.windowManager.hyprland = {
