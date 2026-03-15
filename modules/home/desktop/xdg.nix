@@ -93,7 +93,7 @@
         "text/markdown" = "neovide.desktop";
   
         # files
-        "inode/directory"= "pcmanfm.desktop";
+        "inode/directory"= "dolphin.desktop";
 
         # email
         "x-scheme-handler/mailto" = "thunderbird.desktop";

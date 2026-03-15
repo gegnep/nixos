@@ -12,7 +12,7 @@
     wl-clipboard
     wlr-randr
     udiskie
-    pcmanfm
+    kdePackages.dolphin
     feh
     xrandr
     imv
@@ -223,7 +223,7 @@
         "$mainMod, mouse_up, workspace, e-1"
 
         # Applications
-        "$mainMod, E, exec, pcmanfm"
+        "$mainMod, E, exec, dolphin"
         "$mainMod, Q, exec, alacritty"
         "$mainMod, R, exec, noctalia-shell ipc call launcher toggle"
         "$shiftMod, Q, exec, firefox"
