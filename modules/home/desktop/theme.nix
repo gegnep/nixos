@@ -3,10 +3,8 @@
 {
   home.packages = with pkgs; [
     nwg-look
-    (catppuccin-kde.override {
-      flavour = [ "mocha" ];
-      accents = [ "lavender" ];
-     })
+    kdePackages.plasma-integration
+    kdePackages.qqc2-desktop-style
   ];
 
   dconf.enable = true;
@@ -20,7 +18,7 @@
 
   qt = {
     enable = true;
-    platformTheme.name = "kvantum";
+    platformTheme.name = "kde";
     style.name = "kvantum";
   };
 
@@ -28,6 +26,7 @@
     enable = true;
     flavor = "mocha";
     accent = "lavender";
+    assertStyle = true;
   };
 
   gtk = {
@@ -52,11 +51,116 @@
   xdg.configFile."kdeglobals".text = ''
     [General]
     ColorScheme=CatppuccinMochaLavender
+    Name=Catppuccin Mocha Lavender
 
     [Icons]
     Theme=Papirus-Dark
 
     [KDE]
     widgetStyle=kvantum
+
+    [Colors:View]
+    BackgroundNormal=30,30,46
+    BackgroundAlternate=36,36,54
+    DecorationFocus=180,190,254
+    DecorationHover=180,190,254
+    ForegroundNormal=205,214,244
+    ForegroundInactive=165,169,188
+    ForegroundActive=180,190,254
+    ForegroundLink=137,180,250
+    ForegroundVisited=203,166,247
+    ForegroundNegative=243,139,168
+    ForegroundNeutral=249,226,175
+    ForegroundPositive=166,227,161
+
+    [Colors:Window]
+    BackgroundNormal=24,24,37
+    BackgroundAlternate=30,30,46
+    DecorationFocus=180,190,254
+    DecorationHover=180,190,254
+    ForegroundNormal=205,214,244
+    ForegroundInactive=165,169,188
+    ForegroundActive=180,190,254
+    ForegroundLink=137,180,250
+    ForegroundVisited=203,166,247
+    ForegroundNegative=243,139,168
+    ForegroundNeutral=249,226,175
+    ForegroundPositive=166,227,161
+
+    [Colors:Button]
+    BackgroundNormal=49,50,68
+    BackgroundAlternate=59,60,78
+    DecorationFocus=180,190,254
+    DecorationHover=180,190,254
+    ForegroundNormal=205,214,244
+    ForegroundInactive=165,169,188
+    ForegroundActive=180,190,254
+    ForegroundLink=137,180,250
+    ForegroundVisited=203,166,247
+    ForegroundNegative=243,139,168
+    ForegroundNeutral=249,226,175
+    ForegroundPositive=166,227,161
+
+    [Colors:Selection]
+    BackgroundNormal=180,190,254
+    BackgroundAlternate=170,180,244
+    ForegroundNormal=30,30,46
+    ForegroundInactive=30,30,46
+    ForegroundActive=30,30,46
+    ForegroundLink=30,30,46
+    ForegroundVisited=30,30,46
+    ForegroundNegative=243,139,168
+    ForegroundNeutral=249,226,175
+    ForegroundPositive=166,227,161
+    DecorationFocus=180,190,254
+    DecorationHover=180,190,254
+
+    [Colors:Tooltip]
+    BackgroundNormal=36,36,54
+    BackgroundAlternate=30,30,46
+    ForegroundNormal=205,214,244
+    ForegroundInactive=165,169,188
+    ForegroundActive=180,190,254
+    ForegroundLink=137,180,250
+    ForegroundVisited=203,166,247
+    ForegroundNegative=243,139,168
+    ForegroundNeutral=249,226,175
+    ForegroundPositive=166,227,161
+    DecorationFocus=180,190,254
+    DecorationHover=180,190,254
+
+    [Colors:Complementary]
+    BackgroundNormal=24,24,37
+    BackgroundAlternate=30,30,46
+    ForegroundNormal=205,214,244
+    ForegroundInactive=165,169,188
+    ForegroundActive=180,190,254
+    ForegroundLink=137,180,250
+    ForegroundVisited=203,166,247
+    ForegroundNegative=243,139,168
+    ForegroundNeutral=249,226,175
+    ForegroundPositive=166,227,161
+    DecorationFocus=180,190,254
+    DecorationHover=180,190,254
+
+    [Colors:Header]
+    BackgroundNormal=24,24,37
+    BackgroundAlternate=30,30,46
+    ForegroundNormal=205,214,244
+    ForegroundInactive=165,169,188
+    ForegroundActive=180,190,254
+    ForegroundLink=137,180,250
+    ForegroundVisited=203,166,247
+    ForegroundNegative=243,139,168
+    ForegroundNeutral=249,226,175
+    ForegroundPositive=166,227,161
+    DecorationFocus=180,190,254
+    DecorationHover=180,190,254
+
+    [WM]
+    activeBackground=24,24,37
+    activeForeground=205,214,244
+    inactiveBackground=30,30,46
+    inactiveForeground=165,169,188
   '';
 }
