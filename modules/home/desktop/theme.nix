@@ -3,6 +3,10 @@
 {
   home.packages = with pkgs; [
     nwg-look
+    (catppuccin-kde.override {
+      flavour = [ "mocha" ];
+      accents = [ "lavender" ];
+     })
   ];
 
   dconf.enable = true;
@@ -44,4 +48,15 @@
       };
     };
   };
+
+  xdg.configFile."kdeglobals".text = ''
+    [General]
+    ColorScheme=CatppuccinMochaLavender
+
+    [Icons]
+    Theme=Papirus-Dark
+
+    [KDE]
+    widgetStyle=kvantum
+  '';
 }
