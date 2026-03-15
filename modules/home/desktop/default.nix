@@ -3,7 +3,7 @@
 {
   imports = [
     ./hyprland.nix
-    ./gtk.nix
+    ./theme.nix
     ./xdg.nix
     ./terminals.nix
   ];

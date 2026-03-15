@@ -7,6 +7,12 @@
 
   dconf.enable = true;
 
+  catppuccin = {
+    enable = true;
+    flavor = "mocha";
+    accent = "lavender";
+  };
+
   home.pointerCursor = {
     gtk.enable = true;
     package = pkgs.phinger-cursors;
@@ -14,8 +20,24 @@
     size = 36;
   };
 
+  qt = {
+    enable = true;
+    platformTheme.name = "kvantum";
+    style.name = "kvantum";
+  };
+
+  catppuccin.kvantum = {
+    enable = true;
+    flavor = "mocha";
+    accent = "lavender";
+  };
+
   gtk = {
     enable = true;
+    theme = {
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
+    };
     font = {
       name = "Hack Nerd Font";
       size = 12;
