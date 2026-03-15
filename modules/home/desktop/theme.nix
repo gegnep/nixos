@@ -1,12 +1,6 @@
 { pkgs, ... }:
 
 {
-  home.packages = with pkgs; [
-    nwg-look
-    kdePackages.plasma-integration
-    kdePackages.qqc2-desktop-style
-  ];
-
   dconf.enable = true;
 
   home.pointerCursor = {
@@ -52,12 +46,19 @@
     [General]
     ColorScheme=CatppuccinMochaLavender
     Name=Catppuccin Mocha Lavender
+    TerminalApplication=alacritty
+    TerminalService=Alacritty.desktop
+    BrowserApplication=firefox.desktop
+    fixed width font=JetBrainsMono Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+    font=Hack Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,170
+
 
     [Icons]
     Theme=Papirus-Dark
 
     [KDE]
     widgetStyle=kvantum
+    SingleClick=false
 
     [Colors:View]
     BackgroundNormal=30,30,46
