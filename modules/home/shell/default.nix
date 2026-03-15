@@ -8,7 +8,7 @@
   home.file.".p10k.zsh".source = ./.p10k.zsh;
 
   home.sessionVariables = {
-    HYPRSHOT_DIR = "$HOME/Pictures/Screenshots";
+    HYPRSHOT_DIR = "$HOME/pictures/screenshots";
     XDG_CURRENT_DESKTOP = "Hyprland";
     NIXOS_OZONE_WL = "1";
     BROWSER = "firefox";

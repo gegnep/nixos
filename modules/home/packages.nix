@@ -29,6 +29,7 @@
     unzip
     xz
     p7zip
+    peazip
 
     # System monitoring
     btop
@@ -52,9 +53,14 @@
     # Desktop apps
     firefox
     keepassxc
-    syncthing
     discord
     vscodium
+
+    # General GUI utilities 
+    feh
+    imv
+    mpv
+    zathura
     ventoy-full
 
     # Misc

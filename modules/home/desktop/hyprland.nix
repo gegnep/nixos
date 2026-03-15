@@ -12,14 +12,7 @@
     wl-clipboard
     wlr-randr
     udiskie
-    kdePackages.dolphin
-    feh
     xrandr
-    imv
-    mpv
-    zathura
-    peazip
-    neovide
   ];
 
   wayland.windowManager.hyprland = {

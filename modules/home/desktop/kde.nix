@@ -2,6 +2,8 @@
 
 {
   home.packages = with pkgs; [
+    kdePackages.dolphin
+    kdePackages.kio-extras
     kdePackages.plasma-integration
     kdePackages.qqc2-desktop-style
     kdePackages.kdegraphics-thumbnailers
