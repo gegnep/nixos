@@ -100,5 +100,12 @@
         "message/rfc822" = "thunderbird.desktop";
       };
     };
+
+    configFile = {
+      "baloofilerc".text = ''
+        [Basic Settings]
+        Indexing-Enabled=false
+      '';
+    };
   };
 }
