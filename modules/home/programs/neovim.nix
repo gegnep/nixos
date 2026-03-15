@@ -31,16 +31,8 @@
         config = ''
           require("catppuccin").setup({
             flavour = "mocha",
-            transparent_background = true,
           })
           vim.cmd.colorscheme "catppuccin"
-
-	  -- Force transparency
-          vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-          vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-          vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-          vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-          vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
         '';
       }
 
@@ -239,6 +231,26 @@
       opt.cursorline = true
       opt.mouse = "a"
 
+      -- Neovide vs terminal transparency
+      if vim.g.neovide then
+        vim.g.neovide_transparency = 0.9
+        vim.o.guifont = "JetBrainsMono Nerd Font:h14"
+      else
+        require("catppuccin").setup({ flavour = "mocha", transparent_background = true })
+        vim.cmd.colorscheme "catppuccin"
+
+        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+        vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+        vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+
+        vim.cmd [[
+          highlight NvimTreeNormal guibg=NONE ctermbg=NONE
+          highlight NvimTreeNormalNC guibg=NONE ctermbg=NONE
+        ]]
+      end
+
       -- Keymaps (leader = space)
       local map = vim.keymap.set
 
@@ -270,16 +282,6 @@
       map("n", "<C-Down>", ":resize -2<CR>")
       map("n", "<C-Left>", ":vertical resize -2<CR>")
       map("n", "<C-Right>", ":vertical resize +2<CR>")
-
-      -- Force transparency (backup)
-      vim.cmd [[
-        highlight Normal guibg=NONE ctermbg=NONE
-        highlight NormalNC guibg=NONE ctermbg=NONE
-        highlight NormalFloat guibg=NONE ctermbg=NONE
-        highlight SignColumn guibg=NONE ctermbg=NONE
-        highlight NvimTreeNormal guibg=NONE ctermbg=NONE
-        highlight NvimTreeNormalNC guibg=NONE ctermbg=NONE
-      ]]
     '';
   };
 }
