@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./firefox.nix
     ./git.nix
     ./gaming.nix
     ./obs.nix
