@@ -4,7 +4,6 @@
   home.packages = with pkgs; [
     # CLI tools
     fastfetch
-    nnn
     tldr
     ripgrep
     jq
@@ -17,7 +16,6 @@
     zstd
     gnupg
     xdg-utils
-    lazygit
 
     # Nix tools
     nix-output-monitor
@@ -53,7 +51,6 @@
     vscodium
 
     # General GUI utilities 
-    feh
     imv
     ventoy-full
 
@@ -62,48 +59,4 @@
     desktop-file-utils
     cabextract
   ];
-  
-  programs.mpv = {
-    enable = true;
-    config = {
-      hwdec = "auto-safe";
-      vo = "gpu-next";
-      profile = "high-quality";
-    };
-  };
-
-  programs.zathura = {
-    enable = true;
-    options = {
-      selection-clipboard = "clipboard";
-    };
-  };
-  catppuccin.zathura.enable = true;
-
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-  catppuccin.fzf.enable = true;
-
-  programs.btop = {
-    enable = true;
-    settings = {
-      vim_keys = true;
-      theme_background = false;
-    };
-  };
-  catppuccin.btop.enable = true;
-
-  programs.eza = {
-    enable = true;
-    enableZshIntegration = true;
-    icons = "auto";
-    git = true;
-  };
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
 }

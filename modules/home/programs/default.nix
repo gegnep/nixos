@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./cli.nix
     ./firefox.nix
     ./git.nix
     ./gaming.nix

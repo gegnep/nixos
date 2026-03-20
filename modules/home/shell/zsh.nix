@@ -11,7 +11,6 @@
     dotDir = "${config.xdg.configHome}/zsh";
 
     shellAliases = {
-      ll = "ls -l";
       update = "nh os switch";
       shtdwn = "shutdown -h now";
       svim = "sudo -E nvim";
