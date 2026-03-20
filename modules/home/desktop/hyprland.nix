@@ -217,7 +217,7 @@
 
         # Applications
         "$mainMod, E, exec, dolphin"
-        "$mainMod, Q, exec, alacritty"
+        "$mainMod, Q, exec, ghostty"
         "$mainMod, R, exec, noctalia-shell ipc call launcher toggle"
         "$shiftMod, Q, exec, firefox"
         "$shiftMod, D, exec, discord"

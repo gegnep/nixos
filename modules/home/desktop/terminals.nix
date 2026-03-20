@@ -1,14 +1,29 @@
 { ... }:
 
 {
-  programs.alacritty = {
+  programs.ghostty = {
     enable = true;
     settings = {
-      window = {
-        opacity = 0.8;
-        blur = true;
-      };
+      background-opacity = 0.8;
+      window-decoration = false;
+      font-family = "Hack Nerd Font";
+      font-size = 12;
+      copy-on-select = "clipboard";
+      mouse-hide-while-copying = true;
+      scrollback-limit = 10000;
+      gtk-single-instance = true;
+      window-theme = "ghostty";
+
+      cursor-style = "block";
+      cursor-style-blink = false;
+      selection-invert-fg-bg = true;
+
+      # disable tabs cuz hyprland
+      keybind = "super+shift+enter=unbind";
+      window-padding-x = 4;
+      window-padding-y = 4;
     };
   };
-  catppuccin.alacritty.enable = true;
+
+  catppuccin.ghostty.enable = true;
 }
