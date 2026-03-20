@@ -9,7 +9,7 @@
       font-family = "Hack Nerd Font";
       font-size = 12;
       copy-on-select = "clipboard";
-      mouse-hide-while-copying = true;
+      mouse-hide-while-typing = true;
       scrollback-limit = 10000;
       gtk-single-instance = true;
       window-theme = "ghostty";
