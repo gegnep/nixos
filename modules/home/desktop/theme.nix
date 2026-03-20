@@ -46,8 +46,8 @@
     [General]
     ColorScheme=CatppuccinMochaLavender
     Name=Catppuccin Mocha Lavender
-    TerminalApplication=alacritty
-    TerminalService=Alacritty.desktop
+    TerminalApplication=ghostty
+    TerminalService=com.mitchellh.ghostty.desktop
     BrowserApplication=firefox.desktop
     fixed width font=JetBrainsMono Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
     font=Hack Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,170
