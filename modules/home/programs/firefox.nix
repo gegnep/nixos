@@ -24,7 +24,7 @@
         engines = {
           "Brave" = {
             urls = [{ template = "https://search.brave.com/search?q={searchTerms}"; }];
-            iconUpdateURL = "https://brave.com/static-assets/images/brave-favicon.png";
+            icon = "https://brave.com/static-assets/images/brave-favicon.png";
             definedAliases = [ "@b" ];
           };
           "Nix Packages" = {
@@ -37,12 +37,12 @@
             icon = "https://nixos.org/favicon.png";
             definedAliases = [ "@opts" ];
           };
-          "Google".metaData.hidden = true;
-          "Bing".metaData.hidden = true;
-          "eBay".metaData.hidden = true;
-          "Amazon.com".metaData.hidden = true;
-          "DuckDuckGo".metaData.hidden = true;
-          "Wikipedia (en)".metaData.hidden = false;
+          "google".metaData.hidden = true;
+          "bing".metaData.hidden = true;
+          "ebay".metaData.hidden = true;
+          "amazondotcom-us".metaData.hidden = true;
+          "ddg".metaData.hidden = true;
+          "wikipedia".metaData.hidden = false;
         };
       };
       
