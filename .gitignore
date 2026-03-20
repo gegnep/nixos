@@ -1,2 +1,38 @@
+# Nix
 result
+result-*
 .direnv/
+
+# Editors
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Rust
+target/
+
+# Build
+dist/
+build/
+*.o
+*.so
+
+# Env/secrets
+.env
+.env.*
+!.env.example
