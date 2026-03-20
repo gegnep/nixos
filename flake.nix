@@ -47,6 +47,7 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             extraSpecialArgs = { inherit inputs; };
+            backupFileExtension = "bak";
             users.pengeg = import ./modules/home;
           };
         }
