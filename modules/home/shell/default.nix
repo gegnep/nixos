@@ -21,6 +21,7 @@
     matchBlocks."*" = {
       extraOptions = {
         AddKeysToAgent = "yes";
+        SetEnv = "TERM=xterm-256color";
       };
     };
   };
