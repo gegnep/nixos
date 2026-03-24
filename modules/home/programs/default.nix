@@ -2,13 +2,14 @@
 
 {
   imports = [
+    ./audio.nix
     ./cli.nix
     ./firefox.nix
     ./git.nix
     ./gaming.nix
     ./obs.nix
-    ./audio.nix
     ./spotify.nix
+    ./terminals.nix
     ./neovim.nix
   ];
 

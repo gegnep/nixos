@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -6,9 +11,9 @@
     inputs.spicetify-nix.homeManagerModules.spicetify
 
     ./packages.nix
-    ./shell
-    ./programs
     ./desktop
+    ./programs
+    ./shell
   ];
 
   home = {
