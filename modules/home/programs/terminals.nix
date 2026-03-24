@@ -15,7 +15,6 @@
       gtk-single-instance = true;
       window-theme = "ghostty";
       confirm-close-surface = false;
-      scroll-sensitivity = 3;
       quit-after-last-window-closed = true;
 
       cursor-style = "block";

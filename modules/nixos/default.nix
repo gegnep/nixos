@@ -1,14 +1,20 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
     ./boot.nix
+    ./desktop.nix
     ./hardware.nix
     ./networking.nix
     ./nix.nix
-    ./users.nix
-    ./desktop.nix
-    ./programs.nix
     ./performance.nix
+    ./programs.nix
+    ./users.nix
   ];
 }
