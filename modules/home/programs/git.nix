@@ -7,6 +7,11 @@
       name = "pengeg";
       email = "noreply@pengeg.com";
     };
+    extraConfig = {
+      pull.rebase = true;
+      init.defaultBranch = "main";
+      diff.algorithm = "histogram";
+    };
     ignores = [
       "result"
       "result-*"

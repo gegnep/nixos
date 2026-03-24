@@ -7,8 +7,20 @@
 
   programs.zsh = {
     enable = true;
-    history.size = 1000;
     dotDir = "${config.xdg.configHome}/zsh";
+    history = {
+      size = 50000;
+      save = 50000;
+      ignoreDups = true;
+      ignoreAllDups = true;
+      ignoreSpace = true;
+      share = true;
+      extended = true;
+      path = "${config.xdg.dataHome}/zsh/history";
+    };
+
+    autocd = true;
+    defaultKeymap = "viins";
 
     shellAliases = {
       update = "nh os switch";
