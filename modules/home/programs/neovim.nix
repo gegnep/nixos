@@ -235,12 +235,10 @@
       opt.undofile = true
       opt.cursorline = true
       opt.mouse = "a"
-      opt.colorcolumn = "80"
-      opt.spelling = "en_US"
+      opt.spelllang = "en_US"
       opt.spell = false
       opt.list = true
       opt.listchars = "tab:→ ,trail:·,nbsp:␣"
-      opt.splitkeepfocus = true
       opt.confirm = true
       opt.pumheight = 10
 
@@ -298,6 +296,6 @@
       map("n", "<C-Down>", ":resize -2<CR>")
       map("n", "<C-Left>", ":vertical resize -2<CR>")
       map("n", "<C-Right>", ":vertical resize +2<CR>")
-      '';
+    '';
   };
 }
