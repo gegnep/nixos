@@ -21,7 +21,7 @@
         owner = "tesselslate";
         repo = "waywall";
         rev = "main";
-        hash = "sha256-4yWlwHUOgmey6qpmCWBqAfzzA4RYh+a6dAuvH6JAgwY=";
+        hash = "sha256-3hFUCebsP4b6UHUi0tZpSTBhE1Ias8WpuZySKRcHPRo=";
       };
     }))
     xsel
