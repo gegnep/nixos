@@ -165,7 +165,7 @@
         type = "lua";
         config = ''
           require("lualine").setup({
-            options = { theme = "catppuccin" },
+            options = { theme = "catppuccin-mocha" },
           })
         '';
       }
