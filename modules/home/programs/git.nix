@@ -3,11 +3,11 @@
 {
   programs.git = {
     enable = true;
-    settings.user = {
-      name = "pengeg";
-      email = "noreply@pengeg.com";
-    };
-    extraConfig = {
+    settings = {
+      user = {
+        name = "pengeg";
+        email = "noreply@pengeg.com";
+      };
       pull.rebase = true;
       init.defaultBranch = "main";
       diff.algorithm = "histogram";
