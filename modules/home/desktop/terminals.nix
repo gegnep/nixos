@@ -3,6 +3,7 @@
 {
   programs.ghostty = {
     enable = true;
+    enableZshIntegration = true;
     settings = {
       background-opacity = 0.8;
       window-decoration = false;
@@ -13,17 +14,21 @@
       scrollback-limit = 10000;
       gtk-single-instance = true;
       window-theme = "ghostty";
+      confirm-close-surface = false;
+      scroll-sensitivity = 3;
+      quit-after-last-window-closed = true;
 
       cursor-style = "block";
       cursor-style-blink = false;
       selection-invert-fg-bg = true;
-
-      # disable tabs cuz hyprland
-      keybind = "super+shift+enter=unbind";
-      window-padding-x = 4;
-      window-padding-y = 4;
     };
   };
-
   catppuccin.ghostty.enable = true;
+
+  programs.kitty = {
+    enable = true;
+    font.name = "Hack Nerd Font";
+    shellIntegration.enableZshIntegration = true;
+  };
+  catppuccin.kitty.enable = true;
 }
