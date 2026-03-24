@@ -34,7 +34,8 @@
         type = "lua";
         config = ''
           require("catppuccin").setup({
-            flavour = "mocha",
+          flavour = "mocha",
+          transparent_background = not vim.g.neovide,
           })
           vim.cmd.colorscheme "catppuccin"
         '';
@@ -48,7 +49,7 @@
           vim.api.nvim_create_autocmd("FileType", {
             pattern = "*",
             callback = function()
-              pcall(vim.treesitter.start)
+            pcall(vim.treesitter.start)
             end,
           })
         '';
@@ -61,9 +62,9 @@
         type = "lua";
         config = ''
           require("nvim-tree").setup({
-            view = { width = 30 },
-            filters = { dotfiles = false },
-            git = { enable = true, ignore = false },
+          view = { width = 30 },
+          filters = { dotfiles = false },
+          git = { enable = true, ignore = false },
           })
         '';
       }
@@ -71,35 +72,35 @@
       # LSP
       {
         plugin = nvim-lspconfig;
-  	type = "lua";
- 	 config = ''
-           -- Native LSP config (Neovim 0.11+)
-           local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        type = "lua";
+        config = ''
+          -- Native LSP config (Neovim 0.11+)
+          local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-           vim.lsp.config("*", {
-             capabilities = capabilities,
-           })
+          vim.lsp.config("*", {
+            capabilities = capabilities,
+          })
 
-           vim.lsp.config("lua_ls", {
-             settings = {
-               Lua = {
-                 diagnostics = { globals = { "vim" } },
-               },
-	     },
-           })
+          vim.lsp.config("lua_ls", {
+            settings = {
+            Lua = {
+            diagnostics = { globals = { "vim" } },
+            },
+            },
+            })
 
-           vim.lsp.enable({
-             "lua_ls",
-             "nil_ls",
-             "ts_ls",
-             "html",
-             "cssls",
-             "jsonls",
-             "pyright",
-             "rust_analyzer",
-             "clangd",
-           })
-  	'';
+          vim.lsp.enable({
+            "lua_ls",
+            "nil_ls",
+            "ts_ls",
+            "html",
+            "cssls",
+            "jsonls",
+            "pyright",
+            "rust_analyzer",
+            "clangd",
+          })
+        '';
       }
 
       # Autocompletion
@@ -119,7 +120,7 @@
 
           cmp.setup({
             snippet = {
-              expand = function(args) luasnip.lsp_expand(args.body) end,
+            expand = function(args) luasnip.lsp_expand(args.body) end,
             },
             mapping = cmp.mapping.preset.insert({
               ["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -128,15 +129,15 @@
               ["<C-e>"] = cmp.mapping.abort(),
               ["<CR>"] = cmp.mapping.confirm({ select = true }),
               ["<Tab>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then cmp.select_next_item()
-                elseif luasnip.expand_or_jumpable() then luasnip.expand_or_jump()
-                else fallback() end
-              end, { "i", "s" }),
+                  if cmp.visible() then cmp.select_next_item()
+                  elseif luasnip.expand_or_jumpable() then luasnip.expand_or_jump()
+                  else fallback() end
+                  end, { "i", "s" }),
               ["<S-Tab>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then cmp.select_prev_item()
-                elseif luasnip.jumpable(-1) then luasnip.jump(-1)
-                else fallback() end
-              end, { "i", "s" }),
+                  if cmp.visible() then cmp.select_prev_item()
+                  elseif luasnip.jumpable(-1) then luasnip.jump(-1)
+                  else fallback() end
+                  end, { "i", "s" }),
             }),
             sources = cmp.config.sources({
               { name = "nvim_lsp" },
@@ -234,26 +235,37 @@
       opt.undofile = true
       opt.cursorline = true
       opt.mouse = "a"
+      opt.colorcolumn = "80"
+      opt.spelling = "en_US"
+      opt.spell = false
+      opt.list = true
+      opt.listchars = "tab:→ ,trail:·,nbsp:␣"
+      opt.splitkeepfocus = true
+      opt.confirm = true
+      opt.pumheight = 10
 
-      -- Neovide vs terminal transparency
+      -- Theme
       if vim.g.neovide then
         vim.g.neovide_opacity = 0.9
         vim.o.guifont = "Hack Nerd Font:h11"
       else
-        require("catppuccin").setup({ flavour = "mocha", transparent_background = true })
-        vim.cmd.colorscheme "catppuccin"
-
         vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
         vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
         vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
         vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
-
         vim.cmd [[
           highlight NvimTreeNormal guibg=NONE ctermbg=NONE
           highlight NvimTreeNormalNC guibg=NONE ctermbg=NONE
         ]]
       end
+
+      -- Format on Save
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        callback = function()
+        vim.lsp.buf.format({ async = false })
+        end,
+      })
 
       -- Keymaps (leader = space)
       local map = vim.keymap.set
@@ -286,6 +298,6 @@
       map("n", "<C-Down>", ":resize -2<CR>")
       map("n", "<C-Left>", ":vertical resize -2<CR>")
       map("n", "<C-Right>", ":vertical resize +2<CR>")
-    '';
+      '';
   };
 }
