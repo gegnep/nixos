@@ -15,7 +15,7 @@
       grub.enable = false;
       efi = {
         canTouchEfiVariables = true;
-        efiSystemMountPoint = "/boot";
+        efiSysMountPoint = "/boot";
       };
     };
 
