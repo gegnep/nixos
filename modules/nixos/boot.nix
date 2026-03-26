@@ -1,24 +1,28 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   boot = {
     loader = {
-      systemd-boot.enable = false;
-      grub = {
+      systemd-boot = {
         enable = true;
-        device = "nodev";
-        useOSProber = true;
-        efiSupport = true;
+        editor = false;
       };
+      grub.enable = false;
       efi = {
         canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot";
+        efiSystemMountPoint = "/boot";
       };
     };
 
     #kernelPackages = pkgs.linuxPackages_zen;
-    kernelPackages = pkgs.linuxKernel.packagesFor 
-      inputs.cachynix.packages.${pkgs.stdenv.hostPlatform.system}.linux-cachyos-latest-x86-64-v3;
+    kernelPackages =
+      pkgs.linuxKernel.packagesFor
+        inputs.cachynix.packages.${pkgs.stdenv.hostPlatform.system}.linux-cachyos-latest-x86-64-v3;
 
     kernelParams = [
       "amdgpu.ppfeaturemask=0xfffd7fff"
@@ -37,11 +41,13 @@
   };
 
   # Swap configuration
-  swapDevices = [{
-    device = "/var/lib/swapfile";
-    size = 1024 * 32; # 32 GB
-    options = [ "discard" ];
-  }];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 1024 * 32; # 32 GB
+      options = [ "discard" ];
+    }
+  ];
 
   zramSwap = {
     enable = true;
