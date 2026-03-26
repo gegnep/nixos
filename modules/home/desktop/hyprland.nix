@@ -15,6 +15,38 @@
     xrandr
   ];
 
+  systemd.user.services = {
+    hyprpolkitagent = {
+      Unit = {
+        Description = "Hyprland Polkit Agent";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
+        Restart = "on-failure";
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+
+    keepassxc = {
+      Unit = {
+        Description = "KeePassXC Password Manager";
+        After = [
+          "graphical-session.target"
+          "tray.target"
+        ];
+        Requires = [ "tray.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.keepassxc}/bin/keepassxc";
+        Restart = "on-failure";
+        RestartSec = 3;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland;
@@ -27,30 +59,30 @@
     settings = {
       # Catppuccin Mocha colors
       "$rosewater" = "0xfff5e0dc";
-      "$flamingo"  = "0xfff2cdcd";
-      "$pink"      = "0xfff5c2e7";
-      "$mauve"     = "0xffcba6f7";
-      "$red"       = "0xfff38ba8";
-      "$maroon"    = "0xffeba0ac";
-      "$peach"     = "0xfffab387";
-      "$green"     = "0xffa6e3a1";
-      "$teal"      = "0xff94e2d5";
-      "$sky"       = "0xff89dceb";
-      "$sapphire"  = "0xff74c7ec";
-      "$blue"      = "0xff89b4fa";
-      "$lavender"  = "0xffb4befe";
-      "$text"      = "0xffcdd6f4";
-      "$subtext1"  = "0xffbac2de";
-      "$subtext2"  = "0xffa6adc8";
-      "$overlay2"  = "0xff9399b2";
-      "$overlay1"  = "0xff7f849c";
-      "$overlay0"  = "0xff6c7086";
-      "$surface2"  = "0xff585b70";
-      "$surface1"  = "0xff45475a";
-      "$surface0"  = "0xff313244";
-      "$base"      = "0xff1e1e2e";
-      "$mantle"    = "0xff181825";
-      "$crust"     = "0xff11111b";
+      "$flamingo" = "0xfff2cdcd";
+      "$pink" = "0xfff5c2e7";
+      "$mauve" = "0xffcba6f7";
+      "$red" = "0xfff38ba8";
+      "$maroon" = "0xffeba0ac";
+      "$peach" = "0xfffab387";
+      "$green" = "0xffa6e3a1";
+      "$teal" = "0xff94e2d5";
+      "$sky" = "0xff89dceb";
+      "$sapphire" = "0xff74c7ec";
+      "$blue" = "0xff89b4fa";
+      "$lavender" = "0xffb4befe";
+      "$text" = "0xffcdd6f4";
+      "$subtext1" = "0xffbac2de";
+      "$subtext2" = "0xffa6adc8";
+      "$overlay2" = "0xff9399b2";
+      "$overlay1" = "0xff7f849c";
+      "$overlay0" = "0xff6c7086";
+      "$surface2" = "0xff585b70";
+      "$surface1" = "0xff45475a";
+      "$surface0" = "0xff313244";
+      "$base" = "0xff1e1e2e";
+      "$mantle" = "0xff181825";
+      "$crust" = "0xff11111b";
 
       # Monitors
       monitor = [
@@ -58,9 +90,9 @@
         "HDMI-A-1, 1920x1080@100, auto-left, 1"
       ];
       #monitor = [
-        #"DP-1, 1920x1080@75, 0x0, 1, vrr, 3"
-        #"DP-2, preferred, auto-left, 1"
-        #"DP-3, preferred, auto-right, 1"
+      #"DP-1, 1920x1080@75, 0x0, 1, vrr, 3"
+      #"DP-2, preferred, auto-left, 1"
+      #"DP-3, preferred, auto-right, 1"
       #];
 
       # General settings
@@ -123,9 +155,7 @@
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
-        "systemctl --user start hyprpolkitagent"
         "noctalia-shell"
-        "keepassxc --minimized"
       ];
 
       # Window rules
