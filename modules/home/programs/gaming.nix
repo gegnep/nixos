@@ -12,9 +12,10 @@
     deadlock-mod-manager
 
     # Minecraft
+    packwiz
     jdk17
     jemalloc
-    
+
     (pkgs.waywall.overrideAttrs (old: {
       version = "unstable-2026-02-25";
       src = pkgs.fetchFromGitHub {
@@ -29,35 +30,36 @@
 
     (pkgs.buildFHSEnv {
       name = "ninbot";
-      targetPkgs = p: with p; [
-        jdk17
-        libXt
-        libxkbcommon
-        libX11
-        libXext
-      ];
+      targetPkgs =
+        p: with p; [
+          jdk17
+          libXt
+          libxkbcommon
+          libX11
+          libXext
+        ];
       runScript = "${pkgs.jdk17}/bin/java -Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel -Djava.awt.headless=false -jar";
-     })
+    })
 
     (pkgs.symlinkJoin {
       name = "prismlauncher";
       paths = [
-      (prismlauncher.override {
-        additionalPrograms = [ ffmpeg ];
-        jdks = [
-          graalvmPackages.graalvm-ce
-          jdk21
-          jdk17
-          jdk8
-        ];
-       })
+        (prismlauncher.override {
+          additionalPrograms = [ ffmpeg ];
+          jdks = [
+            graalvmPackages.graalvm-ce
+            jdk21
+            jdk17
+            jdk8
+          ];
+        })
       ];
       buildInputs = [ pkgs.makeWrapper ];
       postBuild = ''
         wrapProgram $out/bin/prismlauncher \
           --set LD_PRELOAD "${pkgs.jemalloc}/lib/libjemalloc.so"
       '';
-     })
+    })
   ];
 
   home.file.".config/waywall" = {
