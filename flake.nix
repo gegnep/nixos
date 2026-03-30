@@ -24,8 +24,7 @@
     nix-alien.url = "github:thiagokokada/nix-alien";
 
     noctalia = {
-      # temporary pin as an update on 29/03/2026 @ 22:30 EST broke it
-      url = "github:noctalia-dev/noctalia-shell/d1c0374f73ea687ae33b30fe6c4257dc0995d4f3";
+      url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
