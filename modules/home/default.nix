@@ -9,6 +9,7 @@
   imports = [
     inputs.catppuccin.homeModules.catppuccin
     inputs.spicetify-nix.homeManagerModules.spicetify
+    inputs.nvf.homeManagerModules.default
 
     ./packages.nix
     ./desktop
