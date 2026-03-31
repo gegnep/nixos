@@ -27,24 +27,6 @@
       };
       Install.WantedBy = [ "hyprland-session.target" ];
     };
-
-    keepassxc = {
-      Unit = {
-        Description = "KeePassXC Password Manager";
-        After = [
-          "graphical-session.target"
-          "tray.target"
-        ];
-        Requires = [ "tray.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "${pkgs.keepassxc}/bin/keepassxc";
-        Restart = "on-failure";
-        RestartSec = 3;
-      };
-      Install.WantedBy = [ "hyprland-session.target" ];
-    };
   };
 
   wayland.windowManager.hyprland = {
@@ -153,8 +135,8 @@
       exec-once = [
         "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-        "wl-paste --type text --watch cliphist store"
-        "wl-paste --type image --watch cliphist store"
+        #"wl-paste --type text --watch cliphist store"
+        #"wl-paste --type image --watch cliphist store"
         "noctalia-shell"
       ];
 
