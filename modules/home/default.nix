@@ -8,8 +8,9 @@
 {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
-    inputs.spicetify-nix.homeManagerModules.spicetify
+    inputs.noctalia.homeModules.default
     inputs.nvf.homeManagerModules.default
+    inputs.spicetify-nix.homeManagerModules.spicetify
 
     ./packages.nix
     ./desktop
