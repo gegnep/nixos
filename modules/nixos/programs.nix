@@ -5,7 +5,6 @@
     vim
     wget
     sudo
-    nix-alien
   ];
 
   # nix-ld for running unpatched binaries
