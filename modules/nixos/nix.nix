@@ -2,8 +2,10 @@
 
 {
   nix = {
+    package = pkgs.lixPackageSets.stable.lix;
     settings = {
       auto-optimise-store = true;
+      allowed-users = [ "@wheel" ];
       experimental-features = [
         "nix-command"
         "flakes"

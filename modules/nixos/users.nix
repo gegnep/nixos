@@ -7,7 +7,7 @@
     extraGroups = [
       "wheel"
       "networkmanager"
-      "tss"    # TPM access
+      "tss" # TPM access
       "inputs"
     ];
   };
