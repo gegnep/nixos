@@ -21,7 +21,6 @@
 
     catppuccin.url = "github:catppuccin/nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-    nix-alien.url = "github:thiagokokada/nix-alien";
 
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
@@ -46,7 +45,6 @@
             ./hosts/${hostname}
             {
               nixpkgs.overlays = [
-                inputs.nix-alien.overlays.default
                 inputs.cachynix.overlays.default
                 inputs.nur.overlays.default
               ];
