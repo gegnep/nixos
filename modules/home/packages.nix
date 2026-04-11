@@ -47,10 +47,10 @@
 
     # Desktop apps
     keepassxc
-    discord
+    vesktop
     vscodium
 
-    # General GUI utilities 
+    # General GUI utilities
     imv
     ventoy-full
 
