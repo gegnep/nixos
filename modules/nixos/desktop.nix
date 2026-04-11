@@ -4,10 +4,10 @@
   time.timeZone = "America/Kentucky/Louisville";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  programs.hyprland.enable = true;
   environment.systemPackages = [
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
+
   catppuccin = {
     enable = true;
     flavor = "mocha";

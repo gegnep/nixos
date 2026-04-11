@@ -51,15 +51,21 @@
             }
             inputs.catppuccin.nixosModules.catppuccin
             home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs; };
-                backupFileExtension = "bak";
-                users.pengeg = import ./modules/home;
-              };
-            }
+            (
+              { config, ... }:
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = {
+                    inherit inputs;
+                    hostDesktop = config.mySystem.desktop;
+                  };
+                  backupFileExtension = "bak";
+                  users.pengeg = import ./modules/home;
+                };
+              }
+            )
           ]
           ++ extraModules;
         };
