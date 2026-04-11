@@ -4,15 +4,6 @@
   home.packages = with pkgs; [
     hyprpolkitagent
     hyprshot
-    pamixer
-    playerctl
-    brightnessctl
-    fuzzel
-    cliphist
-    wl-clipboard
-    wlr-randr
-    udiskie
-    xrandr
   ];
 
   systemd.user.services = {
@@ -262,18 +253,5 @@
         "$mainMod, mouse:273, resizewindow"
       ];
     };
-  };
-
-  # Clipboard manager
-  services.cliphist = {
-    enable = true;
-    systemdTargets = [ "hyprland-session.target" ];
-  };
-
-  # USB automount
-  services.udiskie = {
-    enable = true;
-    tray = "always";
-    automount = true;
   };
 }
