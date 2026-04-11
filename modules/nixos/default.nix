@@ -19,5 +19,6 @@
     ./users.nix
 
     ./wm/hyprland.nix
+    ./wm/niri.nix
   ];
 }
