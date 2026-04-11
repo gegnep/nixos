@@ -9,10 +9,13 @@
       enable = true;
       xdgOpenUsePortal = true;
       config = {
-        common.default = [ "hyprland" "gtk" ];
-        hyprland.default = [ "hyprland" "gtk" ];
+        common.default = [ "gtk" ];
+        hyprland.default = [
+          "hyprland"
+          "gtk"
+        ];
       };
-      extraPortals = [ 
+      extraPortals = [
         pkgs.xdg-desktop-portal-hyprland
         pkgs.xdg-desktop-portal-gtk
       ];
@@ -92,9 +95,9 @@
         "text/x-rust" = "neovide.desktop";
         "text/x-go" = "neovide.desktop";
         "text/markdown" = "neovide.desktop";
-  
+
         # files
-        "inode/directory"= "dolphin.desktop";
+        "inode/directory" = "dolphin.desktop";
 
         # email
         "x-scheme-handler/mailto" = "thunderbird.desktop";
