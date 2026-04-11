@@ -12,6 +12,11 @@
       init.defaultBranch = "main";
       diff.algorithm = "histogram";
     };
+    aliases = {
+      lg = "log --graph --all --decorate --oneline --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
+      st = "status -sb";
+      last = "log -1 HEAD --stat";
+    };
     ignores = [
       "result"
       "result-*"
