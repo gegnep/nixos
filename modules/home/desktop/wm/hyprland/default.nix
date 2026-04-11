@@ -126,9 +126,6 @@
       exec-once = [
         "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-        #"wl-paste --type text --watch cliphist store"
-        #"wl-paste --type image --watch cliphist store"
-        "noctalia-shell"
       ];
 
       # Window rules
