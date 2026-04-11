@@ -1,8 +1,8 @@
-{ ... }:
+{ lib, hostDesktop, ... }:
 
 {
   imports = [
     ./common
-    ./wm/hyprland
-  ];
+  ]
+  ++ lib.optional (builtins.elem "hyprland" hostDesktop.wms) ./wm/hyprland;
 }
