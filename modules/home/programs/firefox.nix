@@ -23,17 +23,17 @@
         force = true;
         engines = {
           "Brave" = {
-            urls = [{ template = "https://search.brave.com/search?q={searchTerms}"; }];
+            urls = [ { template = "https://search.brave.com/search?q={searchTerms}"; } ];
             icon = "https://brave.com/static-assets/images/brave-favicon.png";
             definedAliases = [ "@b" ];
           };
           "Nix Packages" = {
-            urls = [{ template = "https://search.nixos.org/packages?query={searchTerms}"; }];
+            urls = [ { template = "https://search.nixos.org/packages?query={searchTerms}"; } ];
             icon = "https://nixos.org/favicon.png";
             definedAliases = [ "@nix" ];
           };
           "NixOS Options" = {
-            urls = [{ template = "https://search.nixos.org/options?query={searchTerms}"; }];
+            urls = [ { template = "https://search.nixos.org/options?query={searchTerms}"; } ];
             icon = "https://nixos.org/favicon.png";
             definedAliases = [ "@opts" ];
           };
@@ -45,10 +45,11 @@
           "wikipedia".metaData.hidden = false;
         };
       };
-      
+
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         firefox-color
         ublock-origin
+        stylus
         keepassxc-browser
         facebook-container
         multi-account-containers
