@@ -34,18 +34,19 @@
       plugins = [
         { name = "zsh-users/zsh-syntax-highlighting"; }
         { name = "zsh-users/zsh-autosuggestions"; }
-        { name = "romkatv/powerlevel10k"; tags = [ "as:theme" "depth:1" ]; }
+        {
+          name = "romkatv/powerlevel10k";
+          tags = [
+            "as:theme"
+            "depth:1"
+          ];
+        }
         { name = "marlonrichert/zsh-autocomplete"; }
       ];
     };
 
     initContent = ''
       source ${./.p10k.zsh}
-
-      # Auto-start Hyprland on tty2
-      if [[ "$(tty)" == "/dev/tty2" ]] && [[ -z "$DISPLAY" ]] && [[ -z "$WAYLAND_DISPLAY" ]]; then
-        exec start-hyprland
-      fi
     '';
   };
 }

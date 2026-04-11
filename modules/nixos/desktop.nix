@@ -30,22 +30,18 @@
   # Scheduler (CachyOS)
   services.scx.enable = true;
 
-  # Misc services
+  services.displayManager.ly = {
+    enable = true;
+    settings = {
+      animation = "gameoflife";
+      clock = "%F %R";
+      hide_borders = false;
+      bigclock = "en";
+    };
+  };
+
   services = {
     flatpak.enable = true;
     udisks2.enable = true;
-  };
-
-  # Boot to tty2
-  systemd.services."getty@tty2".enable = true;
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovty" = {
-    description = "Switch to tty2 on boot";
-    after = [ "systemd-user-sessions.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.kbd}/bin/chvt 2";
-    };
   };
 }
