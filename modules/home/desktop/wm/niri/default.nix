@@ -77,8 +77,20 @@
           from = "#f5c2e7";
           to = "#cba6f7";
           angle = 135;
+          in' = "oklch shorter hue";
         };
-        inactive.color = "#6c7086";
+        inactive.gradient = {
+          from = "#6c7086";
+          to = "#45475a";
+          angle = 135;
+          in' = "oklch shorter hue";
+        };
+        urgent.gradient = {
+          from = "#f38ba8";
+          to = "#eba0ac";
+          angle = 135;
+          in' = "oklch shorter hue";
+        };
       };
       focus-ring.enable = false;
       preset-column-widths = [
@@ -212,10 +224,10 @@
     window-rules = [
       {
         geometry-corner-radius = {
-          top-left = 20.0;
-          top-right = 20.0;
-          bottom-left = 20.0;
-          bottom-right = 20.0;
+          top-left = 8.0;
+          top-right = 8.0;
+          bottom-left = 8.0;
+          bottom-right = 8.0;
         };
         clip-to-geometry = true;
       }
@@ -236,6 +248,14 @@
           }
         ];
         open-floating = true;
+      }
+      {
+        matches = [
+          {
+            app-id = "^com\\.mitchellh\\.ghostty$";
+          }
+        ];
+        opacity = 1.0;
       }
     ];
 
