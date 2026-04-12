@@ -17,9 +17,9 @@
   system.stateVersion = "25.05";
 
   # WM options
+  # Avaliable: hyprland, niri
   mySystem.desktop.wms = [
     "hyprland"
     "niri"
   ];
-  mySystem.desktop.defaultWm = "hyprland";
 }
