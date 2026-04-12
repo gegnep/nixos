@@ -1,7 +1,17 @@
-{ config, ... }:
+{ config, lib, ... }:
 
 {
   programs.niri.settings = {
+    # Environment
+    environment = {
+      DISPLAY = null;
+      NIXOS_OZONE_WL = "1";
+      MOZ_ENABLE_WAYLAND = "1";
+      QT_QPA_PLATFORM = "wayland";
+      SDL_VIDEODRIVER = "wayland";
+      _JAVA_AWT_WM_NONREPARENTING = "1";
+    };
+
     # Input
     input = {
       keyboard.xkb = {
@@ -31,19 +41,28 @@
           x = 0;
           y = 0;
         };
-        variable-refresh-rate = true;
       };
       "DP-1" = {
+        mode = {
+          width = 1600;
+          height = 900;
+          refresh = 60.0;
+        };
         position = {
           x = -1920;
           y = 0;
-        }; # auto-left equivalent
+        };
       };
       "DP-3" = {
+        mode = {
+          width = 1600;
+          height = 900;
+          refresh = 60.0;
+        };
         position = {
           x = 1920;
           y = 0;
-        }; # auto-right equivalent
+        };
       };
     };
 
@@ -71,19 +90,29 @@
       };
     };
 
-    # Key bindings — noctalia IPC for launcher and session menu, ghostty for terminal
+    # Key bindings
     binds =
       with config.lib.niri.actions;
       let
-        sh = spawn "sh" "-c";
+        noctalia =
+          cmd:
+          [
+            "noctalia-shell"
+            "ipc"
+            "call"
+          ]
+          ++ (lib.splitString " " cmd);
       in
       {
+        # Hotkey overlay
+        "Mod+Shift+Slash".action = show-hotkey-overlay;
+
         # Apps
         "Mod+Q".action = spawn "ghostty";
         "Mod+E".action = spawn "dolphin";
-        "Mod+R".action = sh "noctalia-shell ipc call launcher toggle";
-        "Mod+L".action = sh "noctalia-shell ipc call lockScreen lock";
-        "Mod+Shift+M".action = sh "noctalia-shell ipc call sessionMenu toggle";
+        "Mod+Space".action.spawn = noctalia "launcher toggle";
+        "Mod+L".action.spawn = noctalia "lockScreen lock";
+        "Mod+Shift+M".action.spawn = noctalia "sessionMenu toggle";
         "Mod+Shift+Q".action = spawn "firefox";
         "Mod+Shift+D".action = spawn "discord";
         "Mod+Shift+K".action = spawn "keepassxc";
@@ -105,17 +134,40 @@
         "Mod+Shift+Up".action = move-window-up;
         "Mod+Shift+Down".action = move-window-down;
 
-        # Workspaces (vertical in niri)
-        "Mod+1".action = focus-workspace 1;
-        "Mod+2".action = focus-workspace 2;
-        "Mod+3".action = focus-workspace 3;
-        "Mod+4".action = focus-workspace 4;
-        "Mod+5".action = focus-workspace 5;
-        "Mod+Shift+1".action.move-column-to-workspace = [ 1 ];
-        "Mod+Shift+2".action.move-column-to-workspace = [ 2 ];
-        "Mod+Shift+3".action.move-column-to-workspace = [ 3 ];
-        "Mod+Shift+4".action.move-column-to-workspace = [ 4 ];
-        "Mod+Shift+5".action.move-column-to-workspace = [ 5 ];
+        # Monitor (output) focus
+        "Mod+Ctrl+Left".action = focus-monitor-left;
+        "Mod+Ctrl+Right".action = focus-monitor-right;
+        "Mod+Ctrl+Up".action = focus-monitor-up;
+        "Mod+Ctrl+Down".action = focus-monitor-down;
+
+        # Workspace navigation
+        "Mod+Page_Up".action = focus-workspace-up;
+        "Mod+Page_Down".action = focus-workspace-down;
+
+        # Column width adjustments — niri-specific, very useful
+        "Mod+Minus".action.set-column-width = [ "-10%" ];
+        "Mod+Equal".action.set-column-width = [ "+10%" ];
+        "Mod+R".action = switch-preset-column-width; # cycle through preset-column-widths
+
+        # Consume/expel — move adjacent windows into/out of the current column
+        "Mod+Comma".action = consume-window-into-column;
+        "Mod+Period".action = expel-window-from-column;
+
+        # Move the focused column to another monitor
+        "Mod+Shift+Ctrl+Left".action = move-column-to-monitor-left;
+        "Mod+Shift+Ctrl+Right".action = move-column-to-monitor-right;
+
+        # Move an entire workspace to another monitor
+        "Mod+Alt+Left".action = move-workspace-to-monitor-left;
+        "Mod+Alt+Right".action = move-workspace-to-monitor-right;
+
+        # Move the focused column to a workspace up/down
+        "Mod+Shift+Page_Up".action = move-column-to-workspace-up;
+        "Mod+Shift+Page_Down".action = move-column-to-workspace-down;
+
+        # Move a whole workspace up/down in the stack
+        "Mod+Ctrl+Page_Up".action = move-workspace-up;
+        "Mod+Ctrl+Page_Down".action = move-workspace-down;
 
         # Media keys
         "XF86AudioMute".action = spawn "pamixer" "-t";
@@ -132,12 +184,24 @@
         # Screenshots — niri has a built-in screenshot tool
         "Print".action.screenshot = [ ];
 
+        # Float toggle
+        "Mod+V".action = toggle-window-floating;
+
+        # The overview
+        "Mod+Tab".action = toggle-overview;
+
         # Quit niri
-        "Mod+Shift+E".action = quit;
+        "Mod+Shift+Ctrl+M".action = quit;
       };
 
-    # Don't autostart noctalia from niri config — the systemd service handles it
-    spawn-at-startup = [ ];
+    # Exec
+    spawn-at-startup = [
+      {
+        command = [
+          "noctalia-shell"
+        ];
+      }
+    ];
 
     # Cursor
     cursor = {
@@ -145,7 +209,10 @@
       size = 36;
     };
 
-    # Animations — niri's defaults are tasteful, just tweak slightly
+    # Animations
     animations.enable = true;
+
+    # Fix rounded corners
+    prefer-no-csd = true;
   };
 }
