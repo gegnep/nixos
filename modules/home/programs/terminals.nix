@@ -5,8 +5,8 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      #background-opacity = 0.8;
-      window-decoration = false;
+      background-opacity = 0.8;
+      window-decoration = true;
       font-family = "Hack Nerd Font";
       font-size = 12;
       copy-on-select = "clipboard";
