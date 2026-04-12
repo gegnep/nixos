@@ -308,6 +308,12 @@
             highlight NvimTreeNormalNC guibg=NONE ctermbg=NONE
           ]]
         end
+        vim.api.nvim_create_autocmd("FileType", {
+          pattern = "nix",
+          callback = function()
+            vim.bo.commentstring = "# %s"
+          end,
+        })
       '';
     };
   };
