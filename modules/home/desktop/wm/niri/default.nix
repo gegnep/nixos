@@ -208,6 +208,48 @@
       }
     ];
 
+    # Rules
+    window-rules = [
+      {
+        geometry-corner-radius = {
+          top-left = 20.0;
+          top-right = 20.0;
+          bottom-left = 20.0;
+          bottom-right = 20.0;
+        };
+        clip-to-geometry = true;
+      }
+      {
+        matches = [
+          {
+            app-id = "^steam$";
+            title = "^notificationtoasts_";
+          }
+        ];
+        open-floating = true;
+      }
+      {
+        matches = [
+          {
+            app-id = "^steam$";
+            title = "^Friends List";
+          }
+        ];
+        open-floating = true;
+      }
+    ];
+
+    layer-rules = [
+      {
+        matches = [
+          {
+            namespace = "^noctalia-overview";
+          }
+        ];
+        place-within-backdrop = true;
+      }
+    ];
+
     # Cursor
     cursor = {
       theme = "phinger-cursors-light";
