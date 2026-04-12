@@ -35,12 +35,13 @@
         mode = {
           width = 1920;
           height = 1080;
-          refresh = 75.0;
+          refresh = 74.973;
         };
         position = {
           x = 0;
           y = 0;
         };
+        variable-refresh-rate = true;
       };
       "DP-1" = {
         mode = {
@@ -49,7 +50,7 @@
           refresh = 60.0;
         };
         position = {
-          x = -1920;
+          x = -1600;
           y = 0;
         };
       };

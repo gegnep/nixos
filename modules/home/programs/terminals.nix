@@ -5,7 +5,7 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      background-opacity = 0.8;
+      #background-opacity = 0.8;
       window-decoration = false;
       font-family = "Hack Nerd Font";
       font-size = 12;
