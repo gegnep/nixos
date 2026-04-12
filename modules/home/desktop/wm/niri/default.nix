@@ -112,11 +112,9 @@
         "Mod+Q".action = spawn "ghostty";
         "Mod+E".action = spawn "dolphin";
         "Mod+Space".action.spawn = noctalia "launcher toggle";
-        "Mod+L".action.spawn = noctalia "lockScreen lock";
+        "Mod+Escape".action.spawn = noctalia "lockScreen lock";
         "Mod+Shift+M".action.spawn = noctalia "sessionMenu toggle";
         "Mod+Shift+Q".action = spawn "firefox";
-        "Mod+Shift+D".action = spawn "discord";
-        "Mod+Shift+K".action = spawn "keepassxc";
 
         # Window management
         "Mod+Shift+C".action = close-window;
@@ -148,11 +146,16 @@
         # Column width adjustments — niri-specific, very useful
         "Mod+Minus".action.set-column-width = [ "-10%" ];
         "Mod+Equal".action.set-column-width = [ "+10%" ];
+        "Mod+Shift+Minus".action.set-window-height = [ "-10%" ];
+        "Mod+Shift+Equal".action.set-window-height = [ "+10%" ];
         "Mod+R".action = switch-preset-column-width; # cycle through preset-column-widths
+        "Mod+Shift+R".action = expand-column-to-available-width;
 
         # Consume/expel — move adjacent windows into/out of the current column
         "Mod+Comma".action = consume-window-into-column;
         "Mod+Period".action = expel-window-from-column;
+        "Mod+BracketLeft".action = consume-or-expel-window-left;
+        "Mod+BracketRight".action = consume-or-expel-window-right;
 
         # Move the focused column to another monitor
         "Mod+Shift+Ctrl+Left".action = move-column-to-monitor-left;
@@ -185,8 +188,9 @@
         # Screenshots — niri has a built-in screenshot tool
         "Print".action.screenshot = [ ];
 
-        # Float toggle
+        # Floating
         "Mod+V".action = toggle-window-floating;
+        "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
 
         # The overview
         "Mod+Tab".action = toggle-overview;
