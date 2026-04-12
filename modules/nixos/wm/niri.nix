@@ -14,5 +14,6 @@
       enable = true;
       #package = pkgs.niri-unstable;
     };
+    environment.systemPackages = [ pkgs.xwayland-satellite ];
   };
 }
