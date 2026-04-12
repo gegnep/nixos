@@ -2,7 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    pamixer
     playerctl
     brightnessctl
     cliphist
@@ -10,5 +9,6 @@
     wlr-randr
     udiskie
     xrandr
+    pwvucontrol
   ];
 }

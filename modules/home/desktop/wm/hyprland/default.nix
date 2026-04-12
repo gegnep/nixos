@@ -225,10 +225,10 @@
         "$shiftMod, K, exec, keepassxc"
 
         # Media keys
-        ", XF86AudioMute, exec, pamixer -t"
-        ", XF86AudioLowerVolume, exec, pamixer -d 5"
-        ", XF86AudioRaiseVolume, exec, pamixer -i 5"
-        "SHIFT, XF86AudioMute, exec, pamixer --default-source -t"
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        "SHIFT, XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
         ", XF86AudioNext, exec, playerctl next"
         ", XF86AudioPrev, exec, playerctl previous"
         ", XF86AudioPlay, exec, playerctl play-pause"

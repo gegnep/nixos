@@ -185,9 +185,10 @@
         "Mod+Ctrl+Page_Down".action = move-workspace-down;
 
         # Media keys
-        "XF86AudioMute".action = spawn "pamixer" "-t";
-        "XF86AudioLowerVolume".action = spawn "pamixer" "-d" "5";
-        "XF86AudioRaiseVolume".action = spawn "pamixer" "-i" "5";
+        "XF86AudioMute".action = spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle";
+        "XF86AudioLowerVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-";
+        "XF86AudioRaiseVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+";
+        "Shift+XF86AudioMute".action = spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle";
         "XF86AudioNext".action = spawn "playerctl" "next";
         "XF86AudioPrev".action = spawn "playerctl" "previous";
         "XF86AudioPlay".action = spawn "playerctl" "play-pause";
