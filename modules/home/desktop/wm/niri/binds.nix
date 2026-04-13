@@ -30,7 +30,7 @@
       "Mod+F".action = maximize-column;
       "Mod+Shift+F".action = fullscreen-window;
 
-      # Focus (scrollable: H/L move along the strip, J/K within a column)
+      # Focus
       "Mod+Left".action = focus-column-left;
       "Mod+Right".action = focus-column-right;
       "Mod+Up".action = focus-window-up;
@@ -52,19 +52,13 @@
       "Mod+Page_Up".action = focus-workspace-up;
       "Mod+Page_Down".action = focus-workspace-down;
 
-      # Column width adjustments — niri-specific, very useful
-      "Mod+Minus".action.set-column-width = [ "-10%" ];
-      "Mod+Equal".action.set-column-width = [ "+10%" ];
-      "Mod+Shift+Minus".action.set-window-height = [ "-10%" ];
-      "Mod+Shift+Equal".action.set-window-height = [ "+10%" ];
-      "Mod+R".action = switch-preset-column-width; # cycle through preset-column-widths
-      "Mod+Shift+R".action = expand-column-to-available-width;
+      # Move the focused column to a workspace up/down
+      "Mod+Shift+Page_Up".action = move-column-to-workspace-up;
+      "Mod+Shift+Page_Down".action = move-column-to-workspace-down;
 
-      # Consume/expel — move adjacent windows into/out of the current column
-      "Mod+Comma".action = consume-window-into-column;
-      "Mod+Period".action = expel-window-from-column;
-      "Mod+BracketLeft".action = consume-or-expel-window-left;
-      "Mod+BracketRight".action = consume-or-expel-window-right;
+      # Move a whole workspace up/down in the stack
+      "Mod+Alt+Page_Up".action = move-workspace-up;
+      "Mod+Alt+Page_Down".action = move-workspace-down;
 
       # Move the focused column to another monitor
       "Mod+Shift+Ctrl+Left".action = move-column-to-monitor-left;
@@ -74,13 +68,19 @@
       "Mod+Alt+Left".action = move-workspace-to-monitor-left;
       "Mod+Alt+Right".action = move-workspace-to-monitor-right;
 
-      # Move the focused column to a workspace up/down
-      "Mod+Shift+Page_Up".action = move-column-to-workspace-up;
-      "Mod+Shift+Page_Down".action = move-column-to-workspace-down;
+      # Column width adjustments — niri-specific, very useful
+      "Mod+Minus".action.set-column-width = [ "-10%" ];
+      "Mod+Equal".action.set-column-width = [ "+10%" ];
+      "Mod+Shift+Minus".action.set-window-height = [ "-10%" ];
+      "Mod+Shift+Equal".action.set-window-height = [ "+10%" ];
+      "Mod+R".action = switch-preset-column-width;
+      "Mod+Shift+R".action = expand-column-to-available-width;
 
-      # Move a whole workspace up/down in the stack
-      "Mod+Ctrl+Page_Up".action = move-workspace-up;
-      "Mod+Ctrl+Page_Down".action = move-workspace-down;
+      # Consume/expel — move adjacent windows into/out of the current column
+      "Mod+Comma".action = consume-window-into-column;
+      "Mod+Period".action = expel-window-from-column;
+      "Mod+BracketLeft".action = consume-or-expel-window-left;
+      "Mod+BracketRight".action = consume-or-expel-window-right;
 
       # Media keys
       "XF86AudioMute".action = spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle";
@@ -95,7 +95,7 @@
       "XF86MonBrightnessDown".action = spawn "brightnessctl" "set" "5%-";
       "XF86MonBrightnessUp".action = spawn "brightnessctl" "set" "5%+";
 
-      # Screenshots — niri has a built-in screenshot tool
+      # Screenshots
       "Print".action.screenshot = [ ];
 
       # Floating
