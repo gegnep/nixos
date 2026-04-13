@@ -19,7 +19,8 @@
         layout = "us";
       };
       mouse = {
-        accel-speed = -0.3;
+        accel-profile = "flat";
+        accel-speed = 0.2;
       };
       touchpad = {
         tap = true;
@@ -28,6 +29,7 @@
         dwt = false; # disable-while-typing
       };
       focus-follows-mouse.enable = true;
+      warp-mouse-to-focus.enable = true;
     };
 
     # Outputs
@@ -150,6 +152,29 @@
         ];
         opacity = 1.0;
       }
+      {
+        matches = [
+          {
+            app-id = "^firefox$";
+            title = "^Picture-in-Picture$";
+          }
+        ];
+        open-floating = true;
+        default-floating-position = {
+          x = 20;
+          y = 20;
+          relative-to = "bottom-right";
+        };
+      }
+      {
+        matches = [
+          {
+            app-id = "^org\\.keepassxc\\.KeePassXC$";
+          }
+        ];
+        open-floating = true;
+        block-out-from = "screen-capture";
+      }
     ];
 
     layer-rules = [
@@ -169,10 +194,10 @@
       size = 36;
     };
 
-    # Animations
+    # Misc
     animations.enable = true;
-
-    # Fix rounded corners
-    prefer-no-csd = true;
+    prefer-no-csd = true; # fix rounded corners
+    screenshot-path = "~/pictures/screenshots/niri-%Y-%m-%d-%H-%M-%S.png";
+    hotkey-overlay.skip-at-startup = true;
   };
 }
