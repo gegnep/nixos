@@ -12,6 +12,18 @@
           "call"
         ]
         ++ (lib.splitString " " cmd);
+
+      # Bind arrows and vim-style keys to same action
+      dirs = mod: actions: {
+        "${mod}+Left".action = actions.left;
+        "${mod}+H".action = actions.left;
+        "${mod}+Right".action = actions.right;
+        "${mod}+L".action = actions.right;
+        "${mod}+Up".action = actions.up;
+        "${mod}+K".action = actions.up;
+        "${mod}+Down".action = actions.down;
+        "${mod}+J".action = actions.down;
+      };
     in
     {
       # Hotkey overlay
@@ -30,43 +42,17 @@
       "Mod+F".action = maximize-column;
       "Mod+Shift+F".action = fullscreen-window;
 
-      # Focus
-      "Mod+Left".action = focus-column-left;
-      "Mod+Right".action = focus-column-right;
-      "Mod+Up".action = focus-window-up;
-      "Mod+Down".action = focus-window-down;
-
-      # Move
-      "Mod+Shift+Left".action = move-column-left;
-      "Mod+Shift+Right".action = move-column-right;
-      "Mod+Shift+Up".action = move-window-up;
-      "Mod+Shift+Down".action = move-window-down;
-
-      # Monitor (output) focus
-      "Mod+Ctrl+Left".action = focus-monitor-left;
-      "Mod+Ctrl+Right".action = focus-monitor-right;
-      "Mod+Ctrl+Up".action = focus-monitor-up;
-      "Mod+Ctrl+Down".action = focus-monitor-down;
-
-      # Workspace navigation
+      # Workspaces on this monitor
       "Mod+Page_Up".action = focus-workspace-up;
       "Mod+Page_Down".action = focus-workspace-down;
 
-      # Move the focused column to a workspace up/down
+      # Column to another workspace on this monitor
       "Mod+Shift+Page_Up".action = move-column-to-workspace-up;
       "Mod+Shift+Page_Down".action = move-column-to-workspace-down;
 
       # Move a whole workspace up/down in the stack
       "Mod+Alt+Page_Up".action = move-workspace-up;
       "Mod+Alt+Page_Down".action = move-workspace-down;
-
-      # Move the focused column to another monitor
-      "Mod+Shift+Ctrl+Left".action = move-column-to-monitor-left;
-      "Mod+Shift+Ctrl+Right".action = move-column-to-monitor-right;
-
-      # Move an entire workspace to another monitor
-      "Mod+Alt+Left".action = move-workspace-to-monitor-left;
-      "Mod+Alt+Right".action = move-workspace-to-monitor-right;
 
       # Column width adjustments — niri-specific, very useful
       "Mod+Minus".action.set-column-width = [ "-10%" ];
@@ -107,5 +93,42 @@
 
       # Quit niri
       "Mod+Shift+Ctrl+M".action = quit;
+    }
+    // dirs "Mod" {
+      # Focus columns on the strip
+      left = focus-column-left;
+      right = focus-column-right;
+      # Focus windows in a column
+      up = focus-window-up;
+      down = focus-window-down;
+    }
+    // dirs "Mod+Ctrl" {
+      # Change focused monitor
+      left = focus-monitor-left;
+      right = focus-monitor-right;
+      up = focus-monitor-up;
+      down = focus-monitor-down;
+    }
+    // dirs "Mod+Shift" {
+      # Move focused column on the strip
+      left = move-column-left;
+      right = move-column-right;
+      # Move focused window in a column
+      up = move-window-up;
+      down = move-window-down;
+    }
+    // dirs "Mod+Shift+Ctrl" {
+      # Move focused column to another monitor
+      left = move-column-to-monitor-left;
+      right = move-column-to-monitor-right;
+      up = move-column-to-monitor-up;
+      down = move-column-to-monitor-down;
+    }
+    // dirs "Mod+Alt" {
+      # Move an entire workspace to another monitor
+      left = move-workspace-to-monitor-left;
+      right = move-workspace-to-monitor-right;
+      up = move-workspace-to-monitor-up;
+      down = move-workspace-to-monitor-down;
     };
 }
