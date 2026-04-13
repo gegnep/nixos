@@ -84,7 +84,8 @@
         kb_layout = "us";
         repeat_rate = 25;
         repeat_delay = 500;
-        sensitivity = -0.3;
+        sensitivity = 0;
+        accel_profile = "flat";
         follow_mouse = 1;
         touchpad = {
           disable_while_typing = false;

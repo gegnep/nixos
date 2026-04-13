@@ -26,21 +26,34 @@
       };
     in
     {
-      # Hotkey overlay
       "Mod+Shift+Slash".action = show-hotkey-overlay;
+      "Mod+Tab".action = toggle-overview;
+      "Mod+Shift+Ctrl+M".action = quit;
+      "Mod+Shift+P".action = power-off-monitors;
 
       # Apps
       "Mod+Q".action = spawn "ghostty";
       "Mod+E".action = spawn "dolphin";
+      "Mod+Shift+Q".action = spawn "firefox";
       "Mod+Space".action.spawn = noctalia "launcher toggle";
       "Mod+Escape".action.spawn = noctalia "lockScreen lock";
       "Mod+Shift+M".action.spawn = noctalia "sessionMenu toggle";
-      "Mod+Shift+Q".action = spawn "firefox";
+      "Mod+N".action.spawn = noctalia "notifications toggleHistory";
+      "Mod+Shift+N".action.spawn = noctalia "notifications toggleDND";
+      "Mod+Ctrl+N".action.spawn = noctalia "notifications clear";
+      "Mod+C".action.spawn = noctalia "controlCenter toggle";
 
       # Window management
       "Mod+Shift+C".action = close-window;
       "Mod+F".action = maximize-column;
       "Mod+Shift+F".action = fullscreen-window;
+      "Mod+W".action = center-column;
+
+      # Mouse navigation
+      "Mod+WheelScrollDown".action = focus-workspace-down;
+      "Mod+WheelScrollUp".action = focus-workspace-up;
+      "Mod+Shift+WheelScrollDown".action = focus-column-right;
+      "Mod+Shift+WheelScrollUp".action = focus-column-left;
 
       # Workspaces on this monitor
       "Mod+Page_Up".action = focus-workspace-up;
@@ -61,12 +74,17 @@
       "Mod+Shift+Equal".action.set-window-height = [ "+10%" ];
       "Mod+R".action = switch-preset-column-width;
       "Mod+Shift+R".action = expand-column-to-available-width;
+      "Mod+Ctrl+R".action = reset-window-height;
 
       # Consume/expel — move adjacent windows into/out of the current column
       "Mod+Comma".action = consume-window-into-column;
       "Mod+Period".action = expel-window-from-column;
       "Mod+BracketLeft".action = consume-or-expel-window-left;
       "Mod+BracketRight".action = consume-or-expel-window-right;
+
+      # Floating
+      "Mod+V".action = toggle-window-floating;
+      "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
 
       # Media keys
       "XF86AudioMute".action = spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle";
@@ -83,16 +101,6 @@
 
       # Screenshots
       "Print".action.screenshot = [ ];
-
-      # Floating
-      "Mod+V".action = toggle-window-floating;
-      "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
-
-      # The overview
-      "Mod+Tab".action = toggle-overview;
-
-      # Quit niri
-      "Mod+Shift+Ctrl+M".action = quit;
     }
     // dirs "Mod" {
       # Focus columns on the strip
