@@ -60,15 +60,15 @@
       "$crust" = "0xff11111b";
 
       # Monitors
-      #monitor = [
-      #  "DP-3, 2560x1440@170, 0x0, 1, vrr, 3"
-      #  "HDMI-A-1, 1920x1080@100, auto-left, 1"
-      #];
       monitor = [
-        "DP-2, 1920x1080@75, 0x0, 1, vrr, 3"
-        "DP-1, preferred, auto-left, 1"
-        "DP-3, preferred, auto-right, 1"
+        "DP-3, 2560x1440@170, 0x0, 1, vrr, 3"
+        "HDMI-A-1, 1920x1080@100, auto-left, 1"
       ];
+      #monitor = [
+      #  "DP-2, 1920x1080@75, 0x0, 1, vrr, 3"
+      #  "DP-1, preferred, auto-left, 1"
+      #  "DP-3, preferred, auto-right, 1"
+      #];
 
       # General settings
       general = {

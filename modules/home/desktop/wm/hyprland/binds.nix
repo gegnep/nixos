@@ -18,10 +18,10 @@
       "$mainMod, P, pseudo"
       "$shiftMod, P, pin"
 
-      #"$shiftMod, S, swapactiveworkspaces, HDMI-A-1 DP-3"
-      "$shiftMod, S, swapactiveworkspaces, DP-2 DP-3"
-      "$ctrlMod, S, swapactiveworkspaces, DP-2 DP-1"
-      "$altMod, S, swapactiveworkspaces, DP-1 DP-3"
+      "$shiftMod, S, swapactiveworkspaces, HDMI-A-1 DP-3"
+      #"$shiftMod, S, swapactiveworkspaces, DP-2 DP-3"
+      #"$ctrlMod, S, swapactiveworkspaces, DP-2 DP-1"
+      #"$altMod, S, swapactiveworkspaces, DP-1 DP-3"
 
       # Focus movement
       "$mainMod, left, movefocus, l"
