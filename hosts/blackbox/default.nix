@@ -28,10 +28,10 @@
           name = "DP-3";
           width = 2560;
           height = 1440;
-          refresh = 170.001;
+          refresh = 164.998;
           x = 0;
           y = 0;
-          vrr = true;
+          vrr = false;
           primary = true;
         }
         {
