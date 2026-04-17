@@ -31,7 +31,7 @@ in
         pkgs.linuxPackages_latest;
 
     kernelParams = [
-      "console=tty2"
+      "console=tty1"
       "quiet"
       "rd.udev.log_level=3"
     ];
