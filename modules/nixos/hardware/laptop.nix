@@ -16,6 +16,17 @@ lib.mkIf (config.mySystem.hardware.form == "laptop") {
 
   powerManagement.enable = true;
 
+  systemd.services.laptop-battery-thresholds = {
+    description = "Set thresholds on battery charge";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "multi-user.target" ];
+    serviceConfig.type = "oneshot";
+    script = ''
+      echo 75 > /sys/class/power_supply/BAT0/charge_start_threshold || true
+      echo 90 > /sys/class/power_supply/BAT0/charge_stop_threshold || true
+    '';
+  };
+
   # ThinkPad specific
   hardware.trackpoint.enable = true;
 }
