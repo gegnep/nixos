@@ -78,6 +78,7 @@
     {
       nixosConfigurations = {
         blackbox = mkHost { hostname = "blackbox"; };
+        nixpad = mkHost { hostname = "nixpad"; };
       };
     };
 }

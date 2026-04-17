@@ -75,6 +75,18 @@
         default = "desktop";
         description = "Physical form factor - gates kernel, swap, & power management";
       };
+      swapfile = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Create a swapfile at /var/lib/swapfile";
+        };
+        sizeGB = lib.mkOption {
+          type = lib.types.int;
+          default = 16;
+          description = "Swapfile size in GiB";
+        };
+      };
       peripherals.wooting = lib.mkEnableOption "Wooting keyboard udev rules";
     };
 
