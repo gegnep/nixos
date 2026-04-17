@@ -1,5 +1,19 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  hostOptions,
+  lib,
+  ...
+}:
 
+let
+  mkMonitorLine =
+    m:
+    "${m.name}, "
+    + "${toString m.width}x${toString m.height}@${toString m.refresh}, "
+    + "${toString m.x}x${toString m.y}, "
+    + "${toString m.scale}"
+    + lib.optionalString m.vrr ", vrr, 3";
+in
 {
   imports = [ ./binds.nix ];
 
@@ -60,15 +74,7 @@
       "$crust" = "0xff11111b";
 
       # Monitors
-      monitor = [
-        "DP-3, 2560x1440@170, 0x0, 1, vrr, 3"
-        "HDMI-A-1, 1920x1080@100, auto-left, 1"
-      ];
-      #monitor = [
-      #  "DP-2, 1920x1080@75, 0x0, 1, vrr, 3"
-      #  "DP-1, preferred, auto-left, 1"
-      #  "DP-3, preferred, auto-right, 1"
-      #];
+      monitor = map mkMonitorLine hostOptions.desktop.monitors;
 
       # General settings
       general = {
