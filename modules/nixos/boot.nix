@@ -6,6 +6,9 @@
   ...
 }:
 
+let
+  isDesktop = config.mySystem.hardware.form == "desktop";
+in
 {
   boot = {
     loader = {
@@ -20,10 +23,12 @@
       };
     };
 
-    #kernelPackages = pkgs.linuxPackages_zen;
     kernelPackages =
-      pkgs.linuxKernel.packagesFor
-        inputs.cachynix.packages.${pkgs.stdenv.hostPlatform.system}.linux-cachyos-latest-x86-64-v3;
+      if isDesktop then
+        pkgs.linuxKernel.packagesFor
+          inputs.cachynix.packages.${pkgs.stdenv.hostPlatform.system}.linux-cachyos-latest-x86-64-v3
+      else
+        pkgs.linuxPackages_latest;
 
     kernelParams = [
       "console=tty2"
@@ -46,7 +51,7 @@
   };
 
   # Swap configuration
-  swapDevices = [
+  swapDevices = lib.mkIf isDesktop [
     {
       device = "/var/lib/swapfile";
       size = 1024 * 32; # 32 GB

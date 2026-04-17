@@ -45,6 +45,7 @@
       ];
     };
     hardware = {
+      form = "desktop";
       gpu = "amd";
       peripherals.wooting = true;
     };

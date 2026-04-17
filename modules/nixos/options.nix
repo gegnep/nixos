@@ -73,6 +73,7 @@
           "laptop"
         ];
         default = "desktop";
+        description = "Physical form factor - gates kernel, swap, & power management";
       };
       peripherals.wooting = lib.mkEnableOption "Wooting keyboard udev rules";
     };
