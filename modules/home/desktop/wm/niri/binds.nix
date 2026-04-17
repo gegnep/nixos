@@ -54,6 +54,8 @@
       "Mod+WheelScrollUp".action = focus-workspace-up;
       "Mod+Shift+WheelScrollDown".action = focus-column-right;
       "Mod+Shift+WheelScrollUp".action = focus-column-left;
+      "Mod+Ctrl+WheelScrollDown".action = focus-monitor-right;
+      "Mod+Ctrl+WheelScrollUp".action = focus-monitor-left;
 
       # Workspaces on this monitor
       "Mod+Page_Up".action = focus-workspace-up;
@@ -110,13 +112,6 @@
       up = focus-window-up;
       down = focus-window-down;
     }
-    // dirs "Mod+Ctrl" {
-      # Change focused monitor
-      left = focus-monitor-left;
-      right = focus-monitor-right;
-      up = focus-monitor-up;
-      down = focus-monitor-down;
-    }
     // dirs "Mod+Shift" {
       # Move focused column on the strip
       left = move-column-left;
@@ -124,6 +119,13 @@
       # Move focused window in a column
       up = move-window-up;
       down = move-window-down;
+    }
+    // dirs "Mod+Ctrl" {
+      # Change focused monitor
+      left = focus-monitor-left;
+      right = focus-monitor-right;
+      up = focus-monitor-up;
+      down = focus-monitor-down;
     }
     // dirs "Mod+Shift+Ctrl" {
       # Move focused column to another monitor
