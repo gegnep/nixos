@@ -1,24 +1,32 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  hostOptions,
+  ...
+}:
 
 {
   imports = [
-    ./audio.nix
     ./cli.nix
     ./firefox.nix
     ./git.nix
-    ./gaming.nix
-    ./obs.nix
     ./spotify.nix
     ./terminals.nix
     ./neovim.nix
-  ];
+  ]
+  ++ lib.optional hostOptions.features.audioProduction ./audio.nix
+  ++ lib.optional hostOptions.features.streaming ./obs.nix
+  ++ lib.optional hostOptions.features.gaming ./gaming.nix
+  ++ lib.optional hostOptions.features.mcsr ./mcsr.nix;
 
-  home.packages = with pkgs; [
-    chatterino7
-    ungoogled-chromium
-    davinci-resolve
-    wootility
-    gimp-with-plugins
-    #teams-for-linux
-  ];
+  home.packages =
+    with pkgs;
+    [
+      chatterino7
+      ungoogled-chromium
+      gimp-with-plugins
+      #teams-for-linux
+    ]
+    ++ lib.optionals hostOptions.features.streaming [ davinci-resolve ]
+    ++ lib.optionals hostOptions.hardware.peripherals.wooting [ wootility ];
 }

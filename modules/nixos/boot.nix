@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  lib,
   ...
 }:
 
@@ -33,11 +34,13 @@
     initrd.verbose = false;
 
     kernelModules = [
-      "v4l2loopback"
       "ntsync"
-    ];
-    extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-    extraModprobeConfig = ''
+    ]
+    ++ lib.optional config.mySystem.features.streaming "v4l2loopback";
+
+    extraModulePackages = lib.optional config.mySystem.features.streaming config.boot.kernelPackages.v4l2loopback;
+
+    extraModprobeConfig = lib.optionalString config.mySystem.features.streaming ''
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
     '';
   };
