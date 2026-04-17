@@ -28,5 +28,10 @@ lib.mkIf (config.mySystem.hardware.form == "laptop") {
   };
 
   # ThinkPad specific
-  hardware.trackpoint.enable = true;
+  hardware.trackpoint.enable = true; # nipple
+  hardware.enableRedistributableFirmware = true; # "for now there is no sound"
+  hardware.enableAllFirmware = true;
+  environment.systemPackages = with pkgs; [
+    sof-firmware
+  ];
 }
