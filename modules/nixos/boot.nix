@@ -25,7 +25,6 @@
         inputs.cachynix.packages.${pkgs.stdenv.hostPlatform.system}.linux-cachyos-latest-x86-64-v3;
 
     kernelParams = [
-      "amdgpu.ppfeaturemask=0xfffd7fff"
       "console=tty2"
       "quiet"
       "rd.udev.log_level=3"

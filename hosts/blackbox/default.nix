@@ -16,10 +16,15 @@
   networking.hostName = "blackbox";
   system.stateVersion = "25.05";
 
-  # WM options
-  # Avaliable: hyprland, niri
-  mySystem.desktop.wms = [
-    "hyprland"
-    "niri"
-  ];
+  # Host options
+  mySystem = {
+    desktop.wms = [
+      "hyprland"
+      "niri"
+    ];
+    hardware = {
+      gpu = "amd";
+      peripherals.wooting = true;
+    };
+  };
 }

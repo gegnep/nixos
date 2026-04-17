@@ -8,9 +8,10 @@
 
 {
   imports = [
+    ./hardware
+
     ./boot.nix
     ./desktop.nix
-    ./hardware.nix
     ./networking.nix
     ./nix.nix
     ./options.nix
