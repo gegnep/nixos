@@ -1,5 +1,15 @@
-{ ... }:
+{ hostOptions, lib, ... }:
 
+let
+  monitorNames = map (m: m.name) hostOptions.desktop.monitors;
+  swapBind =
+    if (builtins.length monitorNames) >= 2 then
+      [
+        "$shiftMod, S, swapactiveworkspaces, ${builtins.elemAt monitorNames 0} ${builtins.elemAt monitorNames 1}"
+      ]
+    else
+      [ ];
+in
 {
   wayland.windowManager.hyprland.settings = {
     # Mod Vars
@@ -17,11 +27,6 @@
       "$mainMod, J, togglesplit"
       "$mainMod, P, pseudo"
       "$shiftMod, P, pin"
-
-      "$shiftMod, S, swapactiveworkspaces, HDMI-A-1 DP-3"
-      #"$shiftMod, S, swapactiveworkspaces, DP-2 DP-3"
-      #"$ctrlMod, S, swapactiveworkspaces, DP-2 DP-1"
-      #"$altMod, S, swapactiveworkspaces, DP-1 DP-3"
 
       # Focus movement
       "$mainMod, left, movefocus, l"
@@ -103,7 +108,8 @@
 
       # Lock
       "$mainMod, L, exec, noctalia-shell ipc call lockScreen lock"
-    ];
+    ]
+    ++ swapBind;
 
     bindm = [
       "$mainMod, mouse:272, movewindow"
