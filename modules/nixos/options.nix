@@ -2,7 +2,6 @@
 
 {
   options.mySystem = {
-
     desktop = {
       wms = lib.mkOption {
         type = lib.types.listOf (

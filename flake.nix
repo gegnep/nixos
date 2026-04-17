@@ -64,7 +64,7 @@
                   useUserPackages = true;
                   extraSpecialArgs = {
                     inherit inputs;
-                    hostDesktop = config.mySystem.desktop;
+                    hostOptions = config.mySystem;
                   };
                   backupFileExtension = "bak";
                   users.pengeg = import ./modules/home;
