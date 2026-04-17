@@ -3,6 +3,8 @@
 {
   imports = [
     ./amd.nix
+    ./intel.nix
+    ./laptop.nix
     ./wooting.nix
   ];
 
