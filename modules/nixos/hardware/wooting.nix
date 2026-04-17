@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   wootingRules = pkgs.writeTextFile {
@@ -25,32 +30,6 @@ let
     destination = "/etc/udev/rules.d/70-wooting.rules";
   };
 in
-{
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-  hardware.amdgpu.opencl.enable = true;
-  services.lact.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    clinfo
-    lact
-  ];
-
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings.General.Experimental = true;
-  };
-  services.blueman.enable = true;
-
-  security.tpm2 = {
-    enable = true;
-    pkcs11.enable = true;
-    tctiEnvironment.enable = true;
-  };
-
-  # Wooting keyboard udev rules
+lib.mkIf config.mySystem.hardware.peripherals.wooting {
   services.udev.packages = [ wootingRules ];
 }
