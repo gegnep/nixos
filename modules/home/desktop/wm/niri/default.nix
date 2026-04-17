@@ -29,7 +29,7 @@
         dwt = false; # disable-while-typing
       };
       focus-follows-mouse.enable = true;
-      warp-mouse-to-focus.enable = true;
+      warp-mouse-to-focus.enable = false;
     };
 
     # Outputs
@@ -100,13 +100,13 @@
 
     # Layout
     layout = {
-      gaps = 4;
+      gaps = 6;
       border = {
         enable = true;
-        width = 2;
+        width = 3;
         active.gradient = {
-          from = "#f5c2e7";
-          to = "#cba6f7";
+          from = "#cba6f7";
+          to = "#89b4fa";
           angle = 135;
           in' = "oklch shorter hue";
         };
@@ -118,7 +118,7 @@
         };
         urgent.gradient = {
           from = "#f38ba8";
-          to = "#eba0ac";
+          to = "#fab387";
           angle = 135;
           in' = "oklch shorter hue";
         };
@@ -162,6 +162,11 @@
           }
         ];
         open-floating = true;
+        default-floating-position = {
+          x = 20;
+          y = 20;
+          relative-to = "bottom-right";
+        };
       }
       {
         matches = [
@@ -191,7 +196,7 @@
         default-floating-position = {
           x = 20;
           y = 20;
-          relative-to = "bottom-right";
+          relative-to = "top-right";
         };
       }
       {
