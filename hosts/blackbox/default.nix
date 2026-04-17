@@ -47,6 +47,10 @@
     hardware = {
       form = "desktop";
       gpu = "amd";
+      swapfile = {
+        enable = true;
+        sizeGB = 32;
+      };
       peripherals.wooting = true;
     };
     features = {

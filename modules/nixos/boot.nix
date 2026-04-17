@@ -51,13 +51,11 @@ in
   };
 
   # Swap configuration
-  swapDevices = lib.mkIf isDesktop [
-    {
-      device = "/var/lib/swapfile";
-      size = 1024 * 32; # 32 GB
-      options = [ "discard" ];
-    }
-  ];
+  swapDevices = lib.optional config.mySystem.hardware.swapfile.enable {
+    device = "/var/lib/swapfile";
+    size = config.mySystem.hardware.swapfile.sizeGB * 1024;
+    options = [ "discard" ];
+  };
 
   zramSwap = {
     enable = true;

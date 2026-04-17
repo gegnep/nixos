@@ -14,7 +14,6 @@ lib.mkIf (config.mySystem.hardware.form == "laptop") {
     fprintd.enable = true;
   };
 
-  networking.networkmanager.enable = true;
   powerManagement.enable = true;
 
   # ThinkPad specific
