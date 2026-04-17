@@ -1,4 +1,10 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  config,
+  lib,
+  ...
+}:
 
 {
   time.timeZone = "America/Kentucky/Louisville";
@@ -27,8 +33,8 @@
 
   security.polkit.enable = true;
 
-  # Scheduler (CachyOS)
-  services.scx.enable = true;
+  # CachyOS scheduler
+  services.scx.enable = config.mySystem.hardware.form == "desktop";
 
   services.displayManager.ly = {
     enable = true;
