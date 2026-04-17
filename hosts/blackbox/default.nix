@@ -48,5 +48,11 @@
       gpu = "amd";
       peripherals.wooting = true;
     };
+    features = {
+      gaming = true;
+      streaming = true;
+      audioProduction = true;
+      mcsr = true;
+    };
   };
 }
