@@ -19,12 +19,16 @@ lib.mkIf (config.mySystem.hardware.form == "laptop") {
     powertop.enable = true;
   };
 
-  boot.kernelParams = [ "mem_sleep_default=s2idle" ];
+  boot.kernelParams = [
+    "mem_sleep_default=s2idle"
+    "i915.fastboot=1"
+  ];
 
   boot.extraModprobeConfig = ''
     options snd_hda_intel power_save=1 power_save_controller=Y
     options iwlwifi power_save=1
     options i915 enable_fbc=1 enable_psr=1
+    blacklist intel_gna
   '';
 
   boot.kernel.sysctl = {
