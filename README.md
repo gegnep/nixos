@@ -151,3 +151,5 @@ nh os switch
 # Or from anywhere:
 sudo nixos-rebuild switch --flake /path/to/flake.#<hostname>
 ```
+---
+*portions of this configuration where developed in collaboration with [Claude](https://claude.ai); AI suggestions should never replace your own understanding of your system*
