@@ -51,7 +51,15 @@ in
         tap = true;
         natural-scroll = false;
         click-method = "clickfinger";
-        dwt = false; # disable-while-typing
+        dwt = true; # disable-while-typing
+        middle-emulation = true; # three finger tap = middle click
+        scroll-method = "two-finger";
+        accel-profile = "adaptive";
+        accel-speed = 0.3;
+        tap-button-map = "left-right-middle";
+      };
+      tablet = {
+        map-to-output = "eDP-1";
       };
       focus-follows-mouse.enable = true;
       warp-mouse-to-focus.enable = false;
