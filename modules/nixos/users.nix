@@ -8,7 +8,8 @@
       "wheel"
       "networkmanager"
       "tss" # TPM access
-      "inputs"
+      "input"
+      "video"
     ];
   };
 
