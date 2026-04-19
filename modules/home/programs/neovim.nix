@@ -74,7 +74,7 @@
           };
         };
         lua.enable = true;
-        ts = {
+        typescript = {
           enable = true;
           format = {
             enable = true;
