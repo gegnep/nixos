@@ -24,6 +24,17 @@
   };
   catppuccin.ghostty.enable = true;
 
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window = {
+        opacity = 0.8;
+        blur = false;
+      };
+    };
+  };
+  catppuccin.alacritty.enable = true;
+
   programs.kitty = {
     enable = true;
     font = {
