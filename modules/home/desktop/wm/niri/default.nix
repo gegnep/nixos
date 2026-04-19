@@ -108,6 +108,12 @@ in
     spawn-at-startup = [
       {
         command = [
+          "sh -c"
+          "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-gtk.service"
+        ];
+      }
+      {
+        command = [
           "noctalia-shell"
         ];
       }
