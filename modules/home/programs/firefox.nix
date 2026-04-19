@@ -58,6 +58,7 @@
         csgo-trader-steam-trading
         csgofloat
         frankerfacez
+        enhancer-for-youtube
       ];
 
       settings = {
