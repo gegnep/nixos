@@ -33,7 +33,7 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 - `gaming` — Steam extras, Proton tooling, mod managers.
 - `streaming` — OBS, DaVinci Resolve, v4l2loopback kernel module.
 - `audioProduction` — Bitwig, yabridge, Wine, audio plugins.
-- `mcsr` — Waywall, PrismLauncher with jemalloc, Ninjabrain Bot FHS.
+- `mcsr` — Waywall, Ninjabrain Bot FHS, packwiz (Prism itself is defined in `gaming.nix` and pulled whenever `gaming` *or* `mcsr` is enabled).
 
 ## Structure
 
