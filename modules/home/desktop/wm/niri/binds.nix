@@ -26,15 +26,16 @@
       };
     in
     {
+      # Misc
       "Mod+Shift+Slash".action = show-hotkey-overlay;
       "Mod+Tab".action = toggle-overview;
-      "Mod+Shift+Ctrl+M".action = quit;
+      "Mod+Ctrl+Shift+M".action = quit;
       "Mod+Shift+P".action = power-off-monitors;
 
-      # Apps
+      # Apps & Bar controls
       "Mod+Q".action = spawn "ghostty";
       "Mod+E".action = spawn "dolphin";
-      "Mod+Shift+Q".action = spawn "firefox";
+      "Mod+B".action = spawn "firefox";
       "Mod+Space".action.spawn = noctalia "launcher toggle";
       "Mod+Escape".action.spawn = noctalia "lockScreen lock";
       "Mod+Shift+M".action.spawn = noctalia "sessionMenu toggle";
@@ -43,46 +44,15 @@
       "Mod+Ctrl+N".action.spawn = noctalia "notifications clear";
       "Mod+C".action.spawn = noctalia "controlCenter toggle";
 
+      # Screenshots
+      "Print".action.screenshot = [ ];
+      "Mod+Print".action.screenshot-screen = [ ];
+      "Mod+Shift+Print".action.screenshot-window = [ ];
+
       # Window management
       "Mod+Shift+C".action = close-window;
-      "Mod+F".action = maximize-column;
       "Mod+Shift+F".action = fullscreen-window;
       "Mod+W".action = center-column;
-
-      # Mouse navigation
-      "Mod+WheelScrollDown".action = focus-workspace-down;
-      "Mod+WheelScrollUp".action = focus-workspace-up;
-      "Mod+Shift+WheelScrollDown".action = focus-column-right;
-      "Mod+Shift+WheelScrollUp".action = focus-column-left;
-      "Mod+Ctrl+WheelScrollDown".action = focus-monitor-right;
-      "Mod+Ctrl+WheelScrollUp".action = focus-monitor-left;
-
-      # Workspaces on this monitor
-      "Mod+Page_Up".action = focus-workspace-up;
-      "Mod+Page_Down".action = focus-workspace-down;
-
-      # Column to another workspace on this monitor
-      "Mod+Shift+Page_Up".action = move-column-to-workspace-up;
-      "Mod+Shift+Page_Down".action = move-column-to-workspace-down;
-
-      # Move a whole workspace up/down in the stack
-      "Mod+Alt+Page_Up".action = move-workspace-up;
-      "Mod+Alt+Page_Down".action = move-workspace-down;
-
-      # Column width adjustments — niri-specific, very useful
-      "Mod+Minus".action.set-column-width = [ "-10%" ];
-      "Mod+Equal".action.set-column-width = [ "+10%" ];
-      "Mod+Shift+Minus".action.set-window-height = [ "-10%" ];
-      "Mod+Shift+Equal".action.set-window-height = [ "+10%" ];
-      "Mod+R".action = switch-preset-column-width;
-      "Mod+Shift+R".action = expand-column-to-available-width;
-      "Mod+Ctrl+R".action = reset-window-height;
-
-      # Consume/expel — move adjacent windows into/out of the current column
-      "Mod+Comma".action = consume-window-into-column;
-      "Mod+Period".action = expel-window-from-column;
-      "Mod+BracketLeft".action = consume-or-expel-window-left;
-      "Mod+BracketRight".action = consume-or-expel-window-right;
 
       # Floating
       "Mod+V".action = toggle-window-floating;
@@ -93,16 +63,72 @@
       "XF86AudioLowerVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-";
       "XF86AudioRaiseVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+";
       "Shift+XF86AudioMute".action = spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle";
-      "XF86AudioNext".action = spawn "playerctl" "next";
-      "XF86AudioPrev".action = spawn "playerctl" "previous";
-      "XF86AudioPlay".action = spawn "playerctl" "play-pause";
+      "XF86AudioNext".action.spawn = noctalia "media next";
+      "XF86AudioPrev".action.spawn = noctalia "media previous";
+      "XF86AudioPlay".action.spawn = noctalia "media playPause";
 
       # Brightness
       "XF86MonBrightnessDown".action = spawn "brightnessctl" "set" "5%-";
       "XF86MonBrightnessUp".action = spawn "brightnessctl" "set" "5%+";
 
-      # Screenshots
-      "Print".action.screenshot = [ ];
+      # Column/Window width/height adjustments
+      "Mod+R".action = switch-preset-column-width;
+      "Mod+Shift+R".action = expand-column-to-available-width; # expands column to the rest of the space on the monitor, keeping other columns
+      "Mod+F".action = maximize-column; # expands column to 100%, forcing out any other column
+      "Mod+Minus".action.set-column-width = [ "-10%" ];
+      "Mod+Equal".action.set-column-width = [ "+10%" ];
+
+      "Mod+Ctrl+R".action = reset-window-height;
+      "Mod+Shift+Minus".action.set-window-height = [ "-10%" ];
+      "Mod+Shift+Equal".action.set-window-height = [ "+10%" ];
+
+      # Consume/expel — move adjacent windows into/out of the current column
+      "Mod+Comma".action = consume-window-into-column;
+      "Mod+Period".action = expel-window-from-column;
+      "Mod+BracketLeft".action = consume-or-expel-window-left;
+      "Mod+BracketRight".action = consume-or-expel-window-right;
+
+      # --- Navigation ---
+
+      # General philosophy with navigation keys:
+      # No modifier, change focus
+      # Shift, moves focused
+      # Ctrl, work across monitors
+      # Alt, act on an entire workspace
+
+      # Scroll Wheel navigation - mirrors arrow/vim key binds
+      "Mod+WheelScrollUp".action = focus-column-left;
+      "Mod+WheelScrollDown".action = focus-column-right;
+
+      "Mod+Shift+WheelScrollUp".action = move-column-left;
+      "Mod+Shift+WheelScrollDown".action = move-column-right;
+
+      "Mod+Ctrl+WheelScrollUp".action = focus-monitor-left;
+      "Mod+Ctrl+WheelScrollDown".action = focus-monitor-right;
+
+      "Mod+Ctrl+Shift+WheelScrollUp".action = move-column-to-monitor-left;
+      "Mod+Ctrl+Shift+WheelScrollDown".action = move-column-to-monitor-right;
+
+      "Mod+Alt+WheelScrollUp".action = move-workspace-to-monitor-left;
+      "Mod+Alt+WheelScrollDown".action = move-workspace-to-monitor-right;
+
+      # Workspaces on this monitor
+      "Mod+Page_Up".action = focus-workspace-up;
+      "Mod+Page_Down".action = focus-workspace-down;
+      "Mod+MouseForward".action = focus-workspace-up;
+      "Mod+MouseBack".action = focus-workspace-down;
+
+      # Column to another workspace on this monitor
+      "Mod+Shift+Page_Up".action = move-column-to-workspace-up;
+      "Mod+Shift+Page_Down".action = move-column-to-workspace-down;
+      "Mod+Shift+MouseForward".action = move-column-to-workspace-up;
+      "Mod+Shift+MouseBack".action = move-column-to-workspace-down;
+
+      # Move a whole workspace up/down in the stack
+      "Mod+Alt+Page_Up".action = move-workspace-up;
+      "Mod+Alt+Page_Down".action = move-workspace-down;
+      "Mod+Alt+MouseForward".action = move-workspace-up;
+      "Mod+Alt+MouseBack".action = move-workspace-down;
     }
     // dirs "Mod" {
       # Focus columns on the strip
@@ -127,7 +153,7 @@
       up = focus-monitor-up;
       down = focus-monitor-down;
     }
-    // dirs "Mod+Shift+Ctrl" {
+    // dirs "Mod+Ctrl+Shift" {
       # Move focused column to another monitor
       left = move-column-to-monitor-left;
       right = move-column-to-monitor-right;
