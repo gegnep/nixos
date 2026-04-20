@@ -13,16 +13,30 @@
         ]
         ++ (lib.splitString " " cmd);
 
-      # Bind arrows and vim-style keys to same action
+      # Bind arrow and vim-style keys to same action; scroll wheel up/down == left/right
       dirs = mod: actions: {
         "${mod}+Left".action = actions.left;
         "${mod}+H".action = actions.left;
+        "${mod}+WheelScrollUp".action = actions.left;
+
         "${mod}+Right".action = actions.right;
         "${mod}+L".action = actions.right;
+        "${mod}+WheelScrollDown".action = actions.right;
+
         "${mod}+Up".action = actions.up;
         "${mod}+K".action = actions.up;
+
         "${mod}+Down".action = actions.down;
         "${mod}+J".action = actions.down;
+      };
+
+      # Bind page up/down and mouse forward/back to the same action
+      stack = mod: actions: {
+        "${mod}+Page_Up".action = actions.up;
+        "${mod}+MouseForward".action = actions.up;
+
+        "${mod}+Page_Down".action = actions.down;
+        "${mod}+MouseBack".action = actions.down;
       };
     in
     {
@@ -87,49 +101,17 @@
       "Mod+Period".action = expel-window-from-column;
       "Mod+BracketLeft".action = consume-or-expel-window-left;
       "Mod+BracketRight".action = consume-or-expel-window-right;
-
-      # --- Navigation ---
-
-      # General philosophy with navigation keys:
-      # No modifier, change focus
-      # Shift, moves focused
-      # Ctrl, work across monitors
-      # Alt, act on an entire workspace
-
-      # Scroll Wheel navigation - mirrors arrow/vim key binds
-      "Mod+WheelScrollUp".action = focus-column-left;
-      "Mod+WheelScrollDown".action = focus-column-right;
-
-      "Mod+Shift+WheelScrollUp".action = move-column-left;
-      "Mod+Shift+WheelScrollDown".action = move-column-right;
-
-      "Mod+Ctrl+WheelScrollUp".action = focus-monitor-left;
-      "Mod+Ctrl+WheelScrollDown".action = focus-monitor-right;
-
-      "Mod+Ctrl+Shift+WheelScrollUp".action = move-column-to-monitor-left;
-      "Mod+Ctrl+Shift+WheelScrollDown".action = move-column-to-monitor-right;
-
-      "Mod+Alt+WheelScrollUp".action = move-workspace-to-monitor-left;
-      "Mod+Alt+WheelScrollDown".action = move-workspace-to-monitor-right;
-
-      # Workspaces on this monitor
-      "Mod+Page_Up".action = focus-workspace-up;
-      "Mod+Page_Down".action = focus-workspace-down;
-      "Mod+MouseForward".action = focus-workspace-up;
-      "Mod+MouseBack".action = focus-workspace-down;
-
-      # Column to another workspace on this monitor
-      "Mod+Shift+Page_Up".action = move-column-to-workspace-up;
-      "Mod+Shift+Page_Down".action = move-column-to-workspace-down;
-      "Mod+Shift+MouseForward".action = move-column-to-workspace-up;
-      "Mod+Shift+MouseBack".action = move-column-to-workspace-down;
-
-      # Move a whole workspace up/down in the stack
-      "Mod+Alt+Page_Up".action = move-workspace-up;
-      "Mod+Alt+Page_Down".action = move-workspace-down;
-      "Mod+Alt+MouseForward".action = move-workspace-up;
-      "Mod+Alt+MouseBack".action = move-workspace-down;
     }
+    # --- Navigation ---
+
+    ### General philosophy with navigation keys:
+    ### No modifier, change focus
+    ### Shift, moves focused
+    ### Ctrl, work across monitors
+    ### Alt, act on an entire workspace
+
+    # left/right/up/down == h/l/k/j == scroll wheel up/scroll wheel down/null/null
+
     // dirs "Mod" {
       # Focus columns on the strip
       left = focus-column-left;
@@ -166,5 +148,23 @@
       right = move-workspace-to-monitor-right;
       up = move-workspace-to-monitor-up;
       down = move-workspace-to-monitor-down;
+    }
+
+    # page up/page down == mouse forward/mouse back
+
+    // stack "Mod" {
+      # Change focused workspace
+      up = focus-workspace-up;
+      down = focus-workspace-down;
+    }
+    // stack "Mod+Shift" {
+      # Move column to another workspace
+      up = move-column-to-workspace-up;
+      down = move-column-to-workspace-down;
+    }
+    // stack "Mod+Alt" {
+      # Move workspace in the stack
+      up = move-workspace-up;
+      down = move-workspace-down;
     };
 }
