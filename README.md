@@ -48,7 +48,7 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 │   ├── blackbox/                      # desktop
 │   │   ├── default.nix
 │   │   └── hardware-configuration.nix
-│   └── nixpad/                        # laptop (LUKS, niri-only)
+│   └── nixpad/                        # laptop (LUKS)
 │       ├── default.nix
 │       └── hardware-configuration.nix
 └── modules/
@@ -93,9 +93,9 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
         │   ├── audio.nix              # bitwig, yabridge (gated on audioProduction)
         │   ├── cli.nix
         │   ├── firefox.nix
-        │   ├── gaming.nix             # steam/gamescope (gated on gaming)
+        │   ├── gaming.nix             # steam/gamescope (gated on gaming) prism (gated on gaming || mcsr)
         │   ├── git.nix
-        │   ├── mcsr.nix               # waywall/ninbot/prism (gated on mcsr)
+        │   ├── mcsr.nix               # waywall/ninbot (gated on mcsr)
         │   ├── neovim.nix             # via nvf
         │   ├── obs.nix                # (gated on streaming)
         │   ├── spotify.nix            # spicetify
@@ -152,4 +152,4 @@ nh os switch
 sudo nixos-rebuild switch --flake /path/to/flake.#<hostname>
 ```
 ---
-*portions of this configuration where developed in collaboration with [Claude](https://claude.ai); AI suggestions should never replace your own understanding of your system*
+*portions of this configuration were developed in collaboration with [Claude](https://claude.ai); AI suggestions should never replace your own understanding of your system*
