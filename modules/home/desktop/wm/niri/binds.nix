@@ -110,7 +110,10 @@
     ### Ctrl, work across monitors
     ### Alt, act on an entire workspace
 
-    # left/right/up/down == h/l/k/j == scroll wheel up/scroll wheel down/null/null
+    ### Key Equivelants:
+    # left/right/up/down
+    # h/l/k/j
+    # scroll wheel up/scroll wheel down/null/null
 
     // dirs "Mod" {
       # Focus columns on the strip
@@ -150,7 +153,9 @@
       down = move-workspace-to-monitor-down;
     }
 
-    # page up/page down == mouse forward/mouse back
+    ### Key Equivelants:
+    # page up/page down
+    # mouse forward/mouse back
 
     // stack "Mod" {
       # Change focused workspace

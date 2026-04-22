@@ -61,7 +61,10 @@ in
       tablet = {
         map-to-output = "eDP-1";
       };
-      focus-follows-mouse.enable = true;
+      focus-follows-mouse = {
+        enable = true;
+        max-scroll-amount = "0%";
+      };
       warp-mouse-to-focus.enable = false;
     };
 
@@ -70,7 +73,7 @@ in
 
     # Layout
     layout = {
-      gaps = 6;
+      gaps = 7;
       border = {
         enable = true;
         width = 3;
