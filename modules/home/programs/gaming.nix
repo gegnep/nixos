@@ -37,8 +37,9 @@
       gamemode
 
       # Mod Managers
-      gale
-      deadlock-mod-manager
+      gale # thunderstore
+      deadlock-mod-manager # gamebanana -> deadlock
+      ckan # comprehensive kerbal archive network
     ];
 
   programs.mangohud = lib.mkIf hostOptions.features.gaming {
