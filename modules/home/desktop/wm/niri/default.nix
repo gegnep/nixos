@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   hostOptions,
   ...
@@ -26,7 +27,9 @@ let
   };
 in
 {
-  imports = [ ./binds.nix ];
+  imports = [
+    ./binds.nix
+  ];
 
   programs.niri.settings = {
     # Environment
