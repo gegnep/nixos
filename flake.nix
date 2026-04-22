@@ -27,6 +27,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nirinit = {
+      url = "github:amaanq/nirinit";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -52,6 +57,7 @@
               nixpkgs.overlays = [
                 inputs.cachynix.overlays.default
                 inputs.nur.overlays.default
+                inputs.niri.overlays.niri
               ];
             }
             inputs.catppuccin.nixosModules.catppuccin
