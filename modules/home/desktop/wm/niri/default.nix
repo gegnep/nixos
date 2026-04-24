@@ -68,7 +68,7 @@ in
         enable = true;
         max-scroll-amount = "0%";
       };
-      warp-mouse-to-focus.enable = false;
+      warp-mouse-to-focus.enable = true;
     };
 
     # Outputs
@@ -108,6 +108,11 @@ in
       default-column-width = {
         proportion = 1.0 / 2.0;
       };
+      preset-window-heights = [
+        { proportion = 1.0 / 5.0; }
+        { proportion = 1.0 / 3.0; }
+        { proportion = 1.0 / 2.0; }
+      ];
     };
 
     # Exec

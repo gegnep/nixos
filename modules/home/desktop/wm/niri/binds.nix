@@ -87,12 +87,13 @@
 
       # Column/Window width/height adjustments
       "Mod+R".action = switch-preset-column-width;
-      "Mod+Shift+R".action = expand-column-to-available-width; # expands column to the rest of the space on the monitor, keeping other columns
+      "Mod+Ctrl+R".action = expand-column-to-available-width; # expands column to the rest of the empty space on the monitor, keeping other columns
       "Mod+F".action = maximize-column; # expands column to 100%, forcing out any other column
       "Mod+Minus".action.set-column-width = [ "-10%" ];
       "Mod+Equal".action.set-column-width = [ "+10%" ];
 
-      "Mod+Ctrl+R".action = reset-window-height;
+      "Mod+Shift+R".action = switch-preset-window-height;
+      "Mod+Ctrl+Shift+R".action = reset-window-height;
       "Mod+Shift+Minus".action.set-window-height = [ "-10%" ];
       "Mod+Shift+Equal".action.set-window-height = [ "+10%" ];
 
