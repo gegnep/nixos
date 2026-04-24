@@ -10,7 +10,7 @@
     kdePackages.ffmpegthumbs
   ];
 
-   xdg.configFile."dolphinrc".text = ''
+  xdg.configFile."dolphinrc".text = ''
     MenuBar=Disabled
 
     [General]
