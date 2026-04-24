@@ -16,13 +16,13 @@ in
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
       trustedInterfaces = [ "tailscale0" ];
-      allowedTCPPortRanges = [
+      allowedTCPPortRanges = lib.optionals config.mySystem.features.gaming [
         {
           from = 27000;
           to = 27050;
         }
       ];
-      allowedUDPPortRanges = [
+      allowedUDPPortRanges = lib.optionals config.mySystem.features.gaming [
         {
           from = 27000;
           to = 27050;
