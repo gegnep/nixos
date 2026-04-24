@@ -5,6 +5,7 @@
     ./amd.nix
     ./intel.nix
     ./laptop.nix
+    ./nvidia.nix
     ./wooting.nix
   ];
 
