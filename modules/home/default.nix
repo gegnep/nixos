@@ -12,10 +12,11 @@
     inputs.nvf.homeManagerModules.default
     inputs.spicetify-nix.homeManagerModules.spicetify
 
-    ./packages.nix
     ./desktop
     ./programs
     ./shell
+
+    ./packages.nix
   ];
 
   home = {
@@ -23,6 +24,4 @@
     homeDirectory = "/home/pengeg";
     stateVersion = "25.05";
   };
-
-  services.syncthing.enable = true;
 }
