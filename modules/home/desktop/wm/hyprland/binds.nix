@@ -84,27 +84,25 @@ in
       "$mainMod, E, exec, dolphin"
       "$mainMod, Q, exec, ghostty"
       "$mainMod, R, exec, noctalia-shell ipc call launcher toggle"
-      "$shiftMod, Q, exec, firefox"
-      "$shiftMod, D, exec, discord"
-      "$shiftMod, K, exec, keepassxc"
+      "$mainMod, B, exec, firefox"
 
       # Media keys
       ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
       ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
       ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
       "SHIFT, XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-      ", XF86AudioNext, exec, playerctl next"
-      ", XF86AudioPrev, exec, playerctl previous"
-      ", XF86AudioPlay, exec, playerctl play-pause"
+      ", XF86AudioNext, exec, noctalia-shell ipc call media next"
+      ", XF86AudioPrev, exec, noctalia-shell ipc call media previous"
+      ", XF86AudioPlay, exec, noctalia-shell ipc call media playPause"
 
       # Brightness
       ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
       ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
 
       # Screenshots
-      ", PRINT, exec, hyprshot -z -m output"
-      "$mainMod, PRINT, exec, hyprshot -z -m window"
-      "$shiftMod, PRINT, exec, hyprshot -z -m region"
+      ", PRINT, exec, hyprshot -z -m region"
+      "$mainMod, PRINT, exec, hyprshot -z -m output"
+      "$shiftMod, PRINT, exec, hyprshot -z -m window"
 
       # Lock
       "$mainMod, L, exec, noctalia-shell ipc call lockScreen lock"
