@@ -1,0 +1,23 @@
+blur {
+  passes 2
+  offset 3.0
+  noise 0.03
+  saturation 1.25
+}
+
+window-rule {
+  match app-id="^com\\.mitchellh\\.ghostty$"
+  match app-id="^Alacritty$"
+  match app-id="^neovide$"
+  background-effect {
+    blur true
+    xray true
+  }
+}
+
+layer-rule {
+  match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"
+  background-effect {
+    xray false
+  }
+}

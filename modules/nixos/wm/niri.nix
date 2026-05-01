@@ -6,19 +6,21 @@
   ...
 }:
 
+let
+  niriPkgs = inputs.niri-pkgs.packages.${pkgs.stdenv.hostPlatform.system};
+in
 {
   imports = [
-    inputs.niri.nixosModules.niri
     inputs.nirinit.nixosModules.nirinit
   ];
 
   config = lib.mkIf (builtins.elem "niri" config.mySystem.desktop.wms) {
-    niri-flake.cache.enable = true;
     programs.niri = {
       enable = true;
-      package = pkgs.niri-stable; # use niri pkg from flake as its updated quicker
+      package = niriPkgs.niri-unstable;
     };
-    environment.systemPackages = with pkgs; [ xwayland-satellite ];
+
+    environment.systemPackages = [ niriPkgs.xwayland-satellite-unstable ];
 
     services.nirinit = {
       enable = true;

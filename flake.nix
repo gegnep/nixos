@@ -23,6 +23,11 @@
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
     niri = {
+      url = "github:sodiboo/niri-flake/very-refactor";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    niri-pkgs = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -57,7 +62,6 @@
               nixpkgs.overlays = [
                 inputs.cachynix.overlays.default
                 inputs.nur.overlays.default
-                inputs.niri.overlays.niri
               ];
             }
             inputs.catppuccin.nixosModules.catppuccin
