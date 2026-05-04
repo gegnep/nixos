@@ -7,12 +7,12 @@
     jemalloc
 
     (pkgs.waywall.overrideAttrs (old: {
-      version = "unstable-2026-02-25";
+      version = "unstable-2026-05-04";
       src = pkgs.fetchFromGitHub {
         owner = "tesselslate";
         repo = "waywall";
         rev = "main";
-        hash = "sha256-3hFUCebsP4b6UHUi0tZpSTBhE1Ias8WpuZySKRcHPRo=";
+        hash = "sha256-zE9VT/3/AEg0cJ8aE1fhERH8Gh1LeVL9nsC27Nre4hY=";
       };
     }))
     xsel
