@@ -1,4 +1,9 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
 {
   programs.firefox = {
@@ -149,4 +154,14 @@
       };
     };
   };
+
+  home.activation.firefoxWritableProfilesIni = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    legacy_ini="$HOME/.mozilla/firefox/profiles.ini"
+    rm -f "$HOME/.mozilla/firefox/profiles.ini.bak"
+    if [ -L "$legacy_ini" ]; then
+      src=$(readlink -f "$legacy_ini")
+      cp "$src" "$legacy_ini.new"
+      mv "$legacy_ini.new" "$legacy_ini"
+    fi
+  '';
 }
