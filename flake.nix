@@ -21,6 +21,7 @@
 
     catppuccin.url = "github:catppuccin/nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
 
     niri = {
       url = "github:sodiboo/niri-flake/very-refactor";
@@ -62,6 +63,7 @@
               nixpkgs.overlays = [
                 inputs.cachynix.overlays.default
                 inputs.nur.overlays.default
+                inputs.millennium.overlays.default
               ];
             }
             inputs.catppuccin.nixosModules.catppuccin
