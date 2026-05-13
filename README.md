@@ -114,9 +114,10 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 - **[nvf](https://github.com/notashelf/nvf)** — Neovim configuration framework
 - **[noctalia-shell](https://github.com/noctalia-dev/noctalia-shell)** — quickshell-based bar, universal across compositors
 - **[CachyNix](https://github.com/ByteZ1337/CachyNix)** — CachyOS kernel packages (desktop only)
-- **[catppuccin/nix](https://github.com/catppuccin/nix)** — theming
-- **[spicetify-nix](https://github.com/Gerg-L/spicetify-nix)**
+- **[catppuccin/nix](https://github.com/catppuccin/nix)** — Theming
+- **[spicetify-nix](https://github.com/Gerg-L/spicetify-nix)** — Spotify Theming
 - **[NUR](https://github.com/nix-community/NUR)** — Firefox extensions
+- **[Millennium](https://github.com/SteamClientHomebrew/Millennium)** — Steam theming + extensions
 
 ## Theming
 
