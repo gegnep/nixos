@@ -16,6 +16,7 @@
     zstd
     gnupg
     xdg-utils
+    yt-dlp
 
     # Nix tools
     nix-output-monitor

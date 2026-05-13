@@ -26,7 +26,15 @@
       update = "nh os switch";
       shtdwn = "shutdown -h now";
       svim = "sudo -E nvim";
-      claude-dev = "nix develop ~/dev-shell -c claude";
+      yt-mp3 = "yt-dlp -x --audio-format mp3 --audio-quality 0 -o '%(title)s.%(ext)s'";
+
+      ls = "eza";
+      ll = "eza -l";
+      la = "eza -a";
+      lah = "eza -lah";
+      l = "eza -lah";
+      lt = "eza --tree";
+      lta = "eza --tree -a";
     };
 
     zplug = {
