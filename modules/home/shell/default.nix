@@ -8,6 +8,9 @@
   home.file.".p10k.zsh".source = ./.p10k.zsh;
 
   home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "neovide";
+
     HYPRSHOT_DIR = "$HOME/pictures/screenshots";
     NIXOS_OZONE_WL = "1";
     BROWSER = "firefox";
