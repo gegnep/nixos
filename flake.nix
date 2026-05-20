@@ -21,7 +21,7 @@
 
     catppuccin.url = "github:catppuccin/nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-    millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+    millennium.url = "github:SteamClientHomebrew/Millennium/next?dir=packages/nix";
 
     niri = {
       url = "github:sodiboo/niri-flake/very-refactor";

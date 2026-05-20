@@ -57,7 +57,7 @@
       gaming = true;
       streaming = true;
       audioProduction = true;
-      mcsr = true;
+      mcsr = false;
     };
   };
 }
