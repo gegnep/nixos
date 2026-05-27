@@ -10,6 +10,7 @@
     file
     which
     tree
+    tmux
     gnused
     gnutar
     gawk
@@ -17,6 +18,7 @@
     gnupg
     xdg-utils
     yt-dlp
+    bat
 
     # Nix tools
     nix-output-monitor
