@@ -35,6 +35,11 @@
       l = "eza -lah";
       lt = "eza --tree";
       lta = "eza --tree -a";
+
+      cat = "bat";
+      catp = "bat --plain";
+      catn = "bat --paging=never";
+      cata = "bat --show-all";
     };
 
     zplug = {
