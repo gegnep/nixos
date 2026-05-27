@@ -20,7 +20,24 @@
     enableZshIntegration = true;
     icons = "auto";
     git = true;
+    extraOptions = [
+      "--group-directories-first"
+      "--time-style=relative"
+    ];
   };
+
+  programs.bat = {
+    enable = true;
+    config = {
+      style = "numbers,changes,header";
+      pager = "less -FR";
+      map-syntax = [
+        "*.ino:C++"
+        "*.conf:INI"
+      ];
+    };
+  };
+  catppuccin.bat.enable = true;
 
   programs.fzf = {
     enable = true;

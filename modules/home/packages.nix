@@ -18,7 +18,6 @@
     gnupg
     xdg-utils
     yt-dlp
-    bat
 
     # Nix tools
     nix-output-monitor
