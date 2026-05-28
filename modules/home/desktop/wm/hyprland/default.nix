@@ -38,6 +38,7 @@ in
 
   wayland.windowManager.hyprland = {
     enable = true;
+    configType = "hyprlang";
     package = pkgs.hyprland;
     xwayland.enable = true;
     systemd = {
