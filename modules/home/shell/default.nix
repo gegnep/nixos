@@ -20,10 +20,12 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."*" = {
-      extraOptions = {
+    settings = {
+      "Host *" = {
         AddKeysToAgent = "yes";
-        SetEnv = "TERM=xterm-256color";
+        SetEnv = {
+          TERM = "xterm-256color";
+        };
       };
     };
   };
