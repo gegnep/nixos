@@ -3,7 +3,6 @@
 {
   home.packages = with pkgs; [
     # CLI tools
-    fastfetch
     tldr
     ripgrep
     jq
