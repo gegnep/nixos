@@ -20,7 +20,8 @@ in
       package = niriPkgs.niri-unstable;
     };
 
-    environment.systemPackages = [ niriPkgs.xwayland-satellite-unstable ];
+    #builds breaking due to cratesio change
+    #environment.systemPackages = [ niriPkgs.xwayland-satellite-unstable ];
 
     services.nirinit = {
       enable = true;
