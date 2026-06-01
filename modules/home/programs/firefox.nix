@@ -156,12 +156,12 @@
   };
 
   home.activation.firefoxWritableProfilesIni = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    legacy_ini="$HOME/.mozilla/firefox/profiles.ini"
-    rm -f "$HOME/.mozilla/firefox/profiles.ini.bak"
-    if [ -L "$legacy_ini" ]; then
-      src=$(readlink -f "$legacy_ini")
-      cp "$src" "$legacy_ini.new"
-      mv "$legacy_ini.new" "$legacy_ini"
+    config_ini="$HOME/.config/mozilla/firefox/profiles.ini"
+    rm -f "$HOME/.config/mozilla/firefox/profiles.ini.bak"
+    if [ -L "$config_ini" ]; then
+      src=$(readlink -f "$config_ini")
+      cp "$src" "$config_ini.new"
+      mv "$config_ini.new" "$config_ini"
     fi
   '';
 }
