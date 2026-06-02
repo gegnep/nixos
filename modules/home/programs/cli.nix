@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.bat = {
@@ -196,6 +196,29 @@
       n = "~/nixos";
     };
   };
+
+  programs.tmux = {
+    enable = true;
+    keyMode = "vi";
+    customPaneNavigationAndResize = true;
+    prefix = "C-a";
+    terminal = "tmux-256color";
+    shell = "${pkgs.zsh}/bin/zsh";
+    baseIndex = 0;
+    escapeTime = 0;
+    focusEvents = true;
+    historyLimit = 10000;
+    mouse = true;
+    clock24 = true;
+    disableConfirmationPrompt = true;
+
+    plugins = with pkgs; [
+      tmuxPlugins.vim-tmux-navigator
+      tmuxPlugins.yank
+      tmuxPlugins.prefix-highlight
+    ];
+  };
+  catppuccin.tmux.enable = true;
 
   programs.yt-dlp = {
     enable = true;

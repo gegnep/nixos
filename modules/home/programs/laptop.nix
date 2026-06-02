@@ -10,6 +10,9 @@
     wl-mirror
     hyprpicker
 
+    # misc utils
+    gnome-network-displays
+
     # work
     slack
     kiro

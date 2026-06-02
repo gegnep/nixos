@@ -9,7 +9,6 @@
     file
     which
     tree
-    tmux
     gnused
     gnutar
     gawk
