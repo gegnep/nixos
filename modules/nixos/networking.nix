@@ -5,7 +5,6 @@ in
 {
   networking = {
     nameservers = [
-      "100.100.100.100"
       "1.1.1.1"
       "1.0.0.1"
     ];
@@ -36,14 +35,14 @@ in
   services.resolved = {
     enable = true;
     settings.Resolve = {
-      DNSSEC = "true";
+      DNSSEC = "allow-downgrade";
       Domains = [ "~." ];
       FallbackDNS = [
         "100.100.100.100"
         "1.1.1.1"
         "1.0.0.1"
       ];
-      DNSOverTLS = "true";
+      DNSOverTLS = "opportunistic";
     };
   };
 
