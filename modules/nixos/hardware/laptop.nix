@@ -12,6 +12,10 @@ lib.mkIf (config.mySystem.hardware.form == "laptop") {
     upower.enable = true;
     fwupd.enable = true;
     fprintd.enable = true;
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+    };
   };
 
   powerManagement = {
