@@ -130,13 +130,19 @@ in
       spawn-at-startup = [
         {
           command = [
-            "sh -c"
+            "sh"
+            "-c"
             "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-gtk.service"
           ];
         }
+        { command = [ "noctalia-shell" ]; }
+      ]
+      ++ lib.optionals (hostOptions.hardware.form == "laptop") [
         {
           command = [
-            "noctalia-shell"
+            "sh"
+            "-c"
+            "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; systemctl --user restart xdg-desktop-portal-gnome.service"
           ];
         }
       ];
