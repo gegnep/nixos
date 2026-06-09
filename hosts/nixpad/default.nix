@@ -19,7 +19,7 @@
       systems = [ "x86_64-linux" ];
       protocol = "ssh-ng";
       maxJobs = 12;
-      speedFactor = 2;
+      speedFactor = 20;
       supportedFeatures = [
         "big-parallel"
         "kvm"
