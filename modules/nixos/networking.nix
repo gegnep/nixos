@@ -5,17 +5,22 @@ in
 {
   networking = {
     nameservers = [
+      "100.68.176.20" # homelab tailnet ip
       "1.1.1.1"
       "1.0.0.1"
     ];
     search = [ "ermine-gentoo.ts.net" ];
+    hosts = {
+      "100.68.176.20" = [ "homelab" ];
+      "100.101.53.21" = [ "blackbox" ];
+      "100.76.124.81" = [ "nixpad" ];
+    };
     networkmanager.enable = isLaptop;
     firewall = {
       enable = true;
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
       trustedInterfaces = [ "tailscale0" ];
-
       allowedTCPPortRanges = lib.optionals config.mySystem.features.gaming [
         {
           from = 27000;
