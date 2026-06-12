@@ -27,6 +27,8 @@
       ungoogled-chromium
       gimp-with-plugins
       #teams-for-linux
+      slack
+      kiro
     ]
     ++ lib.optionals hostOptions.features.streaming [ davinci-resolve ]
     ++ lib.optionals hostOptions.hardware.peripherals.wooting [ wootility ];
