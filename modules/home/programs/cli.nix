@@ -23,6 +23,10 @@
   };
   catppuccin.btop.enable = true;
 
+  programs.claude-code = {
+    enable = true;
+  };
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
