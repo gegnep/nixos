@@ -40,6 +40,7 @@
       gale # thunderstore
       deadlock-mod-manager # gamebanana -> deadlock
       ckan # comprehensive kerbal archive network
+      satisfactorymodmanager # ficsit.app
     ];
 
   programs.mangohud = lib.mkIf hostOptions.features.gaming {
