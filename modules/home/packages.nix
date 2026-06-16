@@ -16,6 +16,7 @@
     gnupg
     xdg-utils
     yt-dlp
+    glow
 
     # Nix tools
     nix-output-monitor
