@@ -135,6 +135,13 @@ in
             "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-gtk.service"
           ];
         }
+        {
+          command = [
+            "sh"
+            "-c"
+            "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri NIRI_SOCKET XDG_SESSION_TYPE && systemctl --user restart xdg-desktop-portal.service"
+          ];
+        }
         { command = [ "noctalia-shell" ]; }
       ]
       ++ lib.optionals (hostOptions.hardware.form == "laptop") [
