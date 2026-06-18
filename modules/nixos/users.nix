@@ -9,6 +9,7 @@
       "networkmanager"
       "tss" # TPM access
       "input"
+      "audio"
       "video"
     ];
   };
