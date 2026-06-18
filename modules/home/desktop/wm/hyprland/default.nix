@@ -45,6 +45,7 @@ in
       enable = true;
       variables = [ "--all" ];
     };
+    portalPackage = null;
 
     settings = {
       # Catppuccin Mocha colors

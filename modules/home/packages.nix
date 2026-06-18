@@ -48,8 +48,10 @@
 
     # Desktop apps
     keepassxc
-    vesktop
     vscodium
+    (pkgs.vesktop.override {
+      withSystemVencord = false;
+    })
 
     # General GUI utilities
     imv
