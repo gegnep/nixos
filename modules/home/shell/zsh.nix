@@ -1,4 +1,10 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  osConfig,
+  ...
+}:
 
 {
   catppuccin.zsh-syntax-highlighting.enable = true;
@@ -62,5 +68,21 @@
       HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="bg=#f38ba8,fg=#1e1e2e,bold"
       source ${./.p10k.zsh}
     '';
+  };
+
+  programs.atuin = {
+    enable = true;
+    flags = [ "--disable-up-arrow" ];
+    settings = {
+      sync_address = "http://atuin.homelab";
+      auto_sync = true;
+      sync_frequency = "5m";
+      search_mode = "fuzzy";
+      filter_mode = "global";
+      workspaces = true;
+    }
+    // lib.optionalAttrs (osConfig.networking.hostName == "homelab") {
+      key_path = osConfig.sops.secrets.atuin-key.path;
+    };
   };
 }
