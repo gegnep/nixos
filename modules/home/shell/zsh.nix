@@ -1,13 +1,11 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [
-    zsh-powerlevel10k
-  ];
-
+  catppuccin.zsh-syntax-highlighting.enable = true;
   programs.zsh = {
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
+    enableCompletion = false;
     history = {
       size = 50000;
       save = 50000;
@@ -42,21 +40,20 @@
       cata = "bat --show-all";
     };
 
-    zplug = {
-      enable = true;
-      plugins = [
-        { name = "zsh-users/zsh-syntax-highlighting"; }
-        { name = "zsh-users/zsh-autosuggestions"; }
-        {
-          name = "romkatv/powerlevel10k";
-          tags = [
-            "as:theme"
-            "depth:1"
-          ];
-        }
-        { name = "marlonrichert/zsh-autocomplete"; }
-      ];
-    };
+    syntaxHighlighting.enable = true;
+
+    plugins = [
+      {
+        name = "zsh-autocomplete";
+        src = pkgs.zsh-autocomplete;
+        file = "share/zsh-autocomplete/zsh-autocomplete.plugin.zsh";
+      }
+      {
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+    ];
 
     initContent = ''
       source ${./.p10k.zsh}
