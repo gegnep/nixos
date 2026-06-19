@@ -10,7 +10,13 @@ lib.mkIf (config.mySystem.hardware.gpu == "amd") {
     enable = true;
     enable32Bit = true;
   };
-  hardware.amdgpu.opencl.enable = true;
+  hardware.amdgpu = {
+    opencl.enable = true;
+    overdrive = {
+      enable = true;
+      ppfeaturemask = "0xfffd7fff";
+    };
+  };
   services.lact.enable = true;
 
   environment.systemPackages = with pkgs; [
@@ -18,5 +24,4 @@ lib.mkIf (config.mySystem.hardware.gpu == "amd") {
     lact
   ];
 
-  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfffd7fff" ];
 }
