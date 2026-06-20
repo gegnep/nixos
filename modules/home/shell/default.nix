@@ -28,7 +28,6 @@
         };
       };
       "Host git.homelab" = {
-        Port = 2222;
         User = "git";
       };
     };
