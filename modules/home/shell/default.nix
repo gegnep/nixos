@@ -27,9 +27,6 @@
           TERM = "xterm-256color";
         };
       };
-      "Host git.homelab" = {
-        User = "git";
-      };
     };
   };
 }
