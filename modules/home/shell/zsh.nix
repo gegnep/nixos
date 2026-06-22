@@ -63,11 +63,20 @@
       }
     ];
 
-    initContent = ''
-      HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="bg=#a6e3a1,fg=#1e1e2e,bold"
-      HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="bg=#f38ba8,fg=#1e1e2e,bold"
-      source ${./.p10k.zsh}
-    '';
+    initContent = lib.mkMerge [
+      ''
+        HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="bg=#a6e3a1,fg=#1e1e2e,bold"
+        HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="bg=#f38ba8,fg=#1e1e2e,bold"
+        source ${./.p10k.zsh}
+      ''
+      (lib.mkAfter ''
+        # ghost text -> this session only (atuin's autosuggest ignores filter_mode: atuinsh/atuin#1618)
+        _zsh_autosuggest_strategy_atuin() {
+          # silence errors, since we don't want to spam the terminal prompt while typing.
+          suggestion=$(ATUIN_QUERY="$1" atuin search --cmd-only --limit 1 --search-mode prefix --filter-mode session 2>/dev/null)
+        }
+      '')
+    ];
   };
 
   programs.atuin = {
@@ -78,7 +87,7 @@
       auto_sync = true;
       sync_frequency = "5m";
       search_mode = "fuzzy";
-      filter_mode = "global";
+      filter_mode = "host";
       workspaces = true;
     }
     // lib.optionalAttrs (osConfig.networking.hostName == "homelab") {
