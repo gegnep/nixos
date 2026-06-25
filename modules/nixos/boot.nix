@@ -25,8 +25,11 @@ in
 
     kernelPackages =
       if isDesktop then
-        pkgs.linuxKernel.packagesFor
-          inputs.cachynix.packages.${pkgs.stdenv.hostPlatform.system}.linux-cachyos-latest-x86-64-v3
+        pkgs.linuxPackages_cachyos.cachyOverride {
+          cachyVars = pkgs.linuxPackages_cachyos.kernel.cachyConfig.cachyVars // {
+            _processor_opt = "GENERIC_V3";
+          };
+        }
       else
         pkgs.linuxPackages_latest;
 
