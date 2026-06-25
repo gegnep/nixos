@@ -15,14 +15,12 @@
         "https://nix-community.cachix.org"
         "https://noctalia.cachix.org"
         #"https://cache.creepy.sh/cachyos"
-        "http://homelab:5000"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
         #"cachyos:cm+GC47yVJ6nd6tIQDx0qlCfWnxyJv3fL/rWr7FDSSg="
-        "homelab-1:bmZMt7No1oGvTUNlBBm6OTeD17vRGTN1K6TNyNkSUWI="
       ];
     };
 

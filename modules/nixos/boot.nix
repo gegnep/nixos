@@ -23,16 +23,7 @@ in
       };
     };
 
-    kernelPackages =
-      if isDesktop then
-        pkgs.linuxPackages_cachyos.cachyOverride {
-          cachyVars = pkgs.linuxPackages_cachyos.kernel.cachyConfig.cachyVars // {
-            _processor_opt = "GENERIC_V3";
-            _use_llvm_lto = "none";
-          };
-        }
-      else
-        pkgs.linuxPackages_latest;
+    kernelPackages = if isDesktop then pkgs.linuxPackages_cachyos else pkgs.linuxPackages_latest;
 
     kernelParams = [
       "console=tty1"
