@@ -28,6 +28,7 @@ in
         pkgs.linuxPackages_cachyos.cachyOverride {
           cachyVars = pkgs.linuxPackages_cachyos.kernel.cachyConfig.cachyVars // {
             _processor_opt = "GENERIC_V3";
+            _use_llvm_lto = "none";
           };
         }
       else
