@@ -26,10 +26,9 @@
     defaultKeymap = "viins";
 
     shellAliases = {
-      nh-switch = "nh os switch";
-      nh-boot = "nh os boot";
-      # avoids bumping chaotic since homelab handles that
-      updt-flake = "nix flake update nixpkgs home-manager nvf niri niri-pkgs nur catppuccin spicetify-nix millennium noctalia nirinit";
+      nh-switch = "cd ~/nixos; git add .; nh os switch";
+      nh-boot = "cd ~/nixos; git add .; nh os boot";
+      updt-flake = "cd ~/nixos; nix flake update; git add flake.lock";
       shtdwn = "shutdown -h now";
       svim = "sudo -E nvim";
       yt-mp3 = "yt-dlp -x --audio-format mp3 --audio-quality 0 -o '%(title)s.%(ext)s'";
