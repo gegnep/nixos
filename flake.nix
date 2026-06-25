@@ -43,7 +43,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    cachynix.url = "github:ByteZ1337/CachyNix";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   };
 
   outputs =
@@ -61,11 +61,12 @@
             ./hosts/${hostname}
             {
               nixpkgs.overlays = [
-                inputs.cachynix.overlays.default
                 inputs.nur.overlays.default
                 inputs.millennium.overlays.default
               ];
             }
+            inputs.chaotic.nixosModules.nyx-overlay
+            inputs.chaotic.nixosModules.nyx-cache
             inputs.catppuccin.nixosModules.catppuccin
             home-manager.nixosModules.home-manager
             (
