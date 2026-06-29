@@ -52,6 +52,19 @@
     (pkgs.vesktop.override {
       withSystemVencord = false;
     })
+    libreoffice-fresh
+    chatterino7
+    gimp-with-plugins
+    (pkgs.symlinkJoin {
+      name = "slack-wayland";
+      paths = [ pkgs.slack ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/slack \
+          --add-flags "--enable-features=WebRTCPipeWireCapturer --ozone-platform-hint=auto"
+      '';
+    })
+    kiro
 
     # General GUI utilities
     imv
