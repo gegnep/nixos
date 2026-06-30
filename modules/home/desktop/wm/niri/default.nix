@@ -142,7 +142,7 @@ in
             "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri NIRI_SOCKET XDG_SESSION_TYPE && systemctl --user restart xdg-desktop-portal.service"
           ];
         }
-        { command = [ "noctalia-shell" ]; }
+        { command = [ "noctalia" ]; }
       ]
       ++ lib.optionals (hostOptions.hardware.form == "laptop") [
         {
@@ -226,7 +226,7 @@ in
         {
           matches = [
             {
-              namespace = "^noctalia-wallpaper";
+              namespace = "^noctalia-backdrop";
             }
           ];
           place-within-backdrop = true;

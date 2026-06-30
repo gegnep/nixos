@@ -16,6 +16,7 @@
         "https://noctalia.cachix.org"
         #"https://cache.creepy.sh/cachyos"
         "https://nyx-cache.chaotic.cx"
+        "https://noctalia.cachix.org"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -23,6 +24,7 @@
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
         #"cachyos:cm+GC47yVJ6nd6tIQDx0qlCfWnxyJv3fL/rWr7FDSSg="
         "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
+        "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       ];
     };
 
