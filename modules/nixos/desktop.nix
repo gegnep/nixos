@@ -46,6 +46,8 @@
       bigclock = "en";
     };
   };
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.ly.enableGnomeKeyring = true;
 
   services = {
     flatpak.enable = true;

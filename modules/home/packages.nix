@@ -17,6 +17,7 @@
     xdg-utils
     yt-dlp
     glow
+    libsecret
 
     # Nix tools
     nix-output-monitor
@@ -69,6 +70,7 @@
     # General GUI utilities
     imv
     ventoy-full
+    seahorse
 
     # Misc
     cowsay
