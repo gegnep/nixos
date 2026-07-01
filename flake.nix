@@ -19,10 +19,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    catppuccin.url = "github:catppuccin/nix";
-    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-    millennium.url = "github:SteamClientHomebrew/Millennium/next?dir=packages/nix";
-
     niri = {
       url = "github:sodiboo/niri-flake/very-refactor";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,7 +39,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    catppuccin.url = "github:catppuccin/nix";
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    millennium.url = "github:SteamClientHomebrew/Millennium/next?dir=packages/nix";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    nix-bwrapper.url = "https://flakehub.com/f/Naxdy/nix-bwrapper/1.*";
   };
 
   outputs =
@@ -63,6 +63,7 @@
               nixpkgs.overlays = [
                 inputs.nur.overlays.default
                 inputs.millennium.overlays.default
+                inputs.nix-bwrapper.overlays.default
               ];
             }
             inputs.chaotic.nixosModules.nyx-overlay
