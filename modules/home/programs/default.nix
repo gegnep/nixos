@@ -10,6 +10,7 @@
     ./cli.nix
     ./claude.nix
     ./chat.nix
+    ./fastfetch
     ./firefox.nix
     ./git.nix
     ./neovim.nix

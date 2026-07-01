@@ -83,9 +83,8 @@
         # files
         "inode/directory" = "dolphin.desktop";
 
-        # email
-        "x-scheme-handler/mailto" = "thunderbird.desktop";
-        "message/rfc822" = "thunderbird.desktop";
+        # email (web-based)
+        "x-scheme-handler/mailto" = "firefox.desktop";
       };
     };
   };

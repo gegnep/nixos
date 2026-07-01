@@ -12,8 +12,8 @@ let
     };
     mounts.readWrite = [ "$HOME/Downloads" ];
     dbus.system.talks = [
-      "org.desktop.UPower"
-      "org.desktop.login1"
+      "org.freedesktop.UPower"
+      "org.freedesktop.login1"
     ];
     dbus.session.talks = [
       "org.freedesktop.Notifications"
