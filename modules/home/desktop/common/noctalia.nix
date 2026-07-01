@@ -95,7 +95,7 @@
       widget = {
         active_window = {
           max_length = 256;
-          min_length = 96;
+          min_length = 32;
           show_empty_label = true;
           title_scroll = "on_hover";
         };
@@ -127,7 +127,7 @@
 
         media = {
           max_length = 196;
-          min_length = 96;
+          min_length = 32;
           title_scroll = "on_hover";
         };
 
