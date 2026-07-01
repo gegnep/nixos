@@ -8,6 +8,8 @@
 {
   imports = [
     ./cli.nix
+    ./claude.nix
+    ./chat.nix
     ./firefox.nix
     ./git.nix
     ./neovim.nix
