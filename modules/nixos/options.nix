@@ -94,7 +94,6 @@
       gaming = lib.mkEnableOption "Steam, gamescope, Proton, etc.";
       streaming = lib.mkEnableOption "OBS + v4l2loopback";
       audioProduction = lib.mkEnableOption "Bitwig, yabridge, etc.";
-      mcsr = lib.mkEnableOption "PrismLauncher + MCSR stuff";
     };
   };
 }

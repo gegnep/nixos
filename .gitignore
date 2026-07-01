@@ -39,3 +39,4 @@ build/
 
 # LLM Artifacts
 .claude/
+CLAUDE.md
