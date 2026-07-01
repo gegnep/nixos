@@ -2,10 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    libva
-    libva-utils
-    libva-vdpau-driver
-    libvdpau
+    libva-utils # vainfo
   ];
 
   programs.obs-studio = {

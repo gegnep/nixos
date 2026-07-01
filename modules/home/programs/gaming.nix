@@ -34,7 +34,6 @@
       steam-run
       protonup-rs
       gamescope
-      gamemode
 
       # Mod Managers
       gale # thunderstore

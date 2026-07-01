@@ -7,15 +7,9 @@
     ripgrep
     jq
     file
-    which
     tree
-    gnused
-    gnutar
-    gawk
-    zstd
     gnupg
     xdg-utils
-    yt-dlp
     glow
     libsecret
 
@@ -25,12 +19,10 @@
     # Archiving
     zip
     unzip
-    xz
     p7zip
     peazip
 
     # System monitoring
-    radeontop
     iotop
     iftop
     strace

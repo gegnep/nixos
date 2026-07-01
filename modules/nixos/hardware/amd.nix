@@ -21,7 +21,6 @@ lib.mkIf (config.mySystem.hardware.gpu == "amd") {
 
   environment.systemPackages = with pkgs; [
     clinfo
-    lact
+    radeontop
   ];
-
 }
