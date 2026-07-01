@@ -73,7 +73,6 @@
       gaming = false;
       streaming = false;
       audioProduction = false;
-      mcsr = false;
     };
   };
 }

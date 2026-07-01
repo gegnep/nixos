@@ -1,48 +1,41 @@
-{
-  pkgs,
-  lib,
-  hostOptions,
-  ...
-}:
+{ pkgs, ... }:
 
 {
-  home.packages =
-    with pkgs;
-    [
-      (pkgs.symlinkJoin {
-        name = "prismlauncher";
-        paths = [
-          (prismlauncher.override {
-            additionalPrograms = [ ffmpeg ];
-            jdks = [
-              graalvmPackages.graalvm-ce
-              jdk21
-              jdk17
-              jdk8
-            ];
-          })
-        ];
-        buildInputs = [ pkgs.makeWrapper ];
-        postBuild = ''
-          wrapProgram $out/bin/prismlauncher \
-            --set LD_PRELOAD "${pkgs.jemalloc}/lib/libjemalloc.so"
-        '';
-      })
-      packwiz
-    ]
-    ++ lib.optionals hostOptions.features.gaming [
-      steam-run
-      protonup-rs
-      gamescope
+  home.packages = with pkgs; [
+    # Prism with JDKs covering most modded MC versions
+    # (8: <=1.16, 17: 1.17-1.20.4, 21: 1.20.5+), jemalloc for alloc perf
+    (pkgs.symlinkJoin {
+      name = "prismlauncher";
+      paths = [
+        (prismlauncher.override {
+          additionalPrograms = [ ffmpeg ];
+          jdks = [
+            jdk21
+            jdk17
+            jdk8
+          ];
+        })
+      ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/prismlauncher \
+          --set LD_PRELOAD "${pkgs.jemalloc}/lib/libjemalloc.so"
+      '';
+    })
+    packwiz
 
-      # Mod Managers
-      gale # thunderstore
-      deadlock-mod-manager # gamebanana -> deadlock
-      ckan # comprehensive kerbal archive network
-      satisfactorymodmanager # ficsit.app
-    ];
+    steam-run
+    protonup-rs
+    gamescope
 
-  programs.mangohud = lib.mkIf hostOptions.features.gaming {
+    # Mod Managers
+    gale # thunderstore
+    deadlock-mod-manager # gamebanana -> deadlock
+    ckan # comprehensive kerbal archive network
+    satisfactorymodmanager # ficsit.app
+  ];
+
+  programs.mangohud = {
     enable = true;
     settings = {
       gpu_temp = true;
