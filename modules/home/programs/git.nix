@@ -53,5 +53,4 @@
       gui.showCommandLog = false;
     };
   };
-  catppuccin.lazygit.enable = true;
 }

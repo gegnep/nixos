@@ -44,7 +44,6 @@
       ];
     };
   };
-  catppuccin.ghostty.enable = true;
 
   programs.alacritty = {
     enable = true;
@@ -55,6 +54,5 @@
       };
     };
   };
-  catppuccin.alacritty.enable = true;
 
 }

@@ -12,7 +12,6 @@
       ];
     };
   };
-  catppuccin.bat.enable = true;
 
   programs.btop = {
     enable = true;
@@ -21,7 +20,6 @@
       theme_background = false;
     };
   };
-  catppuccin.btop.enable = true;
 
   programs.direnv = {
     enable = true;
@@ -43,7 +41,6 @@
     enable = true;
     enableZshIntegration = true;
   };
-  catppuccin.fzf.enable = true;
 
   programs.mpv = {
     enable = true;
@@ -84,7 +81,6 @@
       tmuxPlugins.prefix-highlight
     ];
   };
-  catppuccin.tmux.enable = true;
 
   programs.yt-dlp = {
     enable = true;
@@ -111,7 +107,6 @@
       selection-clipboard = "clipboard";
     };
   };
-  catppuccin.zathura.enable = true;
 
   programs.zoxide = {
     enable = true;
