@@ -91,8 +91,6 @@
       search_mode = "fuzzy";
       filter_mode = "host";
       workspaces = true;
-    }
-    // lib.optionalAttrs (osConfig.networking.hostName == "homelab") {
       key_path = osConfig.sops.secrets.atuin-key.path;
     };
   };

@@ -18,6 +18,7 @@
     ./performance.nix
     ./programs.nix
     ./users.nix
+    ./secrets.nix
 
     ./wm/hyprland.nix
     ./wm/niri.nix
