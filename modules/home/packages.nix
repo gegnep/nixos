@@ -15,6 +15,8 @@
 
     # Nix tools
     nix-output-monitor
+    sops
+    age
 
     # Archiving
     zip
