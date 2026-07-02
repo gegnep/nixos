@@ -11,6 +11,7 @@ let
         # bwrapper binds a directory over file paths, which EISDIR-breaks
         # claude-code's startup read → full re-onboarding every launch.
         runScript = "env CLAUDE_CONFIG_DIR=$HOME/.claude claude";
+        # state persists per-variant under ~/.bwrapper/<bwrapPath>/
         bwrapPath = name;
         id = "dev.pengeg.claude.${name}";
       };
@@ -22,12 +23,17 @@ let
       ];
     };
 
-  claudeDefault = mkClaudeSandboxed "claude";
-  claudeWork = mkClaudeSandboxed "claude-work";
+  # every sandboxed build exposes the same bin/claude-code entry point,
+  # which would collide in the profile; rename so both fit on PATH
+  mkNamed =
+    name:
+    pkgs.writeShellScriptBin name ''
+      exec ${mkClaudeSandboxed name}/bin/claude-code "$@"
+    '';
 in
 {
-  programs.zsh.shellAliases = {
-    claude = "${claudeDefault}/bin/claude-code";
-    claude-work = "${claudeWork}/bin/claude-code";
-  };
+  home.packages = [
+    (mkNamed "claude")
+    (mkNamed "claude-work")
+  ];
 }
