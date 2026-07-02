@@ -67,18 +67,18 @@
         "application/vnd.rar" = "peazip.desktop";
 
         # text
-        "text/plain" = "neovide.desktop";
-        "text/x-script.python" = "neovide.desktop";
-        "application/x-shellscript" = "neovide.desktop";
-        "application/json" = "neovide.desktop";
-        "application/xml" = "neovide.desktop";
-        "text/xml" = "neovide.desktop";
-        "text/x-c" = "neovide.desktop";
-        "text/x-c++" = "neovide.desktop";
-        "text/x-java" = "neovide.desktop";
-        "text/x-rust" = "neovide.desktop";
-        "text/x-go" = "neovide.desktop";
-        "text/markdown" = "neovide.desktop";
+        "text/plain" = "zed.desktop";
+        "text/x-script.python" = "zed.desktop";
+        "application/x-shellscript" = "zed.desktop";
+        "application/json" = "zed.desktop";
+        "application/xml" = "zed.desktop";
+        "text/xml" = "zed.desktop";
+        "text/x-c" = "zed.desktop";
+        "text/x-c++" = "zed.desktop";
+        "text/x-java" = "zed.desktop";
+        "text/x-rust" = "zed.desktop";
+        "text/x-go" = "zed.desktop";
+        "text/markdown" = "zed.desktop";
 
         # files
         "inode/directory" = "dolphin.desktop";

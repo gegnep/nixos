@@ -8,6 +8,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "zed";
+    SOPS_EDITOR = "nvim -n -i NONE -u NORC";
 
     HYPRSHOT_DIR = "$HOME/pictures/screenshots";
     NIXOS_OZONE_WL = "1";
