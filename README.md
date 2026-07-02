@@ -30,10 +30,9 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 
 ### `mySystem.features`
 
-- `gaming` — Steam extras, Proton tooling, mod managers.
+- `gaming` — Steam extras, Proton tooling, Prism (jdk8/17/21), mod managers.
 - `streaming` — OBS, DaVinci Resolve, v4l2loopback kernel module.
 - `audioProduction` — Bitwig, yabridge, Wine, audio plugins.
-- `mcsr` — Waywall, Ninjabrain Bot FHS, packwiz (Prism itself is defined in `gaming.nix` and pulled whenever `gaming` *or* `mcsr` is enabled).
 
 ## Structure
 
@@ -91,19 +90,21 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
         ├── programs/
         │   ├── default.nix            # feature-gated imports
         │   ├── audio.nix              # bitwig, yabridge (gated on audioProduction)
+        │   ├── chat.nix               # chatterino, vesktop + slack (bwrapper-sandboxed)
+        │   ├── claude.nix             # claude-code, bwrapper-sandboxed (claude + claude-work)
         │   ├── cli.nix
+        │   ├── fastfetch/             # module + λ-styled logo
         │   ├── firefox.nix
-        │   ├── gaming.nix             # steam/gamescope (gated on gaming) prism (gated on gaming || mcsr)
+        │   ├── gaming.nix             # steam extras, prism, mod managers (gated on gaming)
         │   ├── git.nix
-        │   ├── mcsr.nix               # waywall/ninbot (gated on mcsr)
+        │   ├── laptop.nix             # pen/tablet + misc laptop utils
         │   ├── neovim.nix             # via nvf
         │   ├── obs.nix                # (gated on streaming)
         │   ├── spotify.nix            # spicetify
-        │   ├── terminals.nix          # ghostty + kitty
-        │   └── waywall/               # config dropped into ~/.config/waywall
+        │   └── terminals.nix          # ghostty + alacritty
         └── shell/
             ├── default.nix
-            └── zsh.nix                # zsh + p10k + zplug
+            └── zsh.nix                # zsh + p10k (also imported by the homelab flake)
 ```
 
 </details>
@@ -113,7 +114,9 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 - **[niri-flake](https://github.com/sodiboo/niri-flake)** — niri compositor + declarative KDL-via-Nix
 - **[nvf](https://github.com/notashelf/nvf)** — Neovim configuration framework
 - **[noctalia-shell](https://github.com/noctalia-dev/noctalia-shell)** — quickshell-based bar, universal across compositors
-- **[CachyNix](https://github.com/ByteZ1337/CachyNix)** — CachyOS kernel packages (desktop only)
+- **[Chaotic-Nyx](https://github.com/chaotic-cx/nyx)** — CachyOS kernel + binary cache (desktop only)
+- **[nix-bwrapper](https://github.com/Naxdy/nix-bwrapper)** — bubblewrap sandboxing (claude-code, slack, vesktop)
+- **[nirinit](https://github.com/amaanq/nirinit)** — session restore for niri
 - **[catppuccin/nix](https://github.com/catppuccin/nix)** — Theming
 - **[spicetify-nix](https://github.com/Gerg-L/spicetify-nix)** — Spotify Theming
 - **[NUR](https://github.com/nix-community/NUR)** — Firefox extensions
@@ -121,12 +124,12 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 
 ## Theming
 
-Catppuccin Mocha Lavender across the stack. Most apps are themed via `catppuccin/nix` module toggles (btop, fzf, zathura, kitty, ghostty, lazygit, spicetify, kvantum, zathura, nvf). A few required manual work, documented in the relevant module:
+Catppuccin Mocha Lavender across the stack. `catppuccin.autoEnable = true` themes everything the `catppuccin/nix` modules support (bat, btop, fzf, ghostty, lazygit, tmux, atuin, eza, mpv, mangohud, obs, kvantum, gtk icons, ...); spicetify and nvf theme through their own mechanisms. The exceptions, documented in the relevant module:
 
+- **Firefox** — opted out of catppuccin/nix (it fights the managed extension set); userChrome.css with inlined hex colors via `profiles.default.settings`, content theming via Stylus + manually-imported per-site userstyles.
+- **Hyprland** — opted out; manual mocha palette in `wm/hyprland` (the module currently injects a broken lua-inline block into hyprlang).
 - **GTK4 / libadwaita** — symlinks from the catppuccin-gtk package into `~/.config/gtk-4.0/` via `xdg.configFile` (see `modules/home/desktop/common/theme.nix`). Required because GTK4 doesn't read themes the way GTK3 does.
-- **Chatterino** — theme JSON dropped via `fetchurl` (not packaged).
 - **Vesktop/Discord** — one-time Catppuccin toggle in Vencord settings, not declarative.
-- **Firefox** — userChrome.css with inlined hex colors via `profiles.default.settings`; content theming via Stylus + manually-imported per-site userstyles.
 
 ## Per-host notes
 

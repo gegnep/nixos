@@ -19,11 +19,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # home module only, from the very-refactor branch: supports custom kdl
+    # includes + blur config, neither of which are in main yet
     niri = {
       url = "github:sodiboo/niri-flake/very-refactor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # packages only (niri-unstable, xwayland-satellite), from main so they
+    # come prebuilt from the niri-flake cachix cache
     niri-pkgs = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
