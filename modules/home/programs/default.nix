@@ -16,6 +16,7 @@
     ./neovim.nix
     ./spotify.nix
     ./terminals.nix
+    ./zed.nix
   ]
   ++ lib.optional hostOptions.features.audioProduction ./audio.nix
   ++ lib.optional hostOptions.features.gaming ./gaming.nix
