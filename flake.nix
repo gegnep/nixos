@@ -53,6 +53,7 @@
     millennium.url = "github:SteamClientHomebrew/Millennium/next?dir=packages/nix";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nix-bwrapper.url = "https://flakehub.com/f/Naxdy/nix-bwrapper/1.*";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
   };
 
   outputs =
@@ -76,6 +77,7 @@
               ];
             }
             inputs.sops-nix.nixosModules.sops
+            inputs.nix-flatpak.nixosModules.nix-flatpak
             inputs.chaotic.nixosModules.nyx-overlay
             inputs.chaotic.nixosModules.nyx-cache
             inputs.catppuccin.nixosModules.catppuccin

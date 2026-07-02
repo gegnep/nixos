@@ -40,7 +40,6 @@
   security.pam.services.ly.enableGnomeKeyring = true;
 
   services = {
-    flatpak.enable = true;
     udisks2.enable = true;
   };
 

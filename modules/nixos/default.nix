@@ -14,6 +14,7 @@
     ./desktop.nix
     ./networking.nix
     ./nix.nix
+    ./flatpak.nix
     ./options.nix
     ./performance.nix
     ./programs.nix
