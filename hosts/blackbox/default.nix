@@ -16,6 +16,14 @@
   networking.hostName = "blackbox";
   system.stateVersion = "25.05";
 
+  # Homelab cache
+  nix.settings = {
+    builders-use-substitutes = true;
+    connect-timeout = 5;
+    substituters = [ "http://homelab:5000" ];
+    trusted-public-keys = [ "homelab-1:bmZMt7No1oGvTUNlBBm6OTeD17vRGTN1K6TNyNkSUWI=" ];
+  };
+
   # Host options
   mySystem = {
     desktop = {
