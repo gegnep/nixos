@@ -36,9 +36,6 @@
     trusted-public-keys = [ "homelab-1:bmZMt7No1oGvTUNlBBm6OTeD17vRGTN1K6TNyNkSUWI=" ];
   };
 
-  programs.ssh.knownHosts.homelab.publicKey =
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOCsBF/ByfKwxSHfM9sCIxiqoSdEEJO0OYeUfFr8k2zh root@homelab";
-
   programs.ssh.extraConfig = ''
     Host homelab
       ConnectTimeout 10

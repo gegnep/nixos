@@ -7,7 +7,7 @@
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    VISUAL = "neovide";
+    VISUAL = "zed";
 
     HYPRSHOT_DIR = "$HOME/pictures/screenshots";
     NIXOS_OZONE_WL = "1";
@@ -23,11 +23,25 @@
     settings = {
       "Host *" = {
         IdentityFile = "/run/secrets/ssh-key-personal";
+        IdentitiesOnly = "yes";
         AddKeysToAgent = "yes";
+
+        ControlMaster = "auto";
+        ControlPath = "~/.ssh/sockets/%r@%h-%p";
+        ControlPersist = "10m";
+
+        ServerAliveInterval = 15;
+        ServerAliveCountMax = 3;
+
         SetEnv = {
           TERM = "xterm-256color";
         };
       };
+
+      "Host homelab" = {
+        ConnectTimeout = 5;
+      };
     };
   };
+  home.file.".ssh/sockets/.keep".text = "";
 }
