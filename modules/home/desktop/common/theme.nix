@@ -5,9 +5,15 @@
 
   catppuccin = {
     enable = true;
-    autoEnable = false;
+    autoEnable = true;
     flavor = "mocha";
     accent = "lavender";
+
+    # opt-outs from autoEnable
+    firefox.enable = false; # themed manually: userChrome + stylus (see README)
+    # manual mocha palette in wm/hyprland; module injects a broken
+    # lua-inline `colors` block into hyprlang (upstream bug)
+    hyprland.enable = false;
   };
 
   home.pointerCursor = {
@@ -23,12 +29,7 @@
     style.name = "kvantum";
   };
 
-  catppuccin.kvantum = {
-    enable = true;
-    flavor = "mocha";
-    accent = "lavender";
-    assertStyle = true;
-  };
+  catppuccin.kvantum.assertStyle = true;
 
   gtk = {
     enable = true;
@@ -46,13 +47,7 @@
       name = "Hack Nerd Font";
       size = 12;
     };
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.catppuccin-papirus-folders.override {
-        flavor = "mocha";
-        accent = "lavender";
-      };
-    };
+    # iconTheme (catppuccin papirus folders) comes from catppuccin.gtk.icon
   };
 
   xdg.configFile = {
