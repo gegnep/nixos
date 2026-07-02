@@ -22,6 +22,7 @@
     enableDefaultConfig = false;
     settings = {
       "Host *" = {
+        IdentityFile = "/run/secrets/ssh-key-personal";
         AddKeysToAgent = "yes";
         SetEnv = {
           TERM = "xterm-256color";
