@@ -81,7 +81,7 @@
         "text/markdown" = "zed.desktop";
 
         # files
-        "inode/directory" = "dolphin.desktop";
+        "inode/directory" = "org.gnome.Nautilus.desktop";
 
         # email (web-based)
         "x-scheme-handler/mailto" = "firefox.desktop";

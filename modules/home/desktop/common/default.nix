@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ./kde.nix
     ./noctalia.nix
+    ./nautilus.nix
     ./packages.nix
     ./services.nix
     ./theme.nix
