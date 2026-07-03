@@ -28,7 +28,9 @@
       # subshells so the aliases don't strand the shell in ~/nixos
       nh-switch = "(cd ~/nixos && git add . && nh os switch)";
       nh-boot = "(cd ~/nixos && git add . && nh os boot)";
-      updt-flake = "(cd ~/nixos && nix flake update && git add flake.lock)";
+      updt-flake = "(cd ~/nixos && git pull --rebase --autostash)";
+      updt-flake-local = "(cd ~/nixos && nix flake update && git add flake.lock)";
+
       shtdwn = "shutdown -h now";
       svim = "sudo -E nvim";
       yt-mp3 = "yt-dlp -x --audio-format mp3 --audio-quality 0 -o '%(title)s.%(ext)s'";

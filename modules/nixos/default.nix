@@ -20,6 +20,7 @@
     ./programs.nix
     ./users.nix
     ./secrets.nix
+    ./homelab.nix
 
     ./wm/hyprland.nix
     ./wm/niri.nix

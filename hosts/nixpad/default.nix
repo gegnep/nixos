@@ -6,43 +6,11 @@
     ../../modules/nixos
   ];
 
+  # Host Identity
   networking.hostName = "nixpad";
   system.stateVersion = "25.05";
 
-  nix.distributedBuilds = true;
-
-  nix.buildMachines = [
-    {
-      hostName = "homelab";
-      sshUser = "nixremote";
-      sshKey = "/root/.ssh/id_ed25519";
-      systems = [ "x86_64-linux" ];
-      protocol = "ssh-ng";
-      maxJobs = 12;
-      speedFactor = 20;
-      supportedFeatures = [
-        "big-parallel"
-        "kvm"
-        "nixos-test"
-        "benchmark"
-      ];
-    }
-  ];
-
-  nix.settings = {
-    builders-use-substitutes = true;
-    connect-timeout = 5;
-    substituters = [ "http://homelab:5000" ];
-    trusted-public-keys = [ "homelab-1:bmZMt7No1oGvTUNlBBm6OTeD17vRGTN1K6TNyNkSUWI=" ];
-  };
-
-  programs.ssh.extraConfig = ''
-    Host homelab
-      ConnectTimeout 10
-      ServerAliveInterval 5
-      ServerAliveCountMax 2
-  '';
-
+  # Host Options
   mySystem = {
     desktop = {
       wms = [ "niri" ];
@@ -70,6 +38,10 @@
       gaming = false;
       streaming = false;
       audioProduction = false;
+    };
+    mySystem.homelab = {
+      cache.enable = true;
+      remoteBuilder.enable = true;
     };
   };
 }
