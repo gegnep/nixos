@@ -95,5 +95,10 @@
       streaming = lib.mkEnableOption "OBS + v4l2loopback";
       audioProduction = lib.mkEnableOption "Bitwig, yabridge, etc.";
     };
+
+    homelab = {
+      cache.enable = lib.mkEnableOption "homelab Harmonia binary cache";
+      remoteBuilder.enable = lib.mkEnableOption "homelab as a distributed-build machine";
+    };
   };
 }
