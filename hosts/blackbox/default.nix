@@ -61,7 +61,10 @@
     homelab.cache.enable = true;
     backup = {
       enable = true;
-      paths = [ "/home/pengeg" ];
+      paths = [
+        "/home/pengeg"
+        "/home/pengeg/xtra-stor"
+      ];
       exclude = [
         "/home/pengeg/.wine"
         "/home/pengeg/.paradoxlauncher"
