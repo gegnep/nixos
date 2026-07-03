@@ -4,7 +4,10 @@
 }:
 
 {
-  home.packages = with pkgs; [ nautilus ];
+  home.packages = with pkgs; [
+    nautilus
+    ffmpegthumbnailer
+  ];
 
   gtk.gtk3.bookmarks = [
     "file:///home/pengeg/downloads dwnld"

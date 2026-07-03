@@ -56,15 +56,15 @@
         "video/quicktime" = "mpv.desktop";
 
         # archives
-        "application/zip" = "peazip.desktop";
-        "application/x-tar" = "peazip.desktop";
-        "application/gzip" = "peazip.desktop";
-        "application/x-gzip" = "peazip.desktop";
-        "application/x-bzip2" = "peazip.desktop";
-        "application/x-xz" = "peazip.desktop";
-        "application/x-7z-compressed" = "peazip.desktop";
-        "application/x-rar-compressed" = "peazip.desktop";
-        "application/vnd.rar" = "peazip.desktop";
+        "application/zip" = "org.gnome.FileRoller.desktop";
+        "application/x-tar" = "org.gnome.FileRoller.desktop";
+        "application/gzip" = "org.gnome.FileRoller.desktop";
+        "application/x-gzip" = "org.gnome.FileRoller.desktop";
+        "application/x-bzip2" = "org.gnome.FileRoller.desktop";
+        "application/x-xz" = "org.gnome.FileRoller.desktop";
+        "application/x-7z-compressed" = "org.gnome.FileRoller.desktop";
+        "application/x-rar-compressed" = "org.gnome.FileRoller.desktop";
+        "application/vnd.rar" = "org.gnome.FileRoller.desktop";
 
         # text
         "text/plain" = "zed.desktop";
