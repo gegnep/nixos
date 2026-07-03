@@ -48,7 +48,7 @@
 
       # Apps & Bar controls
       "Mod+Q".action = spawn "ghostty";
-      "Mod+E".action = spawn "dolphin";
+      "Mod+E".action = spawn "nautilus";
       "Mod+B".action = spawn "firefox";
       "Mod+Space".action.spawn = noctalia "launcher toggle";
       "Mod+Escape".action.spawn = noctalia "lockScreen lock";
