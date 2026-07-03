@@ -8,6 +8,30 @@
 let
   cfg = config.mySystem.backup;
   host = config.networking.hostName;
+  commonExcludes = [
+    "/home/pengeg/.cache"
+    "/home/pengeg/downloads"
+    "/home/pengeg/Downloads"
+    "/home/pengeg/.cargo"
+    "/home/pengeg/.npm"
+    "/home/pengeg/.zplug"
+    "/home/pengeg/.compose-cache"
+    "/home/pengeg/.java"
+    "/home/pengeg/.local/share/Trash"
+    "/home/pengeg/.local/share/pnpm"
+    "**/.direnv"
+    "**/node_modules"
+    # electron cache dirs inside otherwise-kept .config apps
+    "/home/pengeg/.config/*/Cache"
+    "/home/pengeg/.config/*/Code Cache"
+    "/home/pengeg/.config/*/GPUCache"
+    "/home/pengeg/.config/*/Service Worker"
+    # chat sandboxes are server-synced; claude sandboxes stay (minus caches)
+    "/home/pengeg/.bwrapper/vesktop"
+    "/home/pengeg/.bwrapper/slack"
+    "/home/pengeg/.bwrapper/*/.cache"
+    "/home/pengeg/.bwrapper/*/.npm"
+  ];
 in
 {
   config = lib.mkIf cfg.enable {
@@ -21,7 +45,7 @@ in
       initialize = true;
       inhibitsSleep = true; # don't let nixpad suspend mid-run
       paths = cfg.paths;
-      exclude = cfg.exclude;
+      exclude = commonExcludes ++ cfg.exclude;
       timerConfig = {
         OnCalendar = cfg.onCalendar;
         Persistent = true; # machine off at 23:00 UTC → runs on next boot

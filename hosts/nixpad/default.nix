@@ -43,5 +43,9 @@
       cache.enable = true;
       remoteBuilder.enable = true;
     };
+    backup = {
+      enable = true;
+      paths = [ "/home/pengeg" ];
+    };
   };
 }
