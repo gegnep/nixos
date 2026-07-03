@@ -22,7 +22,7 @@
     zip
     unzip
     p7zip
-    peazip
+    file-roller
 
     # System monitoring
     iotop

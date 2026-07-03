@@ -42,6 +42,12 @@
   services = {
     udisks2.enable = true;
     gvfs.enable = true;
+    gnome.sushi.enable = true;
+  };
+
+  programs.nautilus-open-any-terminal = {
+    enable = true;
+    terminal = "ghostty";
   };
 
   xdg.portal = {
