@@ -447,6 +447,26 @@
         "type": "github"
       }
     },
+    "nix-index-database": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783023993,
+        "narHash": "sha256-gaOvvY/lL1eWoSmSRO17pWry8R49AuPMrF4nzu47K5o=",
+        "owner": "nix-community",
+        "repo": "nix-index-database",
+        "rev": "f8ed6cdcb1fd28a6ab7b61f4467a4f67fe2d9074",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nix-index-database",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1782175435,
@@ -694,6 +714,7 @@
         "nirinit": "nirinit",
         "nix-bwrapper": "nix-bwrapper",
         "nix-flatpak": "nix-flatpak",
+        "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_5",
         "noctalia": "noctalia",
         "nur": "nur",

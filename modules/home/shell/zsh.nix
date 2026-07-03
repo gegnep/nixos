@@ -79,6 +79,16 @@
           # silence errors, since we don't want to spam the terminal prompt while typing.
           suggestion=$(ATUIN_QUERY="$1" atuin search --cmd-only --limit 1 --search-mode prefix --filter-mode session 2>/dev/null)
         }
+        command_not_found_handler() {
+          local pkgs
+          pkgs=$(nix-locate --minimal --no-group --type x --type s --whole-name --at-root "/bin/$1")
+          if [[ -n $pkgs ]]; then
+            >&2 printf '%s is provided by:\n%s\nrun once with: , %s\n' "$1" "$pkgs" "$1"
+          else
+            >&2 printf 'zsh: command not found: %s\n' "$1"
+          fi
+          return 127
+        }
       '')
     ];
   };

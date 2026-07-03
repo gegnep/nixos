@@ -1,6 +1,4 @@
 {
-  config,
-  pkgs,
   inputs,
   ...
 }:
@@ -11,6 +9,7 @@
     inputs.noctalia.homeModules.default
     inputs.nvf.homeManagerModules.default
     inputs.spicetify-nix.homeManagerModules.spicetify
+    inputs.nix-index-database.homeModules.nix-index
 
     ./desktop
     ./programs
