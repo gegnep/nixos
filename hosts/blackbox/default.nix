@@ -75,6 +75,16 @@
         "/home/pengeg/.BitwigStudio/installed-packages"
         "/home/pengeg/.BitwigStudio/cache"
         "/home/pengeg/.BitwigStudio/log"
+        # xtra-stor: keep oldhome/resolve-projects/obs-recordings, drop the rest
+        "/home/pengeg/xtra-stor/SteamLibrary"
+        "/home/pengeg/xtra-stor/lost+found"
+        "/home/pengeg/xtra-stor/.Trash-1000"
+        # oldhome is a copied homedir — the common excludes are anchored at
+        # /home/pengeg/ and don't reach in here, so re-anchor the fat ones
+        "/home/pengeg/xtra-stor/oldhome/.cache"
+        "/home/pengeg/xtra-stor/oldhome/downloads"
+        "/home/pengeg/xtra-stor/oldhome/.local/share/Steam"
+        "/home/pengeg/xtra-stor/oldhome/.local/share/Trash"
       ];
     };
   };
