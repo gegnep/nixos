@@ -24,6 +24,21 @@ let
       ];
     };
 
+  codexAcp = pkgs.mkBwrapper {
+    imports = [ pkgs.bwrapperPresets.devshell ];
+    app = {
+      package = pkgs.codex-acp;
+      runScript = "env CODEX_HOME=$HOME/.codex codex-acp";
+      bwrapPath = "codex";
+    };
+    mounts.sandbox = [
+      {
+        name = "codex";
+        path = "$HOME/.codex";
+      }
+    ];
+  };
+
   claudeAcp = mkClaudeAcp "claude";
   claudeAcpWork = mkClaudeAcp "claude-work";
 in
@@ -77,6 +92,11 @@ in
         "Claude Code - Work" = {
           type = "custom";
           command = "${claudeAcpWork}/bin/claude-agent-acp";
+          args = [ ];
+        };
+        "Codex" = {
+          type = "custom";
+          command = "${codexAcp}/bin/codex-acp";
           args = [ ];
         };
       };
