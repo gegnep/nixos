@@ -46,6 +46,7 @@ in
       inhibitsSleep = true; # don't let nixpad suspend mid-run
       paths = cfg.paths;
       exclude = commonExcludes ++ cfg.exclude;
+      extraBackupArgs = [ "--one-file-system" ];
       timerConfig = {
         OnCalendar = cfg.onCalendar;
         Persistent = true; # machine off at 23:00 UTC → runs on next boot
