@@ -11,7 +11,13 @@ in
     ];
     search = [ "ermine-gentoo.ts.net" ];
     hosts = {
-      "100.68.176.20" = [ "homelab" ];
+      # /etc/hosts can't wildcard *.homelab; list service names here.
+      # Static entries survive the resolved current-server rotation that
+      # otherwise NXDOMAINs .homelab whenever it lands on Cloudflare.
+      "100.68.176.20" = [
+        "homelab"
+        "git.homelab"
+      ];
       "100.101.53.21" = [ "blackbox" ];
       "100.76.124.81" = [ "nixpad" ];
     };
