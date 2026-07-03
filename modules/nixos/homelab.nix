@@ -20,7 +20,7 @@ in
 
     (lib.mkIf cfg.remoteBuilder.enable {
       nix.distributedBuilds = true;
-      nix.settings.builders-use-substituters = true;
+      nix.settings.builders-use-substitutes = true;
       nix.buildMachines = [
         {
           hostName = "homelab";
