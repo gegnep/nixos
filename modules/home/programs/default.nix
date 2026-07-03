@@ -9,6 +9,7 @@
   imports = [
     ./cli.nix
     ./claude.nix
+    ./codex.nix
     ./chat.nix
     ./fastfetch
     ./firefox.nix
