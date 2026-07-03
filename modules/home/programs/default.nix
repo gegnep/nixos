@@ -7,10 +7,10 @@
 
 {
   imports = [
-    ./cli.nix
-    ./claude.nix
-    ./codex.nix
     ./chat.nix
+    ./claude.nix
+    ./cli.nix
+    ./codex.nix
     ./fastfetch
     ./firefox.nix
     ./git.nix

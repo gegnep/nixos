@@ -81,7 +81,7 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
         │   │   ├── packages.nix
         │   │   ├── services.nix       # cliphist, udiskie
         │   │   ├── theme.nix          # GTK/Qt/kvantum catppuccin
-        │   │   ├── kde.nix            # dolphin + plasma-integration
+        │   │   ├── nautilus.nix       # nautilus + GTK bookmarks
         │   │   ├── noctalia.nix
         │   │   └── xdg.nix            # portals, mime, userDirs
         │   └── wm/
@@ -93,6 +93,7 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
         │   ├── chat.nix               # chatterino, vesktop + slack (bwrapper-sandboxed)
         │   ├── claude.nix             # claude-code, bwrapper-sandboxed (claude + claude-work)
         │   ├── cli.nix
+        │   ├── codex.nix              # codex CLI, bwrapper-sandboxed
         │   ├── fastfetch/             # module + λ-styled logo
         │   ├── firefox.nix
         │   ├── gaming.nix             # steam extras, prism, mod managers (gated on gaming)
@@ -101,7 +102,8 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
         │   ├── neovim.nix             # via nvf
         │   ├── obs.nix                # (gated on streaming)
         │   ├── spotify.nix            # spicetify
-        │   └── terminals.nix          # ghostty + alacritty
+        │   ├── terminals.nix          # ghostty + alacritty
+        │   └── zed.nix                # zed + sandboxed ACP agents (claude, codex)
         └── shell/
             ├── default.nix
             └── zsh.nix                # zsh + p10k (also imported by the homelab flake)
@@ -115,12 +117,27 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 - **[nvf](https://github.com/notashelf/nvf)** — Neovim configuration framework
 - **[noctalia-shell](https://github.com/noctalia-dev/noctalia-shell)** — quickshell-based bar, universal across compositors
 - **[Chaotic-Nyx](https://github.com/chaotic-cx/nyx)** — CachyOS kernel + binary cache (desktop only)
-- **[nix-bwrapper](https://github.com/Naxdy/nix-bwrapper)** — bubblewrap sandboxing (claude-code, slack, vesktop)
+- **[nix-bwrapper](https://github.com/Naxdy/nix-bwrapper)** — bubblewrap sandboxing (claude-code, codex, ACP agents, slack, vesktop)
 - **[nirinit](https://github.com/amaanq/nirinit)** — session restore for niri
 - **[catppuccin/nix](https://github.com/catppuccin/nix)** — Theming
 - **[spicetify-nix](https://github.com/Gerg-L/spicetify-nix)** — Spotify Theming
 - **[NUR](https://github.com/nix-community/NUR)** — Firefox extensions
 - **[Millennium](https://github.com/SteamClientHomebrew/Millennium)** — Steam theming + extensions
+
+## Agent sandboxing
+
+AI coding agents never see the real home directory. Each one runs inside a [nix-bwrapper](https://github.com/Naxdy/nix-bwrapper) bubblewrap sandbox built on the `devshell` preset, with per-sandbox state persisted under `~/.bwrapper/<name>/`:
+
+- **claude / claude-work** (`programs/claude.nix`) — two fully isolated claude-code variants from one `mkClaudeSandboxed` builder. Each keeps its own `~/.claude` (config, credentials, history) in its own state dir; the wrapper scripts rename the colliding `bin/claude-code` entry points so both fit on PATH.
+- **codex** (`programs/codex.nix`) — the codex CLI, same pattern, state under `~/.bwrapper/codex/codex`.
+- **Zed ACP agents** (`programs/zed.nix`) — `claude-agent-acp` and `codex-acp` wrapped identically and registered as Zed agent servers. They reuse the `bwrapPath` of their CLI counterparts, so a CLI agent and its Zed ACP variant share one state dir — log in once, authenticated everywhere.
+
+Two wrinkles worth knowing:
+
+- **Sandboxes don't nest.** bwrap-in-bwrap fails (the document-portal bind breaks), so the claude sandboxes get an *unwrapped* codex injected onto their PATH instead — claude's own sandbox already confines it. `CODEX_HOME` points at the standalone codex sandbox's state dir, so codex auth is shared across the CLI, Zed, and inside-claude use without ever living outside a sandbox.
+- **Don't mount single files.** bwrapper binds directories over file paths; a `mounts.sandbox` entry for `~/.claude.json` would EISDIR-break claude-code's startup. `CLAUDE_CONFIG_DIR` relocates that file into the mounted `~/.claude` directory instead.
+
+Slack and vesktop (`programs/chat.nix`) are sandboxed with the same machinery.
 
 ## Theming
 

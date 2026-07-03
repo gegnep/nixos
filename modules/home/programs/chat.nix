@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
 let
   vesktop-unwrapped = pkgs.vesktop.override { withSystemVencord = false; };

@@ -1,5 +1,4 @@
 {
-  config,
   inputs,
   lib,
   pkgs,
@@ -30,8 +29,8 @@ let
 in
 {
   imports = [
-    inputs.niri.homeModules.niri
     ./binds.nix
+    inputs.niri.homeModules.niri
   ];
 
   programs.niri = {

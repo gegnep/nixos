@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ./noctalia.nix
     ./nautilus.nix
+    ./noctalia.nix
     ./packages.nix
     ./services.nix
     ./theme.nix
