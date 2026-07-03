@@ -63,47 +63,18 @@
       enable = true;
       paths = [ "/home/pengeg" ];
       exclude = [
-        # caches & regenerable
-        "/home/pengeg/.cache"
-        "/home/pengeg/downloads"
-        "/home/pengeg/.cargo"
-        "/home/pengeg/.npm"
-        "/home/pengeg/.zplug"
-        "/home/pengeg/.compose-cache"
-        "/home/pengeg/.java"
         "/home/pengeg/.wine"
         "/home/pengeg/.paradoxlauncher"
         "/home/pengeg/.phoronix-test-suite"
-        "**/.direnv"
-        "**/node_modules"
-
-        # game platforms / wine prefixes / mod caches (re-downloadable;
-        # see caveats: Steam compatdata + bottles can hold non-cloud saves)
         "/home/pengeg/.local/share/Steam"
         "/home/pengeg/.local/share/bottles"
         "/home/pengeg/.var/app/com.usebottles.bottles"
-        "/home/pengeg/.local/share/pnpm"
-        "/home/pengeg/.local/share/Trash"
         "/home/pengeg/.config/r2modman"
         "/home/pengeg/.config/r2modmanPlus-local"
         "/home/pengeg/.config/hd2arsenal"
-
-        # Bitwig: keep prefs/presets, drop the re-downloadable content library
         "/home/pengeg/.BitwigStudio/installed-packages"
         "/home/pengeg/.BitwigStudio/cache"
         "/home/pengeg/.BitwigStudio/log"
-
-        # electron cache dirs inside otherwise-kept .config apps
-        "/home/pengeg/.config/*/Cache"
-        "/home/pengeg/.config/*/Code Cache"
-        "/home/pengeg/.config/*/GPUCache"
-        "/home/pengeg/.config/*/Service Worker"
-
-        # chat clients are server-synced; keep only the claude sandboxes
-        "/home/pengeg/.bwrapper/vesktop"
-        "/home/pengeg/.bwrapper/slack"
-        "/home/pengeg/.bwrapper/*/.cache"
-        "/home/pengeg/.bwrapper/*/.npm"
       ];
     };
   };
