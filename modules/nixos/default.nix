@@ -21,6 +21,7 @@
     ./users.nix
     ./secrets.nix
     ./homelab.nix
+    ./restic.nix
 
     ./wm/hyprland.nix
     ./wm/niri.nix

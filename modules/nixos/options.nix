@@ -13,6 +13,7 @@
         default = [ "niri" ];
         description = "Window managers/compositors to enable on this host";
       };
+
       monitors = lib.mkOption {
         type = lib.types.listOf (
           lib.types.submodule {
@@ -67,6 +68,7 @@
         default = "none";
         description = "Which GPU stack to enable";
       };
+
       form = lib.mkOption {
         type = lib.types.enum [
           "desktop"
@@ -75,6 +77,7 @@
         default = "desktop";
         description = "Physical form factor - gates kernel, swap, & power management";
       };
+
       swapfile = {
         enable = lib.mkOption {
           type = lib.types.bool;
@@ -99,6 +102,27 @@
     homelab = {
       cache.enable = lib.mkEnableOption "homelab Harmonia binary cache";
       remoteBuilder.enable = lib.mkEnableOption "homelab as a distributed-build machine";
+    };
+
+    backup = {
+      enable = lib.mkEnableOption "restic push to the homelab REST server";
+      paths = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        description = "Paths to backup";
+      };
+      exclude = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        description = "restic --exclude patterns";
+      };
+      onCalendar = lib.mkOption {
+        type = lib.types.str;
+        default = "23:00 UTC";
+        description = ''
+          UTC on purpose: homelab prunes repos at 02:00 UTC with an exclusive lock, client runs must be well clear of it
+        '';
+      };
     };
   };
 }
