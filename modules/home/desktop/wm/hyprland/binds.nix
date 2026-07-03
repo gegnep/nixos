@@ -1,4 +1,4 @@
-{ hostOptions, lib, ... }:
+{ hostOptions, ... }:
 
 let
   monitorNames = map (m: m.name) hostOptions.desktop.monitors;

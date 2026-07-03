@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
     ../../modules/nixos
+    ./hardware-configuration.nix
   ];
 
   # Host Identity
