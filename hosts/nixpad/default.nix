@@ -39,7 +39,7 @@
       streaming = false;
       audioProduction = false;
     };
-    mySystem.homelab = {
+    homelab = {
       cache.enable = true;
       remoteBuilder.enable = true;
     };
