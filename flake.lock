@@ -274,6 +274,26 @@
         "type": "github"
       }
     },
+    "moonlight": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781804251,
+        "narHash": "sha256-F+gmENjOqFb284tChvZgprjVVssDGN31Sl+93+i5INo=",
+        "owner": "moonlight-mod",
+        "repo": "moonlight",
+        "rev": "a568321a7a08db8f6bdd262efc6b0355532820ce",
+        "type": "github"
+      },
+      "original": {
+        "owner": "moonlight-mod",
+        "repo": "moonlight",
+        "type": "github"
+      }
+    },
     "niri": {
       "inputs": {
         "niri-stable": "niri-stable",
@@ -709,6 +729,7 @@
         "chaotic": "chaotic",
         "home-manager": "home-manager_2",
         "millennium": "millennium",
+        "moonlight": "moonlight",
         "niri": "niri",
         "niri-pkgs": "niri-pkgs",
         "nirinit": "nirinit",
