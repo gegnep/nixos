@@ -28,6 +28,7 @@ let
     "/home/pengeg/.config/*/Service Worker"
     # chat sandboxes are server-synced; claude sandboxes stay (minus caches)
     "/home/pengeg/.bwrapper/vesktop"
+    "/home/pengeg/.bwrapper/discord"
     "/home/pengeg/.bwrapper/slack"
     "/home/pengeg/.bwrapper/*/.cache"
     "/home/pengeg/.bwrapper/*/.npm"
