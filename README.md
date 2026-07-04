@@ -124,20 +124,23 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 - **[NUR](https://github.com/nix-community/NUR)** — Firefox extensions
 - **[Millennium](https://github.com/SteamClientHomebrew/Millennium)** — Steam theming + extensions
 
-## Agent sandboxing
+## Automation
 
-AI coding agents never see the real home directory. Each one runs inside a [nix-bwrapper](https://github.com/Naxdy/nix-bwrapper) bubblewrap sandbox built on the `devshell` preset, with per-sandbox state persisted under `~/.bwrapper/<name>/`:
+The homelab runs the maintenance loop for the desktop flake (`gegnep/nixos`) end to end — bump, build, serve, scan, report. The desktops never compile or evaluate anything the homelab hasn't already built.
 
-- **claude / claude-work** (`programs/claude.nix`) — two fully isolated claude-code variants from one `mkClaudeSandboxed` builder. Each keeps its own `~/.claude` (config, credentials, history) in its own state dir; the wrapper scripts rename the colliding `bin/claude-code` entry points so both fit on PATH.
-- **codex** (`programs/codex.nix`) — the codex CLI, same pattern, state under `~/.bwrapper/codex/codex`.
-- **Zed ACP agents** (`programs/zed.nix`) — `claude-agent-acp` and `codex-acp` wrapped identically and registered as Zed agent servers. They reuse the `bwrapPath` of their CLI counterparts, so a CLI agent and its Zed ACP variant share one state dir — log in once, authenticated everywhere.
+- **flake-builder** (`services/flake-builder.nix`) — nightly timer that maintains an isolated clone of `github:gegnep/nixos`, runs `nix flake update` (all inputs), builds **both** `blackbox` and `nixpad` toplevels, and only if both succeed commits and pushes the lock (`chore: bump flake.lock (automated)`). A failed build never advances the lock — the hosts must evaluate exactly the lock the homelab built, or substitution breaks. Last successful pair of toplevels is kept as gcroots under `/var/lib/flake-builder` so `nh clean` can't evict closures before the hosts pull them. Runs at `Nice=19`/`CPUWeight=25` so nightly kernel compiles don't starve services.
+- **Harmonia** (`services/buildserver.nix`) — serves the resulting store paths; the desktops list `http://homelab:5000` + the `homelab-1` key as a substituter.
+- **nightly scan** — a scheduled Claude routine that runs after the bump window and reports to `gegnep/nixos` issues. It triages any open build failure first (root cause from the embedded log, snippet-ready fix commented on the issue, labeled `triaged`), then scans the config for deprecated/renamed/removed options and packages — verified against the *locked* input revs via the [mcp-nixos](https://github.com/utensils/mcp-nixos) connector (also hosted here, `services/mcp-nixos.nix`), not channel HEAD. Findings are graded Critical / Warning / Info with file:line, a ready-to-apply fix, and a source link; each run diffs against the previous scan so unchanged items carry as one-liners.
 
-Two wrinkles worth knowing:
+Issue labels are the state machine:
 
-- **Sandboxes don't nest.** bwrap-in-bwrap fails (the document-portal bind breaks), so the claude sandboxes get an *unwrapped* codex injected onto their PATH instead — claude's own sandbox already confines it. `CODEX_HOME` points at the standalone codex sandbox's state dir, so codex auth is shared across the CLI, Zed, and inside-claude use without ever living outside a sandbox.
-- **Don't mount single files.** bwrapper binds directories over file paths; a `mounts.sandbox` entry for `~/.claude.json` would EISDIR-break claude-code's startup. `CLAUDE_CONFIG_DIR` relocates that file into the mounted `~/.claude` directory instead.
+| Labels | Opened by | Meaning | Closed by |
+|---|---|---|---|
+| `flake-builder` + `automated` | the bump job, on failure | lock not advanced, hosts pinned to last-good; log tail embedded | the next green bump |
+| ↳ + `triaged` | the scan | diagnosis + fix commented | — |
+| `nightly-scan` + `automated` | the scan, daily | that night's findings report | manually (or immediately, on a clean run) |
 
-Slack and vesktop (`programs/chat.nix`) are sandboxed with the same machinery.
+Failure path: bump fails → `flake-builder` issue (+ ntfy push) → scan triages it that night → fix lands in the desktop repo → next bump goes green, closes the issue, Harmonia serves the new closures.
 
 ## Theming
 
