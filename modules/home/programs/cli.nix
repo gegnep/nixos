@@ -40,6 +40,7 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    historyWidget.zsh.command = "";
   };
 
   programs.mpv = {
