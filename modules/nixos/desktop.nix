@@ -36,13 +36,15 @@
       bigclock = "en";
     };
   };
-  services.gnome.gnome-keyring.enable = true;
   security.pam.services.ly.enableGnomeKeyring = true;
 
   services = {
     udisks2.enable = true;
     gvfs.enable = true;
-    gnome.sushi.enable = true;
+    gnome = {
+      gnome-keyring.enable = true;
+      sushi.enable = true;
+    };
   };
 
   programs.nautilus-open-any-terminal = {
