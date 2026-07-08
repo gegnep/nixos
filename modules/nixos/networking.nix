@@ -11,7 +11,13 @@ in
     ];
     search = [ "ermine-gentoo.ts.net" ];
     hosts = {
-      "100.68.176.20" = [ "homelab" ];
+      # /etc/hosts can't wildcard *.homelab; list service names here.
+      # Static entries survive the resolved current-server rotation that
+      # otherwise NXDOMAINs .homelab whenever it lands on Cloudflare.
+      "100.68.176.20" = [
+        "homelab"
+        "git.homelab"
+      ];
       "100.101.53.21" = [ "blackbox" ];
       "100.76.124.81" = [ "nixpad" ];
     };
@@ -49,6 +55,14 @@ in
       ];
       DNSOverTLS = "opportunistic";
     };
+  };
+
+  programs.ssh.knownHosts = {
+    homelab.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOCsBF/ByfKwxSHfM9sCIxiqoSdEEJO0OYeUfFr8k2zh";
+    "github.com".publicKey =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
+    "gitlab.com".publicKey =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
   };
 
   services.tailscale.enable = true;

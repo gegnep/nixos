@@ -7,7 +7,6 @@
 }:
 
 {
-  catppuccin.zsh-syntax-highlighting.enable = true;
   programs.zsh = {
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
@@ -26,9 +25,12 @@
     defaultKeymap = "viins";
 
     shellAliases = {
-      nh-switch = "cd ~/nixos; git add .; nh os switch";
-      nh-boot = "cd ~/nixos; git add .; nh os boot";
-      updt-flake = "cd ~/nixos; nix flake update; git add flake.lock";
+      # subshells so the aliases don't strand the shell in ~/nixos
+      nh-switch = "(cd ~/nixos && git add . && nh os switch)";
+      nh-boot = "(cd ~/nixos && git add . && nh os boot)";
+      updt-flake = "(cd ~/nixos && git pull --rebase --autostash)";
+      updt-flake-local = "(cd ~/nixos && nix flake update && git add flake.lock)";
+
       shtdwn = "shutdown -h now";
       svim = "sudo -E nvim";
       yt-mp3 = "yt-dlp -x --audio-format mp3 --audio-quality 0 -o '%(title)s.%(ext)s'";
@@ -77,6 +79,16 @@
           # silence errors, since we don't want to spam the terminal prompt while typing.
           suggestion=$(ATUIN_QUERY="$1" atuin search --cmd-only --limit 1 --search-mode prefix --filter-mode session 2>/dev/null)
         }
+        command_not_found_handler() {
+          local pkgs
+          pkgs=$(nix-locate --minimal --no-group --type x --type s --whole-name --at-root "/bin/$1")
+          if [[ -n $pkgs ]]; then
+            >&2 printf '%s is provided by:\n%s\nrun once with: , %s\n' "$1" "$pkgs" "$1"
+          else
+            >&2 printf 'zsh: command not found: %s\n' "$1"
+          fi
+          return 127
+        }
       '')
     ];
   };
@@ -91,8 +103,6 @@
       search_mode = "fuzzy";
       filter_mode = "host";
       workspaces = true;
-    }
-    // lib.optionalAttrs (osConfig.networking.hostName == "homelab") {
       key_path = osConfig.sops.secrets.atuin-key.path;
     };
   };

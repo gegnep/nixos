@@ -59,7 +59,6 @@
         keepassxc-browser
         facebook-container
         multi-account-containers
-        metamask
         steam-database
         csgo-trader-steam-trading
         csgofloat

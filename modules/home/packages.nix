@@ -7,29 +7,24 @@
     ripgrep
     jq
     file
-    which
     tree
-    gnused
-    gnutar
-    gawk
-    zstd
     gnupg
     xdg-utils
-    yt-dlp
     glow
+    libsecret
 
     # Nix tools
     nix-output-monitor
+    sops
+    age
 
     # Archiving
     zip
     unzip
-    xz
     p7zip
-    peazip
+    file-roller
 
     # System monitoring
-    radeontop
     iotop
     iftop
     strace
@@ -48,27 +43,17 @@
 
     # Desktop apps
     keepassxc
-    vscodium
-    (pkgs.vesktop.override {
-      withSystemVencord = false;
-    })
     libreoffice-fresh
-    chatterino7
     gimp-with-plugins
-    (pkgs.symlinkJoin {
-      name = "slack-wayland";
-      paths = [ pkgs.slack ];
-      buildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/slack \
-          --add-flags "--enable-features=WebRTCPipeWireCapturer --ozone-platform-hint=auto"
-      '';
-    })
+
+    # IDE and such
+    vscodium
     kiro
 
     # General GUI utilities
     imv
     ventoy-full
+    seahorse
 
     # Misc
     cowsay

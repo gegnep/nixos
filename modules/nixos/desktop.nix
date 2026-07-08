@@ -1,18 +1,8 @@
-{
-  pkgs,
-  inputs,
-  config,
-  lib,
-  ...
-}:
+{ pkgs, config, ... }:
 
 {
   time.timeZone = "America/Kentucky/Louisville";
   i18n.defaultLocale = "en_US.UTF-8";
-
-  environment.systemPackages = [
-    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-  ];
 
   catppuccin = {
     enable = true;
@@ -30,6 +20,17 @@
       support32Bit = true;
     };
     jack.enable = true;
+    extraConfig.pipewire-pulse."99-steam-libaudio" = {
+      "pulse.rules" = [
+        {
+          matches = [ { "application.process.binary" = "steam"; } ];
+          # steam's bundled 32-bit libaudio.so (libpulse 1.1) segfaults parsing
+          # modern card/format info; see ValveSoftware/steam-for-linux#9204.
+          # Triggered by the Scarlett 2i2's pro-audio profile.
+          actions.quirks = [ "force-s16-info" ];
+        }
+      ];
+    };
   };
 
   security.polkit.enable = true;
@@ -46,10 +47,20 @@
       bigclock = "en";
     };
   };
+  security.pam.services.ly.enableGnomeKeyring = true;
 
   services = {
-    flatpak.enable = true;
     udisks2.enable = true;
+    gvfs.enable = true;
+    gnome = {
+      gnome-keyring.enable = true;
+      sushi.enable = true;
+    };
+  };
+
+  programs.nautilus-open-any-terminal = {
+    enable = true;
+    terminal = "ghostty";
   };
 
   xdg.portal = {

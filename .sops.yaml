@@ -1,0 +1,8 @@
+keys:
+  - &pengeg age1jggfuv0lssh33vpp30rtf4s6uhhmn5w7ersezumct4lk3l7ruassle7qgj
+  - &blackbox age1tn2kgjklfp9mtfj5gdxprnua8rnlgxtgzjemxgn5n85r5h6v0paswveuj2
+  - &nixpad age1l7qzm2mqr2jcl6uadm0ppea24sh7lg3xf2rscupsjuf0thewgd3s6aypj6
+creation_rules:
+  - path_regex: secrets/.*
+    key_groups:
+      - age: [*pengeg, *blackbox, *nixpad ]

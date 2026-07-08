@@ -42,12 +42,13 @@
   };
 
   fileSystems."/mnt/homelab" = {
-    device = "192.168.1.96:/";
+    device = "homelab:/";
     fsType = "nfs4";
     options = [
       "x-systemd.automount"
       "noauto"
       "x-systemd.idle-timeout=600"
+      "_netdev"
       "soft"
       "timeo=30"
       "retrans=2"

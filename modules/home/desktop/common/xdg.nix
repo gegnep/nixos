@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ config, ... }:
 
 {
   xdg = {
@@ -56,36 +56,35 @@
         "video/quicktime" = "mpv.desktop";
 
         # archives
-        "application/zip" = "peazip.desktop";
-        "application/x-tar" = "peazip.desktop";
-        "application/gzip" = "peazip.desktop";
-        "application/x-gzip" = "peazip.desktop";
-        "application/x-bzip2" = "peazip.desktop";
-        "application/x-xz" = "peazip.desktop";
-        "application/x-7z-compressed" = "peazip.desktop";
-        "application/x-rar-compressed" = "peazip.desktop";
-        "application/vnd.rar" = "peazip.desktop";
+        "application/zip" = "org.gnome.FileRoller.desktop";
+        "application/x-tar" = "org.gnome.FileRoller.desktop";
+        "application/gzip" = "org.gnome.FileRoller.desktop";
+        "application/x-gzip" = "org.gnome.FileRoller.desktop";
+        "application/x-bzip2" = "org.gnome.FileRoller.desktop";
+        "application/x-xz" = "org.gnome.FileRoller.desktop";
+        "application/x-7z-compressed" = "org.gnome.FileRoller.desktop";
+        "application/x-rar-compressed" = "org.gnome.FileRoller.desktop";
+        "application/vnd.rar" = "org.gnome.FileRoller.desktop";
 
         # text
-        "text/plain" = "neovide.desktop";
-        "text/x-script.python" = "neovide.desktop";
-        "application/x-shellscript" = "neovide.desktop";
-        "application/json" = "neovide.desktop";
-        "application/xml" = "neovide.desktop";
-        "text/xml" = "neovide.desktop";
-        "text/x-c" = "neovide.desktop";
-        "text/x-c++" = "neovide.desktop";
-        "text/x-java" = "neovide.desktop";
-        "text/x-rust" = "neovide.desktop";
-        "text/x-go" = "neovide.desktop";
-        "text/markdown" = "neovide.desktop";
+        "text/plain" = "zed.desktop";
+        "text/x-script.python" = "zed.desktop";
+        "application/x-shellscript" = "zed.desktop";
+        "application/json" = "zed.desktop";
+        "application/xml" = "zed.desktop";
+        "text/xml" = "zed.desktop";
+        "text/x-c" = "zed.desktop";
+        "text/x-c++" = "zed.desktop";
+        "text/x-java" = "zed.desktop";
+        "text/x-rust" = "zed.desktop";
+        "text/x-go" = "zed.desktop";
+        "text/markdown" = "zed.desktop";
 
         # files
-        "inode/directory" = "dolphin.desktop";
+        "inode/directory" = "org.gnome.Nautilus.desktop";
 
-        # email
-        "x-scheme-handler/mailto" = "thunderbird.desktop";
-        "message/rfc822" = "thunderbird.desktop";
+        # email (web-based)
+        "x-scheme-handler/mailto" = "firefox.desktop";
       };
     };
   };

@@ -4,7 +4,6 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
-    sudo
   ];
 
   # nix-ld for running unpatched binaries
