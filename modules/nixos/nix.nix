@@ -44,7 +44,6 @@
     allowUnfree = true;
     permittedInsecurePackages = [
       "ventoy-1.1.12" # unfixed upstream CVEs; still a handy USB utility
-      "pnpm-10.29.2" # build dep of vesktop; recheck on bumps
     ];
   };
 }
