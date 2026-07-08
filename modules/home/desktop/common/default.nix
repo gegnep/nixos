@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./kde.nix
+    ./nautilus.nix
     ./noctalia.nix
     ./packages.nix
     ./services.nix

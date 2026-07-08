@@ -4,7 +4,6 @@
   nix = {
     package = pkgs.lixPackageSets.stable.lix;
     settings = {
-      auto-optimise-store = true;
       allowed-users = [ "@wheel" ];
       experimental-features = [
         "nix-command"
@@ -45,6 +44,9 @@
 
   nixpkgs.config = {
     allowUnfree = true;
-    permittedInsecurePackages = [ "ventoy-1.1.12" ];
+    permittedInsecurePackages = [
+      "ventoy-1.1.12" # unfixed upstream CVEs; still a handy USB utility
+      "pnpm-10.29.2" # build dep of vesktop; recheck on bumps
+    ];
   };
 }

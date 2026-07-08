@@ -36,3 +36,7 @@ build/
 .env
 .env.*
 !.env.example
+
+# LLM Artifacts
+.claude/
+CLAUDE.md

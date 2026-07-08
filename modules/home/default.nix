@@ -1,22 +1,22 @@
 {
-  config,
-  pkgs,
   inputs,
   ...
 }:
 
 {
   imports = [
-    inputs.catppuccin.homeModules.catppuccin
-    inputs.noctalia.homeModules.default
-    inputs.nvf.homeManagerModules.default
-    inputs.spicetify-nix.homeManagerModules.spicetify
-
     ./desktop
+    ./packages.nix
     ./programs
     ./shell
 
-    ./packages.nix
+    inputs.catppuccin.homeModules.catppuccin
+    inputs.nix-index-database.homeModules.nix-index
+    inputs.noctalia.homeModules.default
+    inputs.moonlight.homeModules.default
+
+    inputs.nvf.homeManagerModules.default
+    inputs.spicetify-nix.homeManagerModules.spicetify
   ];
 
   home = {

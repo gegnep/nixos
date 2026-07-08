@@ -1,4 +1,4 @@
-{ hostOptions, lib, ... }:
+{ hostOptions, ... }:
 
 let
   monitorNames = map (m: m.name) hostOptions.desktop.monitors;
@@ -81,7 +81,7 @@ in
       "$mainMod, mouse_up, workspace, e-1"
 
       # Applications
-      "$mainMod, E, exec, dolphin"
+      "$mainMod, E, exec, nautilus"
       "$mainMod, Q, exec, ghostty"
       "$mainMod, R, exec, noctalia-shell ipc call launcher toggle"
       "$mainMod, B, exec, firefox"

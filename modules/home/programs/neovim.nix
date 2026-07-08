@@ -78,7 +78,7 @@
           enable = true;
           format = {
             enable = true;
-            type = [ "prettierd" ];
+            type = [ "prettier" ];
           };
         };
         html.enable = true;

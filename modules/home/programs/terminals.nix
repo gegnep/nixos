@@ -44,7 +44,6 @@
       ];
     };
   };
-  catppuccin.ghostty.enable = true;
 
   programs.alacritty = {
     enable = true;
@@ -55,21 +54,5 @@
       };
     };
   };
-  catppuccin.alacritty.enable = true;
 
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "Hack Nerd Font";
-      size = 12;
-    };
-    settings = {
-      confirm_os_window_close = 0;
-      copy_on_select = "clipboard";
-      scrollback_lines = 10000;
-      cursor_shape = "block";
-      window_padding_width = 4;
-    };
-  };
-  catppuccin.kitty.enable = true;
 }

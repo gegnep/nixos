@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, ... }:
 
 lib.mkIf (config.mySystem.hardware.form == "laptop") {
   services = {
@@ -44,7 +39,7 @@ lib.mkIf (config.mySystem.hardware.form == "laptop") {
     description = "Set thresholds on battery charge";
     wantedBy = [ "multi-user.target" ];
     after = [ "multi-user.target" ];
-    serviceConfig.type = "oneshot";
+    serviceConfig.Type = "oneshot";
     script = ''
       echo 75 > /sys/class/power_supply/BAT0/charge_start_threshold || true
       echo 90 > /sys/class/power_supply/BAT0/charge_stop_threshold || true
@@ -52,10 +47,6 @@ lib.mkIf (config.mySystem.hardware.form == "laptop") {
   };
 
   hardware.trackpoint.enable = true; # nipple
-  hardware.enableRedistributableFirmware = true; # "for now there is no sound"
+  # implies enableRedistributableFirmware (sof-firmware et al. for sound)
   hardware.enableAllFirmware = true;
-  environment.systemPackages = with pkgs; [
-    sof-firmware
-  ];
-
 }
