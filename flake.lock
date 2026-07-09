@@ -216,8 +216,8 @@
       "original": {
         "dir": "packages/nix",
         "owner": "SteamClientHomebrew",
-        "ref": "next",
         "repo": "Millennium",
+        "rev": "cf12bf3734b4b2ce609b08bdb14a4cfd222b4fd4",
         "type": "github"
       }
     },
