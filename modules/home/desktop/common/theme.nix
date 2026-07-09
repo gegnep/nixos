@@ -14,6 +14,10 @@
     # manual mocha palette in wm/hyprland; module injects a broken
     # lua-inline `colors` block into hyprlang (upstream bug)
     hyprland.enable = false;
+    # cursor is phinger-cursors-light (set via home.pointerCursor below and
+    # niri cursor.theme); catppuccin.cursors sets a conflicting
+    # home.pointerCursor.name at normal priority -> eval conflict (issue #26)
+    cursors.enable = false;
   };
 
   home.pointerCursor = {
