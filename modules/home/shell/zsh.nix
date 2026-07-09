@@ -73,6 +73,9 @@
         HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="bg=#f38ba8,fg=#1e1e2e,bold"
         source ${./.p10k.zsh}
       ''
+      ''
+        eval "$(${pkgs.gh}/bin/gh completion -s zsh)"
+      ''
       (lib.mkAfter ''
         # ghost text -> this session only (atuin's autosuggest ignores filter_mode: atuinsh/atuin#1618)
         _zsh_autosuggest_strategy_atuin() {

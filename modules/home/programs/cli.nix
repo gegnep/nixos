@@ -43,6 +43,13 @@
     historyWidget.zsh.command = "";
   };
 
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+    };
+  };
+
   programs.mpv = {
     enable = true;
     config = {
