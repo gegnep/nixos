@@ -11,6 +11,7 @@
           ../../../../patches/noctalia/0003-feat-plugin-ui-register-markdown-node-type-backed-by.patch
           ../../../../patches/noctalia/0004-fix-plugins-reclaim-stream-slots-when-the-process-ex.patch
           ../../../../patches/noctalia/0005-fix-ui-measure-MarkdownView-with-wrapped-label-sizes.patch
+          ../../../../patches/noctalia/0006-feat-plugins-expose-barWidget.outputName-to-bar-widg.patch
         ];
       })
     );
