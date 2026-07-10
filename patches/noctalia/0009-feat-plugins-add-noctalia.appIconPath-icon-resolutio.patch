@@ -1,0 +1,156 @@
+From d29e8b5d6c40156357851fdf6c873d9f023d2ad5 Mon Sep 17 00:00:00 2001
+From: gegnep <96670443+gegnep@users.noreply.github.com>
+Date: Fri, 10 Jul 2026 02:21:23 -0400
+Subject: [PATCH] feat(plugins): add noctalia.appIconPath icon resolution
+ binding
+
+Resolves an app id (or raw icon name) to an icon file path using the
+same components the native taskbar uses: the shared desktop-entry
+index via app_identity::findDesktopEntry, then IconResolver with the
+caller's target size. The desktop-entry cache gains a mutex-guarded
+non-refreshing snapshot accessor so script worker threads read it
+race-free; the resolver instance is thread_local.
+
+Assisted with AI tooling.
+---
+ src/scripting/luau_host.cpp  | 34 ++++++++++++++++++++++++++++++++++
+ src/system/desktop_entry.cpp | 18 +++++++++++++++++-
+ src/system/desktop_entry.h   |  6 ++++++
+ 3 files changed, 57 insertions(+), 1 deletion(-)
+
+diff --git a/src/scripting/luau_host.cpp b/src/scripting/luau_host.cpp
+index a26ac49..7dd2cdb 100644
+--- a/src/scripting/luau_host.cpp
++++ b/src/scripting/luau_host.cpp
+@@ -13,6 +13,9 @@
+ #include "scripting/plugin_bindings.h"
+ #include "scripting/plugin_state_store.h"
+ #include "scripting/script_api_context.h"
++#include "system/app_identity.h"
++#include "system/desktop_entry.h"
++#include "system/icon_resolver.h"
+ #include "system/terminal_launch.h"
+ #include "time/time_format.h"
+ #include "util/file_utils.h"
+@@ -321,6 +324,36 @@ namespace {
+     return 1;
+   }
+ 
++  // appIconPath(appIdOrIconName, sizePx?) -> absolute icon file path or nil.
++  // Same resolution the native taskbar uses: desktop-entry lookup (id /
++  // StartupWMClass) for the icon name, then the XDG icon-theme resolver.
++  // Unmatched inputs are treated as raw icon names so plugins can also
++  // resolve themed icons directly.
++  int luau_appIconPath(lua_State* L) {
++    size_t len = 0;
++    const char* appId = luaL_checklstring(L, 1, &len);
++    const int targetSize = static_cast<int>(luaL_optinteger(L, 2, 0));
++
++    std::string iconName;
++    if (const auto entry = app_identity::findDesktopEntry(std::string_view(appId, len), desktopEntriesSnapshot());
++        entry.has_value() && !entry->icon.empty()) {
++      iconName = entry->icon;
++    } else {
++      iconName.assign(appId, len);
++    }
++
++    // IconResolver only reads the filesystem and caches internally; one per
++    // script worker thread keeps it race-free without locking.
++    static thread_local IconResolver resolver;
++    const std::string& path = resolver.resolve(iconName, targetSize);
++    if (path.empty()) {
++      lua_pushnil(L);
++      return 1;
++    }
++    lua_pushlstring(L, path.data(), path.size());
++    return 1;
++  }
++
+   int luau_setWallpaperEnabled(lua_State* L) {
+     size_t len = 0;
+     const char* connector = luaL_checklstring(L, 1, &len);
+@@ -1137,6 +1170,7 @@ namespace {
+       {"portalAvailable", luau_portalAvailable},
+       {"focusedOutputName", luau_focusedOutputName},
+       {"outputs", luau_outputs},
++      {"appIconPath", luau_appIconPath},
+       {"setWallpaperEnabled", luau_setWallpaperEnabled},
+       {"setWallpaper", luau_setWallpaper},
+       {"togglePanel", luau_togglePanel},
+diff --git a/src/system/desktop_entry.cpp b/src/system/desktop_entry.cpp
+index ca8a50f..f7cacde 100644
+--- a/src/system/desktop_entry.cpp
++++ b/src/system/desktop_entry.cpp
+@@ -7,6 +7,7 @@
+ #include <cstdlib>
+ #include <filesystem>
+ #include <fstream>
++#include <mutex>
+ #include <ranges>
+ #include <string_view>
+ #include <sys/inotify.h>
+@@ -392,6 +393,14 @@ namespace {
+       return m_entries;
+     }
+ 
++    // Worker-thread-safe copy. Deliberately non-refreshing: freshness stays
++    // driven by the main thread's poll/reload path; this only synchronizes
++    // against the reload swap.
++    std::vector<DesktopEntry> entriesSnapshot() const {
++      std::scoped_lock lock(m_entriesMutex);
++      return m_entries;
++    }
++
+     std::uint64_t version() {
+       refreshIfNeeded();
+       return m_version;
+@@ -448,7 +457,11 @@ namespace {
+         return;
+       }
+ 
+-      m_entries = scanDesktopEntries();
++      auto scanned = scanDesktopEntries();
++      {
++        std::scoped_lock lock(m_entriesMutex);
++        m_entries = std::move(scanned);
++      }
+       rebuildWatches();
+       m_sourceSignature = computeSourceSignature();
+       m_dirty = false;
+@@ -555,6 +568,7 @@ namespace {
+     }
+ 
+     std::vector<DesktopEntry> m_entries;
++    mutable std::mutex m_entriesMutex; // guards m_entries against entriesSnapshot() readers
+     std::uint64_t m_version = 0;
+     int m_inotifyFd = -1;
+     bool m_dirty = true;
+@@ -610,6 +624,8 @@ std::vector<DesktopEntry> scanDesktopEntries() {
+ 
+ const std::vector<DesktopEntry>& desktopEntries() { return cache().entries(); }
+ 
++std::vector<DesktopEntry> desktopEntriesSnapshot() { return cache().entriesSnapshot(); }
++
+ std::uint64_t desktopEntriesVersion() { return cache().version(); }
+ 
+ int desktopEntryWatchFd() noexcept { return cache().watchFd(); }
+diff --git a/src/system/desktop_entry.h b/src/system/desktop_entry.h
+index ef0d86d..4819003 100644
+--- a/src/system/desktop_entry.h
++++ b/src/system/desktop_entry.h
+@@ -42,6 +42,12 @@ struct DesktopEntry {
+ std::vector<DesktopEntry> scanDesktopEntries();
+ 
+ const std::vector<DesktopEntry>& desktopEntries();
++
++// Copy of the current entry list, safe to call from non-main threads (e.g.
++// plugin script workers). Does not trigger a refresh — freshness is owned by
++// the main thread's reload path.
++std::vector<DesktopEntry> desktopEntriesSnapshot();
++
+ std::uint64_t desktopEntriesVersion();
+ int desktopEntryWatchFd() noexcept;
+ void checkDesktopEntryReload();
+-- 
+2.54.0
+

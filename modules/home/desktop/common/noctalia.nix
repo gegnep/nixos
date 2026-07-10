@@ -12,6 +12,9 @@
           ../../../../patches/noctalia/0004-fix-plugins-reclaim-stream-slots-when-the-process-ex.patch
           ../../../../patches/noctalia/0005-fix-ui-measure-MarkdownView-with-wrapped-label-sizes.patch
           ../../../../patches/noctalia/0006-feat-plugins-expose-barWidget.outputName-to-bar-widg.patch
+          ../../../../patches/noctalia/0007-feat-plugins-expose-radius-and-padding-on-button-nod.patch
+          ../../../../patches/noctalia/0008-feat-plugins-expose-onHover-callback-on-button-box-a.patch
+          ../../../../patches/noctalia/0009-feat-plugins-add-noctalia.appIconPath-icon-resolutio.patch
         ];
       })
     );
