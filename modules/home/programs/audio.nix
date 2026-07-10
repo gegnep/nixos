@@ -18,7 +18,7 @@ in
     # DAWs
     bitwig-studio
     tenacity
-    musescore
+    #musescore # broken build
 
     # Utilities
     klick
