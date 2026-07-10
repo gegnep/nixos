@@ -50,6 +50,7 @@
       "Mod+E".action = spawn "nautilus";
       "Mod+B".action = spawn "firefox";
       "Mod+Space".action.spawn = noctalia "panel-toggle launcher";
+      "Mod+Ctrl+Space".action.spawn = noctalia "panel-toggle gegnep/claude-launcher:chat";
       "Mod+Escape".action.spawn = noctalia "lockScreen lock";
       "Mod+M".action.spawn = noctalia "panel-toggle session";
       "Mod+N".action.spawn = noctalia "notification-dnd-toggle";

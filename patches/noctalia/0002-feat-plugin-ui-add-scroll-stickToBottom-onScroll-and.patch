@@ -1,0 +1,125 @@
+From 5ec59726dc885138b0744c22aec6a35ea61eedc1 Mon Sep 17 00:00:00 2001
+From: gegnep <96670443+gegnep@users.noreply.github.com>
+Date: Tue, 7 Jul 2026 23:54:21 -0400
+Subject: [PATCH 2/5] feat(plugin-ui): add scroll stickToBottom, onScroll and
+ scrollToBottomRev props
+
+Chat-style plugin panels need follow-scroll while streaming content,
+a way to observe scroll position (offset and max are delivered to the
+onScroll callback), and an explicit jump-to-bottom trigger. All three
+are opt-in; native ScrollView users are unaffected.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+---
+ src/ui/controls/scroll_view.cpp | 13 +++++++++++++
+ src/ui/controls/scroll_view.h   |  3 +++
+ src/ui/ui_tree_reconciler.cpp   | 27 +++++++++++++++++++++++----
+ 3 files changed, 39 insertions(+), 4 deletions(-)
+
+diff --git a/src/ui/controls/scroll_view.cpp b/src/ui/controls/scroll_view.cpp
+index 1b084e7bd..4e077cc91 100644
+--- a/src/ui/controls/scroll_view.cpp
++++ b/src/ui/controls/scroll_view.cpp
+@@ -264,6 +264,8 @@ void ScrollView::bindState(ScrollViewState* state) {
+ 
+ void ScrollView::setOnScrollChanged(std::function<void(float)> callback) { m_onScrollChanged = std::move(callback); }
+ 
++void ScrollView::setStickToBottom(bool enabled) { m_stickToBottom = enabled; }
++
+ void ScrollView::setViewportPaddingH(float padding) {
+   m_viewportPaddingH = padding;
+   markLayoutDirty();
+@@ -337,6 +339,7 @@ void ScrollView::doLayout(Renderer& renderer) {
+   }
+ 
+   const float contentHeight = m_content->height();
++  const bool wasAtBottom = m_scrollOffset >= m_maxScrollOffset - 1.0f;
+   m_maxScrollOffset = std::max(0.0f, contentHeight - viewportH);
+   if (m_boundState != nullptr) {
+     m_scrollOffset = clampOffset(m_boundState->offset);
+@@ -349,6 +352,16 @@ void ScrollView::doLayout(Renderer& renderer) {
+   } else {
+     m_targetScrollOffset = m_scrollOffset;
+   }
++  if (m_stickToBottom && wasAtBottom && m_scrollOffset < m_maxScrollOffset) {
++    m_scrollOffset = m_maxScrollOffset;
++    m_targetScrollOffset = m_maxScrollOffset;
++    if (m_boundState != nullptr) {
++      m_boundState->offset = m_maxScrollOffset;
++    }
++    if (m_onScrollChanged) {
++      m_onScrollChanged(m_scrollOffset);
++    }
++  }
+ 
+   const float scrollbarX = m_viewportPaddingH + m_viewportWidth - Style::scrollbarWidth;
+   m_scrollbar->setPosition(scrollbarX, m_viewportPaddingV);
+diff --git a/src/ui/controls/scroll_view.h b/src/ui/controls/scroll_view.h
+index fe2ce5ab8..ef706aa89 100644
+--- a/src/ui/controls/scroll_view.h
++++ b/src/ui/controls/scroll_view.h
+@@ -25,6 +25,8 @@ public:
+   [[nodiscard]] const Flex* content() const noexcept { return m_content; }
+ 
+   void setScrollOffset(float offset);
++  // Keep the view pinned to the bottom while content grows, as long as the user has not scrolled away from the bottom.
++  void setStickToBottom(bool enabled);
+   void scrollBy(float delta);
+   void setScrollbarVisible(bool visible);
+   void setViewportPaddingH(float padding);
+@@ -67,6 +69,7 @@ private:
+   Scrollbar* m_scrollbar = nullptr;
+ 
+   ScrollViewState* m_boundState = nullptr;
++  bool m_stickToBottom = false;
+   std::function<void(float)> m_onScrollChanged;
+   ColorSpec m_backgroundFill = clearColorSpec();
+   ColorSpec m_backgroundBorder = clearColorSpec();
+diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
+index f46aa6b05..135ab99e2 100644
+--- a/src/ui/ui_tree_reconciler.cpp
++++ b/src/ui/ui_tree_reconciler.cpp
+@@ -297,10 +297,11 @@ namespace ui {
+                                                               "value",   "enabled", "onChange", "onDragEnd"};
+       static const std::unordered_set<std::string> kToggle = {"width",   "height",  "flexGrow", "opacity",
+                                                               "visible", "checked", "enabled",  "onChange"};
+-      static const std::unordered_set<std::string> kScroll = {"width",       "height", "flexGrow", "opacity",
+-                                                              "visible",     "fill",   "radius",   "border",
+-                                                              "borderWidth", "gap",    "padding",  "paddingH",
+-                                                              "paddingV",    "align",  "justify"};
++      static const std::unordered_set<std::string> kScroll = {
++          "width",    "height", "flexGrow",    "opacity",       "visible",  "fill",
++          "radius",   "border", "borderWidth", "gap",           "padding",  "paddingH",
++          "paddingV", "align",  "justify",     "stickToBottom", "onScroll", "scrollToBottomRev"
++      };
+ 
+       if (type == "column" || type == "row") {
+         return kFlex;
+@@ -1096,6 +1097,24 @@ namespace ui {
+         const double* borderWidth = numProp(desired, "borderWidth");
+         scroll->setBorder(*border, borderWidth != nullptr ? scaled(*borderWidth) : 1.0f);
+       }
++      if (const bool* stickToBottom = boolProp(desired, "stickToBottom")) {
++        scroll->setStickToBottom(*stickToBottom);
++      }
++      if (const std::string* onScroll = strProp(desired, "onScroll");
++          onScroll != nullptr && *onScroll != slot.callbackName) {
++        slot.callbackName = *onScroll;
++        scroll->setOnScrollChanged([this, name = slot.callbackName, scroll](float offset) {
++          if (m_sink) {
++            m_sink(ControlCallback{name, std::format("{}", offset), std::format("{}", scroll->maxScrollOffset())});
++          }
++        });
++      }
++      if (const double* scrollToBottomRev = numProp(desired, "scrollToBottomRev")) {
++        if (!slot.lastScalar.has_value() || *slot.lastScalar != *scrollToBottomRev) {
++          slot.lastScalar = *scrollToBottomRev;
++          scroll->setScrollOffset(scroll->maxScrollOffset());
++        }
++      }
+       // gap / padding / align / justify configure the inner content Flex that
+       // hosts the children.
+       Flex* content = scroll->content();
+-- 
+2.54.0
+

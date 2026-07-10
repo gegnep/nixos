@@ -1,8 +1,19 @@
-{ ... }:
+{ inputs, pkgs, ... }:
 
 {
   programs.noctalia = {
     enable = true;
+    package = (
+      inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [
+          ../../../../patches/noctalia/0001-feat-plugin-ui-add-input-submitOnEnter-prop-for-chat.patch
+          ../../../../patches/noctalia/0002-feat-plugin-ui-add-scroll-stickToBottom-onScroll-and.patch
+          ../../../../patches/noctalia/0003-feat-plugin-ui-register-markdown-node-type-backed-by.patch
+          ../../../../patches/noctalia/0004-fix-plugins-reclaim-stream-slots-when-the-process-ex.patch
+          ../../../../patches/noctalia/0005-fix-ui-measure-MarkdownView-with-wrapped-label-sizes.patch
+        ];
+      })
+    );
     systemd.enable = true;
 
     settings = {
@@ -73,7 +84,7 @@
         font_family = "Hack Nerd Font";
         screen_time_enabled = true;
         telemetry_enabled = true;
-        time_format = "{:%H:%M:%S}";
+        time_format = "{:%H:%M %a, %b $d}";
         launch_apps_as_systemd_services = true;
         launcher.compact = true;
         panel.transparency_mode = "glass";
