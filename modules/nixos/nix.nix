@@ -46,7 +46,10 @@
     allowUnfree = true;
     permittedInsecurePackages = [
       "ventoy-1.1.12" # unfixed upstream CVEs; still a handy USB utility
-      "pnpm-10.29.2" # build dep of vesktop; recheck on bumps
+      # pnpm-10.29.2 is marked insecure in nixpkgs. Keep the permit until
+      # `nix why-depends` confirms pnpm left the closure (vesktop, its
+      # consumer, was dropped in 67a0d93). A permit matching nothing is a no-op.
+      "pnpm-10.29.2"
     ];
   };
 }

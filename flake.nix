@@ -57,7 +57,11 @@
 
     catppuccin.url = "github:catppuccin/nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-    millennium.url = "github:SteamClientHomebrew/Millennium/next?dir=packages/nix";
+    # pinned 2026-07-09: `next` broke cargo-vendor-dir mid CEF-hook refactor
+    # (missing Cargo.lock under src/instrumentation/loopback). last commit that
+    # built clean below. bump by hand once upstream settles, or flip back to
+    # `ref = "next"` later.
+    millennium.url = "github:SteamClientHomebrew/Millennium/cf12bf3734b4b2ce609b08bdb14a4cfd222b4fd4?dir=packages/nix";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nix-bwrapper.url = "https://flakehub.com/f/Naxdy/nix-bwrapper/1.*";
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
