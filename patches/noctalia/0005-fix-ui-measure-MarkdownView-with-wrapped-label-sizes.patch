@@ -1,0 +1,59 @@
+From 7649da16b3fd86968f3bf642292ad568ba42abd1 Mon Sep 17 00:00:00 2001
+From: gegnep <96670443+gegnep@users.noreply.github.com>
+Date: Wed, 8 Jul 2026 00:51:20 -0400
+Subject: [PATCH 5/5] fix(ui): measure MarkdownView with wrapped label sizes
+
+MarkdownView only applied its wrap width to labels in doLayout, so
+measure reported single-line label sizes and a parent flex allocated
+too little height, overlapping sibling rows. Apply the wrap width from
+the measure constraints as well; doLayout still re-applies the final
+arranged width.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+---
+ src/ui/controls/markdown_view.cpp | 16 ++++++++++++++++
+ src/ui/controls/markdown_view.h   |  1 +
+ 2 files changed, 17 insertions(+)
+
+diff --git a/src/ui/controls/markdown_view.cpp b/src/ui/controls/markdown_view.cpp
+index 051d7904f..3ff1cf7a4 100644
+--- a/src/ui/controls/markdown_view.cpp
++++ b/src/ui/controls/markdown_view.cpp
+@@ -427,6 +427,22 @@ void MarkdownView::clear() {
+   }
+ }
+ 
++LayoutSize MarkdownView::doMeasure(Renderer& renderer, const LayoutConstraints& constraints) {
++  // Apply the wrap width before measuring: labels otherwise report single-line
++  // sizes, the parent allocates too little height for the view, and sibling
++  // rows overlap it. doLayout re-applies the final arranged width.
++  float w = width();
++  if (constraints.hasMaxWidth && constraints.maxWidth > 0.0f) {
++    w = constraints.maxWidth;
++  }
++  if (w > 0.0f) {
++    for (Label* label : m_wrappableLabels) {
++      label->setMaxWidth(w);
++    }
++  }
++  return Flex::doMeasure(renderer, constraints);
++}
++
+ void MarkdownView::doLayout(Renderer& renderer) {
+   const float w = width();
+   if (w > 0.0f) {
+diff --git a/src/ui/controls/markdown_view.h b/src/ui/controls/markdown_view.h
+index 48e72721c..88ea48721 100644
+--- a/src/ui/controls/markdown_view.h
++++ b/src/ui/controls/markdown_view.h
+@@ -14,6 +14,7 @@ public:
+   void trackWrappableLabel(Label* label) { m_wrappableLabels.push_back(label); }
+ 
+ protected:
++  LayoutSize doMeasure(Renderer& renderer, const LayoutConstraints& constraints) override;
+   void doLayout(Renderer& renderer) override;
+ 
+ private:
+-- 
+2.54.0
+
