@@ -1,7 +1,7 @@
-From 5ec59726dc885138b0744c22aec6a35ea61eedc1 Mon Sep 17 00:00:00 2001
+From 7b3c58a1c039687f8735a91049bd5609a437a5e6 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:54:21 -0400
-Subject: [PATCH 2/5] feat(plugin-ui): add scroll stickToBottom, onScroll and
+Subject: [PATCH] feat(plugin-ui): add scroll stickToBottom, onScroll and
  scrollToBottomRev props
 
 Chat-style plugin panels need follow-scroll while streaming content,
@@ -76,10 +76,10 @@ index fe2ce5ab8..ef706aa89 100644
    ColorSpec m_backgroundFill = clearColorSpec();
    ColorSpec m_backgroundBorder = clearColorSpec();
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index f46aa6b05..135ab99e2 100644
+index 2ef3a195e..df3cb9ec5 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
-@@ -297,10 +297,11 @@ namespace ui {
+@@ -298,10 +298,11 @@ namespace ui {
                                                                "value",   "enabled", "onChange", "onDragEnd"};
        static const std::unordered_set<std::string> kToggle = {"width",   "height",  "flexGrow", "opacity",
                                                                "visible", "checked", "enabled",  "onChange"};
@@ -95,7 +95,7 @@ index f46aa6b05..135ab99e2 100644
  
        if (type == "column" || type == "row") {
          return kFlex;
-@@ -1096,6 +1097,24 @@ namespace ui {
+@@ -1110,6 +1111,24 @@ namespace ui {
          const double* borderWidth = numProp(desired, "borderWidth");
          scroll->setBorder(*border, borderWidth != nullptr ? scaled(*borderWidth) : 1.0f);
        }

@@ -1,7 +1,7 @@
-From 7649da16b3fd86968f3bf642292ad568ba42abd1 Mon Sep 17 00:00:00 2001
+From 1863079bba0592037f526bd387be583dbf8eaa1c Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Wed, 8 Jul 2026 00:51:20 -0400
-Subject: [PATCH 5/5] fix(ui): measure MarkdownView with wrapped label sizes
+Subject: [PATCH] fix(ui): measure MarkdownView with wrapped label sizes
 
 MarkdownView only applied its wrap width to labels in doLayout, so
 measure reported single-line label sizes and a parent flex allocated

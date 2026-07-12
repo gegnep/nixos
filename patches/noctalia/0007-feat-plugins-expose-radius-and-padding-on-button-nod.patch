@@ -1,4 +1,4 @@
-From 9ee7500b315f5fd3ab6d24c49ed0ea39a80a0e5c Mon Sep 17 00:00:00 2001
+From db3d82fb642d2b579de65ecdb30f7a202f1b75f1 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Fri, 10 Jul 2026 01:18:21 -0400
 Subject: [PATCH] feat(plugins): expose radius and padding on button nodes
@@ -13,7 +13,7 @@ Written with AI assistance (Claude Fable 5).
  1 file changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index 3041187..2778ba0 100644
+index 30411871c..2778ba06e 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
 @@ -279,10 +279,11 @@ namespace ui {

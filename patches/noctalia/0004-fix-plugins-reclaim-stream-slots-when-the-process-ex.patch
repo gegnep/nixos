@@ -1,7 +1,7 @@
-From 5f02ef90a0070a519ec5d574d5ecf2d96c2792e3 Mon Sep 17 00:00:00 2001
+From bff2a5b574ffb7b6232914c260f3d08efcfd1356 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Wed, 8 Jul 2026 00:46:02 -0400
-Subject: [PATCH 4/5] fix(plugins): reclaim stream slots when the process exits
+Subject: [PATCH] fix(plugins): reclaim stream slots when the process exits
 
 runStream slots (kMaxStreamsPerHost = 4) were only released on host
 teardown, so a plugin invoking short-lived streaming commands hit the
@@ -17,10 +17,10 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
  1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/src/scripting/luau_host.cpp b/src/scripting/luau_host.cpp
-index 9252e36e2..ccbff050d 100644
+index 4b826dec3..b62525d73 100644
 --- a/src/scripting/luau_host.cpp
 +++ b/src/scripting/luau_host.cpp
-@@ -1450,6 +1450,11 @@ void LuauHost::stateWatch(std::string key, int callbackRef) {
+@@ -1506,6 +1506,11 @@ void LuauHost::stateWatch(std::string key, int callbackRef) {
  bool LuauHost::hasStateWatchCallback(int callbackRef) const { return m_stateWatchCallbackRefs.contains(callbackRef); }
  
  bool LuauHost::startStream(std::string command, int callbackRef) {
@@ -32,7 +32,7 @@ index 9252e36e2..ccbff050d 100644
    if (command.empty() || callbackRef <= LUA_REFNIL || m_streamCancels.size() >= kMaxStreamsPerHost) {
      return false;
    }
-@@ -1484,9 +1489,15 @@ bool LuauHost::startStream(std::string command, int callbackRef) {
+@@ -1540,9 +1545,15 @@ bool LuauHost::startStream(std::string command, int callbackRef) {
      }
    };
  
