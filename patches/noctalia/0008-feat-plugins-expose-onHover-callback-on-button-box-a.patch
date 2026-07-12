@@ -1,4 +1,4 @@
-From 469a60f130d1d96c99ee23184ab86eabf45d9fc6 Mon Sep 17 00:00:00 2001
+From 39599b271aa3e85909e3f5e65f81ba028b955747 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Fri, 10 Jul 2026 01:32:10 -0400
 Subject: [PATCH] feat(plugins): expose onHover callback on button, box, and
@@ -16,7 +16,7 @@ Assisted with AI tooling.
  1 file changed, 62 insertions(+), 10 deletions(-)
 
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index 2778ba0..7f964ca 100644
+index 2778ba06e..7f964caec 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
 @@ -242,14 +242,15 @@ namespace ui {
