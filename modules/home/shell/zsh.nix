@@ -46,6 +46,7 @@
       cat = "bat";
       catp = "bat --plain";
       catn = "bat --paging=never";
+      catpn = "bat --plain --paging=never";
       cata = "bat --show-all";
     };
 
