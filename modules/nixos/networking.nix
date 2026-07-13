@@ -5,22 +5,10 @@ in
 {
   networking = {
     nameservers = [
-      "100.68.176.20" # homelab tailnet ip
       "1.1.1.1"
       "1.0.0.1"
     ];
     search = [ "ermine-gentoo.ts.net" ];
-    hosts = {
-      # /etc/hosts can't wildcard *.homelab; list service names here.
-      # Static entries survive the resolved current-server rotation that
-      # otherwise NXDOMAINs .homelab whenever it lands on Cloudflare.
-      "100.68.176.20" = [
-        "homelab"
-        "git.homelab"
-      ];
-      "100.101.53.21" = [ "blackbox" ];
-      "100.76.124.81" = [ "nixpad" ];
-    };
     networkmanager.enable = isLaptop;
     firewall = {
       enable = true;
@@ -48,6 +36,7 @@ in
     settings.Resolve = {
       DNSSEC = "allow-downgrade";
       Domains = [ "~." ];
+      Cache = "no-negative";
       FallbackDNS = [
         "100.100.100.100"
         "1.1.1.1"
