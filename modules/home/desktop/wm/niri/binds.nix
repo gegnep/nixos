@@ -57,6 +57,7 @@
       "Mod+Shift+N".action.spawn = noctalia "notifications toggleDND";
       "Mod+Ctrl+N".action.spawn = noctalia "notifications clear";
       "Mod+C".action.spawn = noctalia "controlCenter toggle";
+      "Mod+Shift+U".action = spawn "paste-clip";
 
       # Screenshots
       "Print".action.screenshot = [ ];
