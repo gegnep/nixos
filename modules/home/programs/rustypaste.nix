@@ -15,18 +15,23 @@ let
 
       case "$types" in
         *image/png*)
-          tmp="$(mktemp --suffix=.png)"
-          trap 'rm -f "$tmp"' EXIT
-          wl-paste --type image/png > "$tmp"
-          url="$(rpaste "$tmp")"
+          url="$(wl-paste --type image/png | rpaste -n "clip-$(date +%s).png" - 2>&1)" || true
           ;;
         *)
-          url="$(wl-paste --no-newline | rpaste -)"
+          url="$(wl-paste --no-newline | rpaste - 2>&1)" || true
           ;;
-        esac
+      esac
 
-        printf '%s' "$url" | wl-copy
-        notify-send "rustypaste" "$url"
+      case "$url" in
+        http*)
+          printf '%s' "$url" | wl-copy
+          notify-send "rustypaste" "$url"
+          ;;
+        *)
+          notify-send -u critical "rustypaste failed" "''${url:-empty output}"
+          exit 1
+          ;;
+      esac
     '';
   };
 in
