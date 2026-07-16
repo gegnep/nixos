@@ -1,4 +1,4 @@
-From 94657477bfc64f7eec8babbcebd387ae1311676f Mon Sep 17 00:00:00 2001
+From b5b9fb5a7492ea1cc3440f8aa9494d2fb680340f Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:53:54 -0400
 Subject: [PATCH] feat(plugin-ui): add input submitOnEnter prop for chat-style
@@ -10,13 +10,13 @@ behavior (Enter inserts, Ctrl+Enter submits) is unchanged.
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ---
- src/ui/controls/input.cpp     |  4 +++-
- src/ui/controls/input.h       |  4 ++++
- src/ui/ui_tree_reconciler.cpp | 11 +++++++----
- 3 files changed, 14 insertions(+), 5 deletions(-)
+ src/ui/controls/input.cpp     | 4 +++-
+ src/ui/controls/input.h       | 4 ++++
+ src/ui/ui_tree_reconciler.cpp | 5 ++++-
+ 3 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/src/ui/controls/input.cpp b/src/ui/controls/input.cpp
-index 3966f924c..c8d97a7b4 100644
+index b2acceb02..dac0a886d 100644
 --- a/src/ui/controls/input.cpp
 +++ b/src/ui/controls/input.cpp
 @@ -529,6 +529,8 @@ void Input::setOnFocusGain(std::function<void()> callback) { m_onFocusGain = std
@@ -28,7 +28,7 @@ index 3966f924c..c8d97a7b4 100644
  void Input::setSurfaceOpacity(float opacity) {
    const float clamped = std::clamp(opacity, 0.0f, 1.0f);
    if (m_surfaceOpacity == clamped) {
-@@ -1224,7 +1226,7 @@ void Input::handleKey(std::uint32_t sym, std::uint32_t utf32, std::uint32_t modi
+@@ -1228,7 +1230,7 @@ void Input::handleKey(std::uint32_t sym, std::uint32_t utf32, std::uint32_t modi
        }
      }
    } else if (m_multiline && KeySymbol::isEnter(sym) && !preedit) {
@@ -60,25 +60,19 @@ index 891bcd9e3..a8f7dd7d9 100644
    float m_controlHeight = Style::controlHeight;
    float m_horizontalPadding = Style::spaceMd;
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index 30411871c..2ef3a195e 100644
+index d60b5f37f..3523bba62 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
-@@ -286,10 +286,10 @@ namespace ui {
-       static const std::unordered_set<std::string> kGraph = {"width",   "height",    "flexGrow",   "opacity",
-                                                              "visible", "values",    "values2",    "color",
-                                                              "color2",  "lineWidth", "fillOpacity"};
--      static const std::unordered_set<std::string> kInput = {"width",    "height",   "flexGrow",    "opacity",
--                                                             "visible",  "value",    "placeholder", "fontSize",
--                                                             "enabled",  "password", "multiline",   "focus",
--                                                             "onChange", "onSubmit"};
-+      static const std::unordered_set<std::string> kInput = {"width",    "height",   "flexGrow",     "opacity",
-+                                                             "visible",  "value",    "placeholder",  "fontSize",
-+                                                             "enabled",  "password", "multiline",    "focus",
-+                                                             "onChange", "onSubmit", "submitOnEnter"};
-       static const std::unordered_set<std::string> kSelect = {"width",       "height",  "flexGrow",      "opacity",
-                                                               "visible",     "options", "selectedIndex", "enabled",
-                                                               "placeholder", "onChange"};
-@@ -1062,6 +1062,9 @@ namespace ui {
+@@ -313,7 +313,7 @@ namespace ui {
+       static const std::unordered_set<std::string> kInput = {"width",    "height",   "flexGrow",    "opacity",
+                                                              "visible",  "value",    "placeholder", "fontSize",
+                                                              "enabled",  "password", "multiline",   "focus",
+-                                                             "onChange", "onSubmit", "controlSize"};
++                                                             "onChange", "onSubmit", "controlSize", "submitOnEnter"};
+       static const std::unordered_set<std::string> kSelect = {"width",       "height",   "flexGrow",      "opacity",
+                                                               "visible",     "options",  "selectedIndex", "enabled",
+                                                               "placeholder", "onChange", "controlSize"};
+@@ -1100,6 +1100,9 @@ namespace ui {
        if (const bool* multiline = boolProp(desired, "multiline")) {
          input->setMultiline(*multiline);
        }
