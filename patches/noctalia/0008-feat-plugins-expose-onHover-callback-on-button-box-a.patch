@@ -1,4 +1,4 @@
-From 39599b271aa3e85909e3f5e65f81ba028b955747 Mon Sep 17 00:00:00 2001
+From ed3bf8c99caf632c0099e5d6de582eecc8dac12c Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Fri, 10 Jul 2026 01:32:10 -0400
 Subject: [PATCH] feat(plugins): expose onHover callback on button, box, and
@@ -12,14 +12,14 @@ hover-only so it never swallows clicks meant for ancestors.
 
 Assisted with AI tooling.
 ---
- src/ui/ui_tree_reconciler.cpp | 72 ++++++++++++++++++++++++++++++-----
- 1 file changed, 62 insertions(+), 10 deletions(-)
+ src/ui/ui_tree_reconciler.cpp | 80 +++++++++++++++++++++++++++++------
+ 1 file changed, 66 insertions(+), 14 deletions(-)
 
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index 2778ba06e..7f964caec 100644
+index d60b5f37f..027a0bf93 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
-@@ -242,14 +242,15 @@ namespace ui {
+@@ -265,14 +265,15 @@ namespace ui {
        if (want.type != "box" && want.type != "image") {
          return false;
        }
@@ -38,7 +38,7 @@ index 2778ba06e..7f964caec 100644
        inputArea->addChild(std::move(control));
        return inputArea;
      }
-@@ -264,7 +265,7 @@ namespace ui {
+@@ -287,7 +288,7 @@ namespace ui {
        };
        static const std::unordered_set<std::string> kBox = {"width",       "height",   "flexGrow", "opacity",
                                                             "visible",     "fill",     "radius",   "border",
@@ -47,7 +47,7 @@ index 2778ba06e..7f964caec 100644
        static const std::unordered_set<std::string> kLabel = {"width",      "height",   "flexGrow", "opacity",
                                                               "visible",    "text",     "fontSize", "color",
                                                               "fontWeight", "maxWidth", "maxLines", "textAlign",
-@@ -273,7 +274,7 @@ namespace ui {
+@@ -296,17 +297,17 @@ namespace ui {
                                                               "visible", "name",   "size",     "color"};
        static const std::unordered_set<std::string> kImage = {"width",   "height",      "flexGrow", "opacity",
                                                               "visible", "path",        "radius",   "fit",
@@ -56,16 +56,22 @@ index 2778ba06e..7f964caec 100644
        static const std::unordered_set<std::string> kSeparator = {"width",   "height",  "flexGrow",
                                                                   "opacity", "visible", "thickness",
                                                                   "color",   "spacing", "orientation"};
-@@ -283,7 +284,7 @@ namespace ui {
-                                                               "visible",   "text",     "glyph",        "fontSize",
-                                                               "glyphSize", "variant",  "contentAlign", "enabled",
-                                                               "selected",  "onClick",  "onRightClick", "radius",
--                                                              "padding",   "paddingH", "paddingV"};
-+                                                              "padding",   "paddingH", "paddingV",     "onHover"};
+       static const std::unordered_set<std::string> kProgress = {"width",    "height", "flexGrow", "opacity", "visible",
+                                                                 "progress", "fill",   "track",    "radius"};
+-      static const std::unordered_set<std::string> kButton = {"width",      "height",  "flexGrow",     "opacity",
+-                                                              "visible",    "text",    "glyph",        "fontSize",
+-                                                              "glyphSize",  "variant", "contentAlign", "enabled",
+-                                                              "selected",   "onClick", "onRightClick", "tooltip",
+-                                                              "controlSize"};
++      static const std::unordered_set<std::string> kButton = {"width",       "height",  "flexGrow",     "opacity",
++                                                              "visible",     "text",    "glyph",        "fontSize",
++                                                              "glyphSize",   "variant", "contentAlign", "enabled",
++                                                              "selected",    "onClick", "onRightClick", "tooltip",
++                                                              "controlSize", "onHover"};
        static const std::unordered_set<std::string> kGraph = {"width",   "height",    "flexGrow",   "opacity",
                                                               "visible", "values",    "values2",    "color",
                                                               "color2",  "lineWidth", "fillOpacity"};
-@@ -357,6 +358,7 @@ namespace ui {
+@@ -381,6 +382,7 @@ namespace ui {
      Node* node = nullptr;
      std::string callbackName;        // last-wired button onClick / control onChange target
      std::string rightCallbackName;   // last-wired button onRightClick target
@@ -73,7 +79,7 @@ index 2778ba06e..7f964caec 100644
      std::string submitCallbackName;  // last-wired input onSubmit target
      std::string dragEndCallbackName; // last-wired slider onDragEnd target
      std::string imagePath;           // last-applied resolved image source
-@@ -398,8 +400,8 @@ namespace ui {
+@@ -422,8 +424,8 @@ namespace ui {
        return flex;
      }
      if (desired.type == "box") {
@@ -84,7 +90,7 @@ index 2778ba06e..7f964caec 100644
        }
        return std::make_unique<Box>();
      }
-@@ -410,8 +412,8 @@ namespace ui {
+@@ -434,8 +436,8 @@ namespace ui {
        return std::make_unique<Glyph>();
      }
      if (desired.type == "image") {
@@ -95,7 +101,7 @@ index 2778ba06e..7f964caec 100644
        }
        return std::make_unique<Image>();
      }
-@@ -653,6 +655,8 @@ namespace ui {
+@@ -677,6 +679,8 @@ namespace ui {
            onClick != nullptr && *onClick != slot.callbackName) {
          slot.callbackName = *onClick;
          if (auto* inputArea = inputAreaFromSlot(node)) {
@@ -104,7 +110,7 @@ index 2778ba06e..7f964caec 100644
            inputArea->setOnClick([this, name = slot.callbackName](const InputArea::PointerData&) {
              if (m_sink) {
                m_sink(ControlCallback{name});
-@@ -660,6 +664,22 @@ namespace ui {
+@@ -684,6 +688,22 @@ namespace ui {
            });
          }
        }
@@ -127,7 +133,7 @@ index 2778ba06e..7f964caec 100644
        return;
      }
  
-@@ -769,6 +789,8 @@ namespace ui {
+@@ -793,6 +813,8 @@ namespace ui {
            onClick != nullptr && *onClick != slot.callbackName) {
          slot.callbackName = *onClick;
          if (auto* inputArea = inputAreaFromSlot(node)) {
@@ -136,7 +142,7 @@ index 2778ba06e..7f964caec 100644
            inputArea->setOnClick([this, name = slot.callbackName](const InputArea::PointerData&) {
              if (m_sink) {
                m_sink(ControlCallback{name});
-@@ -776,6 +798,22 @@ namespace ui {
+@@ -800,6 +822,22 @@ namespace ui {
            });
          }
        }
@@ -159,10 +165,10 @@ index 2778ba06e..7f964caec 100644
        return;
      }
  
-@@ -868,6 +906,20 @@ namespace ui {
-       if (const bool* selected = boolProp(desired, "selected")) {
-         button->setSelected(*selected);
-       }
+@@ -896,6 +934,20 @@ namespace ui {
+       // retained Button. An empty text routes to InputArea::clearTooltip().
+       const std::string* tooltip = strProp(desired, "tooltip");
+       button->setTooltip(tooltip != nullptr ? *tooltip : "");
 +      if (const std::string* onHover = strProp(desired, "onHover");
 +          onHover != nullptr && *onHover != slot.hoverCallbackName) {
 +        slot.hoverCallbackName = *onHover;

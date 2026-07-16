@@ -46,6 +46,7 @@ in
 {
   home.packages = with pkgs; [
     chatterino7
+    zoom-us
     discord-wrapped
     slack-wrapped
   ];
