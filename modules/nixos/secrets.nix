@@ -15,5 +15,9 @@
       owner = "pengeg";
       mode = "0600";
     };
+    rustypaste-auth-token = {
+      owner = "pengeg";
+      mode = "0600";
+    };
   };
 }
