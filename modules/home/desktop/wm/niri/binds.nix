@@ -52,19 +52,11 @@
       "Mod+Space".action.spawn = noctalia "panel-toggle launcher";
       "Mod+Ctrl+Space".action.spawn = noctalia "panel-toggle gegnep/claude-launcher:chat";
       "Mod+Escape".action.spawn = noctalia "lockScreen lock";
-<<<<<<< HEAD
       "Mod+M".action.spawn = noctalia "panel-toggle session";
       "Mod+N".action.spawn = noctalia "notification-dnd-toggle";
       "Mod+C".action.spawn = noctalia "panel-toggle control-center";
       "Mod+X".action.spawn = noctalia "panel-toggle clipboard";
-=======
-      "Mod+Shift+M".action.spawn = noctalia "sessionMenu toggle";
-      "Mod+N".action.spawn = noctalia "notifications toggleHistory";
-      "Mod+Shift+N".action.spawn = noctalia "notifications toggleDND";
-      "Mod+Ctrl+N".action.spawn = noctalia "notifications clear";
-      "Mod+C".action.spawn = noctalia "controlCenter toggle";
       "Mod+Shift+U".action = spawn "paste-clip";
->>>>>>> main
 
       # Screenshots
       "Print".action.screenshot = [ ];
