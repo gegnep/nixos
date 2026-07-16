@@ -15,6 +15,7 @@
     ./firefox.nix
     ./git.nix
     ./neovim.nix
+    ./rustypaste.nix
     ./spotify.nix
     ./terminals.nix
     ./zed.nix
