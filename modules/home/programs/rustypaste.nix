@@ -41,5 +41,6 @@ in
       address = "https://p.pengeg.com";
       auth_token_file = osConfig.sops.secrets.rustypaste-auth-token.path;
     };
+    paste = { };
   };
 }
