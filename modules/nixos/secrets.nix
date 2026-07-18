@@ -19,5 +19,9 @@
       owner = "pengeg";
       mode = "0600";
     };
+    openrouter-key = {
+      owner = "pengeg";
+      mode = "0600";
+    };
   };
 }
