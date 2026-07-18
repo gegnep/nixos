@@ -13,6 +13,7 @@
     ./fastfetch
     ./firefox.nix
     ./git.nix
+    ./kiro.nix
     ./neovim.nix
     ./opencode.nix
     ./rustypaste.nix
