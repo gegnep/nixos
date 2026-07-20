@@ -5,7 +5,10 @@ let
   openrouterKey = osConfig.sops.secrets.openrouter-key.path;
 
   opencode-sandboxed = pkgs.mkBwrapper {
-    imports = [ pkgs.bwrapperPresets.devshell ];
+    imports = [
+      pkgs.bwrapperPresets.devshell
+      ./agent-sandbox.nix
+    ];
     app = {
       package = pkgs.opencode;
       runScript = "opencode";

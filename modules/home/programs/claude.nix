@@ -9,7 +9,10 @@ let
   mkClaudeSandboxed =
     name:
     pkgs.mkBwrapper {
-      imports = [ pkgs.bwrapperPresets.devshell ];
+      imports = [
+        pkgs.bwrapperPresets.devshell
+        ./agent-sandbox.nix
+      ];
       app = {
         package = pkgs.claude-code;
         runScript = "env PATH=${opencode-unwrapped}/bin:$PATH CLAUDE_CONFIG_DIR=$HOME/.claude EDITOR=nvim VISUAL=nvim DISABLE_AUTOUPDATER=1 claude";
