@@ -2,7 +2,10 @@
 
 let
   kiro-sandboxed = pkgs.mkBwrapper {
-    imports = [ pkgs.bwrapperPresets.devshell ];
+    imports = [
+      pkgs.bwrapperPresets.devshell
+      ./agent-sandbox.nix
+    ];
     app = {
       package = pkgs.kiro-cli;
       runScript = "kiro-cli";
