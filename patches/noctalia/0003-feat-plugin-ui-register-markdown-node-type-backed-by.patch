@@ -1,4 +1,4 @@
-From 51a23a842cc036ee1fe9e47a4779e87754621415 Mon Sep 17 00:00:00 2001
+From 9037ba93bfd9ab77423fc9e78beec298e6572f03 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:54:53 -0400
 Subject: [PATCH] feat(plugin-ui): register markdown node type backed by
@@ -18,10 +18,10 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
  3 files changed, 33 insertions(+)
 
 diff --git a/meson.build b/meson.build
-index 3b18ce189..de87ae42c 100644
+index 0cbaae0da..40f00a675 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1270,6 +1270,7 @@ ui_tree_reconciler_test = executable('ui_tree_reconciler_test',
+@@ -1381,6 +1381,7 @@ ui_tree_reconciler_test = executable('ui_tree_reconciler_test',
      'src/ui/controls/image.cpp',
      'src/ui/controls/input.cpp',
      'src/ui/controls/label.cpp',
@@ -29,15 +29,15 @@ index 3b18ce189..de87ae42c 100644
      'src/ui/controls/progress_bar.cpp',
      'src/ui/controls/scroll_view.cpp',
      'src/ui/controls/scrollbar.cpp',
-@@ -1280,6 +1281,7 @@ ui_tree_reconciler_test = executable('ui_tree_reconciler_test',
+@@ -1391,6 +1392,7 @@ ui_tree_reconciler_test = executable('ui_tree_reconciler_test',
      'src/ui/controls/toggle.cpp',
      'src/ui/controls/color_swatch_preview.cpp',
      'src/ui/app_icon_colorization.cpp',
 +    'src/ui/builders.cpp',
      'src/ui/palette.cpp',
      'src/ui/style.cpp',
-     'src/util/clamp.cpp',
-@@ -1318,6 +1320,7 @@ ui_tree_reconciler_test = executable('ui_tree_reconciler_test',
+     'src/ui/drag_drop_controller.cpp',
+@@ -1430,6 +1432,7 @@ ui_tree_reconciler_test = executable('ui_tree_reconciler_test',
      egl_dep,
      librsvg_dep,
      libwebp_dep,
@@ -46,7 +46,7 @@ index 3b18ce189..de87ae42c 100644
      xkbcommon_dep,
    ],
 diff --git a/src/scripting/ui_prelude.h b/src/scripting/ui_prelude.h
-index 1145e3c5b..aacc7254e 100644
+index 20290131d..f14eaf5cb 100644
 --- a/src/scripting/ui_prelude.h
 +++ b/src/scripting/ui_prelude.h
 @@ -25,6 +25,7 @@ ui.progress = ctor("progress")
@@ -58,10 +58,10 @@ index 1145e3c5b..aacc7254e 100644
  ui.slider = ctor("slider")
  ui.toggle = ctor("toggle")
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index a17d41cc9..218f65e9c 100644
+index f164e0e9b..7bac97993 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
-@@ -12,6 +12,7 @@
+@@ -14,6 +14,7 @@
  #include "ui/controls/image.h"
  #include "ui/controls/input.h"
  #include "ui/controls/label.h"
@@ -69,7 +69,7 @@ index a17d41cc9..218f65e9c 100644
  #include "ui/controls/progress_bar.h"
  #include "ui/controls/scroll_view.h"
  #include "ui/controls/select.h"
-@@ -314,6 +315,8 @@ namespace ui {
+@@ -399,6 +400,8 @@ namespace ui {
                                                               "visible",  "value",    "placeholder", "fontSize",
                                                               "enabled",  "password", "multiline",   "focus",
                                                               "onChange", "onSubmit", "controlSize", "submitOnEnter"};
@@ -78,7 +78,7 @@ index a17d41cc9..218f65e9c 100644
        static const std::unordered_set<std::string> kSelect = {"width",       "height",   "flexGrow",      "opacity",
                                                                "visible",     "options",  "selectedIndex", "enabled",
                                                                "placeholder", "onChange", "controlSize"};
-@@ -359,6 +362,9 @@ namespace ui {
+@@ -455,6 +458,9 @@ namespace ui {
        if (type == "input") {
          return kInput;
        }
@@ -88,7 +88,7 @@ index a17d41cc9..218f65e9c 100644
        if (type == "select") {
          return kSelect;
        }
-@@ -385,6 +391,7 @@ namespace ui {
+@@ -487,6 +493,7 @@ namespace ui {
      std::string submitCallbackName;  // last-wired input onSubmit target
      std::string dragEndCallbackName; // last-wired slider onDragEnd target
      std::string imagePath;           // last-applied resolved image source
@@ -96,7 +96,7 @@ index a17d41cc9..218f65e9c 100644
      float imageTargetSize = 0.0f;
      // Controlled-with-change-detection: a value-driven control (toggle/slider/
      // select) only re-applies its declared value when it differs from the last
-@@ -458,6 +465,9 @@ namespace ui {
+@@ -604,6 +611,9 @@ namespace ui {
      if (desired.type == "input") {
        return std::make_unique<Input>();
      }
@@ -106,7 +106,7 @@ index a17d41cc9..218f65e9c 100644
      if (desired.type == "select") {
        return std::make_unique<Select>();
      }
-@@ -1140,6 +1150,25 @@ namespace ui {
+@@ -1403,6 +1413,25 @@ namespace ui {
        return;
      }
  
