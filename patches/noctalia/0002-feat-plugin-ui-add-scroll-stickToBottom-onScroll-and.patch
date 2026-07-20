@@ -1,4 +1,4 @@
-From 7b3c58a1c039687f8735a91049bd5609a437a5e6 Mon Sep 17 00:00:00 2001
+From f7febc95cb7536c34b4c7cde88a5ccfced86325e Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:54:21 -0400
 Subject: [PATCH] feat(plugin-ui): add scroll stickToBottom, onScroll and
@@ -17,10 +17,10 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
  3 files changed, 39 insertions(+), 4 deletions(-)
 
 diff --git a/src/ui/controls/scroll_view.cpp b/src/ui/controls/scroll_view.cpp
-index 1b084e7bd..4e077cc91 100644
+index 1d88cd5ba..3397c7d15 100644
 --- a/src/ui/controls/scroll_view.cpp
 +++ b/src/ui/controls/scroll_view.cpp
-@@ -264,6 +264,8 @@ void ScrollView::bindState(ScrollViewState* state) {
+@@ -271,6 +271,8 @@ void ScrollView::bindState(ScrollViewState* state) {
  
  void ScrollView::setOnScrollChanged(std::function<void(float)> callback) { m_onScrollChanged = std::move(callback); }
  
@@ -29,7 +29,7 @@ index 1b084e7bd..4e077cc91 100644
  void ScrollView::setViewportPaddingH(float padding) {
    m_viewportPaddingH = padding;
    markLayoutDirty();
-@@ -337,6 +339,7 @@ void ScrollView::doLayout(Renderer& renderer) {
+@@ -344,6 +346,7 @@ void ScrollView::doLayout(Renderer& renderer) {
    }
  
    const float contentHeight = m_content->height();
@@ -37,7 +37,7 @@ index 1b084e7bd..4e077cc91 100644
    m_maxScrollOffset = std::max(0.0f, contentHeight - viewportH);
    if (m_boundState != nullptr) {
      m_scrollOffset = clampOffset(m_boundState->offset);
-@@ -349,6 +352,16 @@ void ScrollView::doLayout(Renderer& renderer) {
+@@ -356,6 +359,16 @@ void ScrollView::doLayout(Renderer& renderer) {
    } else {
      m_targetScrollOffset = m_scrollOffset;
    }
@@ -55,7 +55,7 @@ index 1b084e7bd..4e077cc91 100644
    const float scrollbarX = m_viewportPaddingH + m_viewportWidth - Style::scrollbarWidth;
    m_scrollbar->setPosition(scrollbarX, m_viewportPaddingV);
 diff --git a/src/ui/controls/scroll_view.h b/src/ui/controls/scroll_view.h
-index fe2ce5ab8..ef706aa89 100644
+index 23f802295..f71d34472 100644
 --- a/src/ui/controls/scroll_view.h
 +++ b/src/ui/controls/scroll_view.h
 @@ -25,6 +25,8 @@ public:
@@ -66,8 +66,8 @@ index fe2ce5ab8..ef706aa89 100644
 +  void setStickToBottom(bool enabled);
    void scrollBy(float delta);
    void setScrollbarVisible(bool visible);
-   void setViewportPaddingH(float padding);
-@@ -67,6 +69,7 @@ private:
+   // Vertical clearance at both track ends (e.g. the host card's corner radius).
+@@ -69,6 +71,7 @@ private:
    Scrollbar* m_scrollbar = nullptr;
  
    ScrollViewState* m_boundState = nullptr;
@@ -76,11 +76,11 @@ index fe2ce5ab8..ef706aa89 100644
    ColorSpec m_backgroundFill = clearColorSpec();
    ColorSpec m_backgroundBorder = clearColorSpec();
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index 2ef3a195e..df3cb9ec5 100644
+index 615ece1cd..f164e0e9b 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
-@@ -298,10 +298,11 @@ namespace ui {
-                                                               "value",   "enabled", "onChange", "onDragEnd"};
+@@ -408,10 +408,11 @@ namespace ui {
+                                                               "controlSize"};
        static const std::unordered_set<std::string> kToggle = {"width",   "height",  "flexGrow", "opacity",
                                                                "visible", "checked", "enabled",  "onChange"};
 -      static const std::unordered_set<std::string> kScroll = {"width",       "height", "flexGrow", "opacity",
@@ -92,10 +92,10 @@ index 2ef3a195e..df3cb9ec5 100644
 +          "radius",   "border", "borderWidth", "gap",           "padding",  "paddingH",
 +          "paddingV", "align",  "justify",     "stickToBottom", "onScroll", "scrollToBottomRev"
 +      };
- 
-       if (type == "column" || type == "row") {
-         return kFlex;
-@@ -1110,6 +1111,24 @@ namespace ui {
+       static const std::unordered_set<std::string> kDragSource = {
+           "width",   "height",   "flexGrow",    "opacity",         "visible",       "gap",
+           "padding", "paddingH", "paddingV",    "align",           "justify",       "fill",
+@@ -1414,6 +1415,24 @@ namespace ui {
          const double* borderWidth = numProp(desired, "borderWidth");
          scroll->setBorder(*border, borderWidth != nullptr ? scaled(*borderWidth) : 1.0f);
        }

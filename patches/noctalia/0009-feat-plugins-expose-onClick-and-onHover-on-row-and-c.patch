@@ -1,4 +1,4 @@
-From bf34485a859824353068cd32279690f9bfc15eb2 Mon Sep 17 00:00:00 2001
+From 7453095cc52e38367bd04f6ffa74a55a4490abe3 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Wed, 15 Jul 2026 17:25:48 -0400
 Subject: [PATCH] feat(plugins): expose onClick and onHover on row and column
@@ -37,12 +37,12 @@ enter/leave instead, matching existing dispatcher behavior.
 
 Assisted with AI tooling.
 ---
- src/ui/ui_tree_reconciler.cpp     | 274 +++++++++++++++++++++++-------
- tests/ui_tree_reconciler_test.cpp | 218 ++++++++++++++++++++++++
- 2 files changed, 427 insertions(+), 65 deletions(-)
+ src/ui/ui_tree_reconciler.cpp     | 279 +++++++++++++++++++++++-------
+ tests/ui_tree_reconciler_test.cpp | 218 +++++++++++++++++++++++
+ 2 files changed, 431 insertions(+), 66 deletions(-)
 
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index 027a0bf93..c99082ed6 100644
+index 8d4ac26e7..50924b37d 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
 @@ -1,5 +1,6 @@
@@ -52,7 +52,7 @@ index 027a0bf93..c99082ed6 100644
  #include "core/log.h"
  #include "render/core/color.h"
  #include "render/core/renderer.h"
-@@ -26,6 +27,7 @@
+@@ -29,6 +30,7 @@
  #include <charconv>
  #include <cmath>
  #include <format>
@@ -60,7 +60,7 @@ index 027a0bf93..c99082ed6 100644
  #include <linux/input-event-codes.h>
  #include <optional>
  #include <unordered_set>
-@@ -215,14 +217,21 @@ namespace ui {
+@@ -300,14 +302,24 @@ namespace ui {
        return std::nullopt;
      }
  
@@ -76,15 +76,19 @@ index 027a0bf93..c99082ed6 100644
        if (node == nullptr) {
          return nullptr;
        }
-       if (type == "column" || type == "row") {
+-      if (type == "column" || type == "row" || type == "drag_source" || type == "drop_zone") {
++      if (type == "column" || type == "row") {
 +        if (auto* inputArea = inputAreaFromSlot(node)) {
 +          const auto& kids = inputArea->children();
 +          return kids.empty() ? nullptr : kids.front().get();
 +        }
++        return node;
++      }
++      if (type == "drag_source" || type == "drop_zone") {
          return node;
        }
        if (type == "scroll") {
-@@ -256,36 +265,103 @@ namespace ui {
+@@ -341,36 +353,103 @@ namespace ui {
        return nullptr;
      }
  
@@ -199,7 +203,7 @@ index 027a0bf93..c99082ed6 100644
        static const std::unordered_set<std::string> kBox = {"width",       "height",   "flexGrow", "opacity",
                                                             "visible",     "fill",     "radius",   "border",
                                                             "borderWidth", "softness", "onClick",  "onHover"};
-@@ -382,7 +458,7 @@ namespace ui {
+@@ -484,7 +563,7 @@ namespace ui {
      Node* node = nullptr;
      std::string callbackName;        // last-wired button onClick / control onChange target
      std::string rightCallbackName;   // last-wired button onRightClick target
@@ -208,7 +212,7 @@ index 027a0bf93..c99082ed6 100644
      std::string submitCallbackName;  // last-wired input onSubmit target
      std::string dragEndCallbackName; // last-wired slider onDragEnd target
      std::string imagePath;           // last-applied resolved image source
-@@ -415,17 +491,23 @@ namespace ui {
+@@ -549,12 +628,18 @@ namespace ui {
        auto flex = std::make_unique<Flex>();
        flex->setDirection(FlexDirection::Vertical);
        flex->setAlign(FlexAlign::Stretch);
@@ -226,6 +230,10 @@ index 027a0bf93..c99082ed6 100644
 +      }
        return flex;
      }
+     if (desired.type == "drag_source") {
+@@ -570,8 +655,8 @@ namespace ui {
+       return zone;
+     }
      if (desired.type == "box") {
 -      if (strProp(desired, "onClick") != nullptr || strProp(desired, "onHover") != nullptr) {
 -        return wrapClickable(std::make_unique<Box>(), strProp(desired, "onClick") != nullptr);
@@ -234,7 +242,7 @@ index 027a0bf93..c99082ed6 100644
        }
        return std::make_unique<Box>();
      }
-@@ -436,8 +518,8 @@ namespace ui {
+@@ -582,8 +667,8 @@ namespace ui {
        return std::make_unique<Glyph>();
      }
      if (desired.type == "image") {
@@ -245,21 +253,21 @@ index 027a0bf93..c99082ed6 100644
        }
        return std::make_unique<Image>();
      }
-@@ -605,7 +687,10 @@ namespace ui {
-     const double* height = numProp(desired, "height");
- 
-     if (desired.type == "column" || desired.type == "row") {
+@@ -829,7 +914,10 @@ namespace ui {
+         || desired.type == "row"
+         || desired.type == "drag_source"
+         || desired.type == "drop_zone") {
 -      auto* flex = static_cast<Flex*>(node);
 +      auto* flex = controlFromSlot<Flex>(node);
 +      if (flex == nullptr) {
 +        return;
 +      }
-       if (const double* gap = numProp(desired, "gap")) {
-         flex->setGap(scaled(*gap));
-       }
-@@ -648,6 +733,45 @@ namespace ui {
-         flex->setMinHeight(scaled(*height));
-         flex->setMaxHeight(scaled(*height));
+       if (desired.type == "drop_zone") {
+         auto* zone = static_cast<DropZone*>(node);
+         const std::string* direction = strProp(desired, "direction");
+@@ -911,6 +999,45 @@ namespace ui {
+           flex->setMaxHeight(scaled(*height));
+         }
        }
 +      if (const std::string* onClick = callbackProp(desired, "onClick"); onClick != nullptr) {
 +        if (*onClick != slot.callbackName) {
@@ -303,7 +311,7 @@ index 027a0bf93..c99082ed6 100644
        return;
      }
  
-@@ -675,33 +799,43 @@ namespace ui {
+@@ -938,33 +1065,43 @@ namespace ui {
        if (auto* inputArea = inputAreaFromSlot(node)) {
          inputArea->setSize(boxWidth, boxHeight);
        }
@@ -370,7 +378,7 @@ index 027a0bf93..c99082ed6 100644
          }
        }
        return;
-@@ -809,33 +943,43 @@ namespace ui {
+@@ -1072,33 +1209,43 @@ namespace ui {
            }
          }
        }
@@ -438,10 +446,10 @@ index 027a0bf93..c99082ed6 100644
        }
        return;
 diff --git a/tests/ui_tree_reconciler_test.cpp b/tests/ui_tree_reconciler_test.cpp
-index 990759c42..109fc0961 100644
+index 5ee8e819e..62218fe31 100644
 --- a/tests/ui_tree_reconciler_test.cpp
 +++ b/tests/ui_tree_reconciler_test.cpp
-@@ -277,6 +277,224 @@ int main() {
+@@ -324,6 +324,224 @@ int main() {
      ok = expect(dynamic_cast<Box*>(unwrapped) != nullptr, "box unwrapped after onClick removed") && ok;
    }
  
