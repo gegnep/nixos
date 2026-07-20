@@ -1,4 +1,4 @@
-From cf807ecd2dcac8d0547e2b75b36d9904656bf656 Mon Sep 17 00:00:00 2001
+From fa197db1f8112b1afdc8583cad9ac496e5189da7 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Wed, 8 Jul 2026 00:51:20 -0400
 Subject: [PATCH] fix(ui): measure MarkdownView with wrapped label sizes

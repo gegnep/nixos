@@ -9,7 +9,6 @@
           ../../../../patches/noctalia/0001-feat-plugin-ui-add-input-submitOnEnter-prop-for-chat.patch
           ../../../../patches/noctalia/0002-feat-plugin-ui-add-scroll-stickToBottom-onScroll-and.patch
           ../../../../patches/noctalia/0003-feat-plugin-ui-register-markdown-node-type-backed-by.patch
-          ../../../../patches/noctalia/0004-fix-plugins-reclaim-stream-slots-when-the-process-ex.patch
           ../../../../patches/noctalia/0005-fix-ui-measure-MarkdownView-with-wrapped-label-sizes.patch
           ../../../../patches/noctalia/0008-feat-plugins-expose-onHover-callback-on-button-box-a.patch
           ../../../../patches/noctalia/0009-feat-plugins-expose-onClick-and-onHover-on-row-and-c.patch
