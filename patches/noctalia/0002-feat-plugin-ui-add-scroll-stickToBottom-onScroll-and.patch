@@ -1,4 +1,4 @@
-From f7febc95cb7536c34b4c7cde88a5ccfced86325e Mon Sep 17 00:00:00 2001
+From acb626cd026b0b496d479bc320baca69ae8b07e9 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:54:21 -0400
 Subject: [PATCH] feat(plugin-ui): add scroll stickToBottom, onScroll and

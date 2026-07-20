@@ -1,4 +1,4 @@
-From 9037ba93bfd9ab77423fc9e78beec298e6572f03 Mon Sep 17 00:00:00 2001
+From 090ab668cd3a2f87ce6a518f435d1c318cb6b7d2 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:54:53 -0400
 Subject: [PATCH] feat(plugin-ui): register markdown node type backed by

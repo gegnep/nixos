@@ -1,4 +1,4 @@
-From 23d73f92eb3d30450fa47f62cc9c9db5be227ee0 Mon Sep 17 00:00:00 2001
+From e65318e2875a94d00155789cdcca76f9c2b45b91 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:53:54 -0400
 Subject: [PATCH] feat(plugin-ui): add input submitOnEnter prop for chat-style
