@@ -55,6 +55,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    regionlock = {
+      url = "github:gegnep/regionlock";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     catppuccin.url = "github:catppuccin/nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     # pinned 2026-07-09: `next` broke cargo-vendor-dir mid CEF-hook refactor
@@ -92,6 +97,8 @@
             inputs.chaotic.nixosModules.nyx-overlay
             inputs.chaotic.nixosModules.nyx-cache
             inputs.catppuccin.nixosModules.catppuccin
+            inputs.regionlock.nixosModules.regionlock
+
             home-manager.nixosModules.home-manager
             (
               { config, ... }:

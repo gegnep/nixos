@@ -702,6 +702,26 @@
         "type": "github"
       }
     },
+    "regionlock": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784672401,
+        "narHash": "sha256-fjyxmmn1lQ1M7ah/EgU+ncbqjrKo9qV88De5PNK2NE4=",
+        "owner": "gegnep",
+        "repo": "regionlock",
+        "rev": "b46e8edde025439ef8fe411d2226623b9da75514",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gegnep",
+        "repo": "regionlock",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "catppuccin": "catppuccin",
@@ -719,6 +739,7 @@
         "noctalia": "noctalia",
         "nur": "nur",
         "nvf": "nvf",
+        "regionlock": "regionlock",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix"
       }
