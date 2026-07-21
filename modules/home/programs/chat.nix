@@ -11,7 +11,7 @@ let
     app = {
       package = pkgs.slack;
       runScript = "slack";
-      execArgs = "-s %U --enable-features=WebRTCPipeWireCapturer --ozone-platform=wayland";
+      execArgs = "-s %U --no-sandbox --enable-features=WebRTCPipeWireCapturer --ozone-platform=wayland";
     };
     mounts.readWrite = [ "$HOME/Downloads" ];
     dbus.system.talks = [
@@ -30,7 +30,7 @@ let
     app = {
       package = discord-moonlight;
       runScript = "discord";
-      execArgs = "--enable-features=WebRTCPipeWireCapturer --ozone-platform=wayland";
+      execArgs = "--no-sandbox --enable-features=WebRTCPipeWireCapturer --ozone-platform=wayland";
     };
     mounts.readWrite = [
       "$HOME/Downloads"
