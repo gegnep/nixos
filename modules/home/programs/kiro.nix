@@ -21,6 +21,14 @@ let
         name = "kiro-cli";
         path = "$HOME/.local/share/kiro-cli";
       }
+      {
+        name = "mcp-auth";
+        path = "$HOME/.mcp-auth";
+      }
+      {
+        name = "npm-cache";
+        path = "$HOME/.npm";
+      }
     ];
   };
 in
