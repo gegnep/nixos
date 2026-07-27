@@ -1,7 +1,7 @@
-From acb626cd026b0b496d479bc320baca69ae8b07e9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:54:21 -0400
-Subject: [PATCH] feat(plugin-ui): add scroll stickToBottom, onScroll and
+Subject: [PATCH 2/4] feat(plugin-ui): add scroll stickToBottom, onScroll and
  scrollToBottomRev props
 
 Chat-style plugin panels need follow-scroll while streaming content,
@@ -9,18 +9,19 @@ a way to observe scroll position (offset and max are delivered to the
 onScroll callback), and an explicit jump-to-bottom trigger. All three
 are opt-in; native ScrollView users are unaffected.
 
-Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+
+Assisted-by: Fable 5 (main session), claude-code v2.1.220
 ---
- src/ui/controls/scroll_view.cpp | 13 +++++++++++++
+ src/ui/controls/scroll_view.cpp | 16 ++++++++++++++++
  src/ui/controls/scroll_view.h   |  3 +++
  src/ui/ui_tree_reconciler.cpp   | 27 +++++++++++++++++++++++----
- 3 files changed, 39 insertions(+), 4 deletions(-)
+ 3 files changed, 42 insertions(+), 4 deletions(-)
 
 diff --git a/src/ui/controls/scroll_view.cpp b/src/ui/controls/scroll_view.cpp
-index 1d88cd5ba..3397c7d15 100644
+index 9fd474d75..5c7f135a6 100644
 --- a/src/ui/controls/scroll_view.cpp
 +++ b/src/ui/controls/scroll_view.cpp
-@@ -271,6 +271,8 @@ void ScrollView::bindState(ScrollViewState* state) {
+@@ -293,6 +293,8 @@ void ScrollView::bindState(ScrollViewState* state) {
  
  void ScrollView::setOnScrollChanged(std::function<void(float)> callback) { m_onScrollChanged = std::move(callback); }
  
@@ -29,15 +30,18 @@ index 1d88cd5ba..3397c7d15 100644
  void ScrollView::setViewportPaddingH(float padding) {
    m_viewportPaddingH = padding;
    markLayoutDirty();
-@@ -344,6 +346,7 @@ void ScrollView::doLayout(Renderer& renderer) {
-   }
+@@ -342,6 +344,10 @@ void ScrollView::doLayout(Renderer& renderer) {
+   const float viewportY = m_viewportPaddingV;
+   const float availableW = std::max(0.0f, w - m_viewportPaddingH * 2.0f);
  
-   const float contentHeight = m_content->height();
++  // Capture before the orientation branches recompute m_maxScrollOffset:
++  // stick-to-bottom must compare against the extents of the previous pass.
 +  const bool wasAtBottom = m_scrollOffset >= m_maxScrollOffset - 1.0f;
-   m_maxScrollOffset = std::max(0.0f, contentHeight - viewportH);
-   if (m_boundState != nullptr) {
-     m_scrollOffset = clampOffset(m_boundState->offset);
-@@ -356,6 +359,16 @@ void ScrollView::doLayout(Renderer& renderer) {
++
+   m_content->setPosition(0.0f, 0.0f);
+ 
+   if (m_orientation == ScrollOrientation::Horizontal) {
+@@ -420,6 +426,16 @@ void ScrollView::doLayout(Renderer& renderer) {
    } else {
      m_targetScrollOffset = m_scrollOffset;
    }
@@ -52,13 +56,13 @@ index 1d88cd5ba..3397c7d15 100644
 +    }
 +  }
  
-   const float scrollbarX = m_viewportPaddingH + m_viewportWidth - Style::scrollbarWidth;
-   m_scrollbar->setPosition(scrollbarX, m_viewportPaddingV);
+   applyScrollOffset();
+ }
 diff --git a/src/ui/controls/scroll_view.h b/src/ui/controls/scroll_view.h
-index 23f802295..f71d34472 100644
+index d2a1823f6..4a9da1de0 100644
 --- a/src/ui/controls/scroll_view.h
 +++ b/src/ui/controls/scroll_view.h
-@@ -25,6 +25,8 @@ public:
+@@ -26,6 +26,8 @@ public:
    [[nodiscard]] const Flex* content() const noexcept { return m_content; }
  
    void setScrollOffset(float offset);
@@ -67,7 +71,7 @@ index 23f802295..f71d34472 100644
    void scrollBy(float delta);
    void setScrollbarVisible(bool visible);
    // Vertical clearance at both track ends (e.g. the host card's corner radius).
-@@ -69,6 +71,7 @@ private:
+@@ -74,6 +76,7 @@ private:
    Scrollbar* m_scrollbar = nullptr;
  
    ScrollViewState* m_boundState = nullptr;
@@ -76,10 +80,10 @@ index 23f802295..f71d34472 100644
    ColorSpec m_backgroundFill = clearColorSpec();
    ColorSpec m_backgroundBorder = clearColorSpec();
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index 615ece1cd..f164e0e9b 100644
+index 769b5c041..3b0020dda 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
-@@ -408,10 +408,11 @@ namespace ui {
+@@ -488,10 +488,11 @@ namespace ui {
                                                                "controlSize"};
        static const std::unordered_set<std::string> kToggle = {"width",   "height",  "flexGrow", "opacity",
                                                                "visible", "checked", "enabled",  "onChange"};
@@ -95,7 +99,7 @@ index 615ece1cd..f164e0e9b 100644
        static const std::unordered_set<std::string> kDragSource = {
            "width",   "height",   "flexGrow",    "opacity",         "visible",       "gap",
            "padding", "paddingH", "paddingV",    "align",           "justify",       "fill",
-@@ -1414,6 +1415,24 @@ namespace ui {
+@@ -1604,6 +1605,24 @@ namespace ui {
          const double* borderWidth = numProp(desired, "borderWidth");
          scroll->setBorder(*border, borderWidth != nullptr ? scaled(*borderWidth) : 1.0f);
        }
@@ -121,5 +125,5 @@ index 615ece1cd..f164e0e9b 100644
        // hosts the children.
        Flex* content = scroll->content();
 -- 
-2.54.0
+2.55.0
 
