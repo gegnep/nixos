@@ -1,7 +1,7 @@
-From 090ab668cd3a2f87ce6a518f435d1c318cb6b7d2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:54:53 -0400
-Subject: [PATCH] feat(plugin-ui): register markdown node type backed by
+Subject: [PATCH 3/4] feat(plugin-ui): register markdown node type backed by
  MarkdownView
 
 Exposes the existing md4c MarkdownView control to plugin UI trees as
@@ -10,46 +10,18 @@ so streaming re-renders only re-parse when the text actually changes.
 Links render as underlined text (MarkdownView has no click handling);
 sizing follows parent layout like other leaf controls.
 
-Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+
+Assisted-by: Fable 5 (main session), claude-code v2.1.220
 ---
- meson.build                   |  3 +++
  src/scripting/ui_prelude.h    |  1 +
  src/ui/ui_tree_reconciler.cpp | 29 +++++++++++++++++++++++++++++
- 3 files changed, 33 insertions(+)
+ 2 files changed, 30 insertions(+)
 
-diff --git a/meson.build b/meson.build
-index 0cbaae0da..40f00a675 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1381,6 +1381,7 @@ ui_tree_reconciler_test = executable('ui_tree_reconciler_test',
-     'src/ui/controls/image.cpp',
-     'src/ui/controls/input.cpp',
-     'src/ui/controls/label.cpp',
-+    'src/ui/controls/markdown_view.cpp',
-     'src/ui/controls/progress_bar.cpp',
-     'src/ui/controls/scroll_view.cpp',
-     'src/ui/controls/scrollbar.cpp',
-@@ -1391,6 +1392,7 @@ ui_tree_reconciler_test = executable('ui_tree_reconciler_test',
-     'src/ui/controls/toggle.cpp',
-     'src/ui/controls/color_swatch_preview.cpp',
-     'src/ui/app_icon_colorization.cpp',
-+    'src/ui/builders.cpp',
-     'src/ui/palette.cpp',
-     'src/ui/style.cpp',
-     'src/ui/drag_drop_controller.cpp',
-@@ -1430,6 +1432,7 @@ ui_tree_reconciler_test = executable('ui_tree_reconciler_test',
-     egl_dep,
-     librsvg_dep,
-     libwebp_dep,
-+    md4c_dep,
-     nlohmann_dep,
-     xkbcommon_dep,
-   ],
 diff --git a/src/scripting/ui_prelude.h b/src/scripting/ui_prelude.h
-index 20290131d..f14eaf5cb 100644
+index 6be61ad2a..08cca80d1 100644
 --- a/src/scripting/ui_prelude.h
 +++ b/src/scripting/ui_prelude.h
-@@ -25,6 +25,7 @@ ui.progress = ctor("progress")
+@@ -27,6 +27,7 @@ ui.progress = ctor("progress")
  ui.button = ctor("button")
  ui.graph = ctor("graph")
  ui.input = ctor("input")
@@ -58,10 +30,10 @@ index 20290131d..f14eaf5cb 100644
  ui.slider = ctor("slider")
  ui.toggle = ctor("toggle")
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index f164e0e9b..7bac97993 100644
+index 3b0020dda..30ac22077 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
-@@ -14,6 +14,7 @@
+@@ -15,6 +15,7 @@
  #include "ui/controls/image.h"
  #include "ui/controls/input.h"
  #include "ui/controls/label.h"
@@ -69,7 +41,7 @@ index f164e0e9b..7bac97993 100644
  #include "ui/controls/progress_bar.h"
  #include "ui/controls/scroll_view.h"
  #include "ui/controls/select.h"
-@@ -399,6 +400,8 @@ namespace ui {
+@@ -479,6 +480,8 @@ namespace ui {
                                                               "visible",  "value",    "placeholder", "fontSize",
                                                               "enabled",  "password", "multiline",   "focus",
                                                               "onChange", "onSubmit", "controlSize", "submitOnEnter"};
@@ -78,7 +50,7 @@ index f164e0e9b..7bac97993 100644
        static const std::unordered_set<std::string> kSelect = {"width",       "height",   "flexGrow",      "opacity",
                                                                "visible",     "options",  "selectedIndex", "enabled",
                                                                "placeholder", "onChange", "controlSize"};
-@@ -455,6 +458,9 @@ namespace ui {
+@@ -535,6 +538,9 @@ namespace ui {
        if (type == "input") {
          return kInput;
        }
@@ -88,7 +60,7 @@ index f164e0e9b..7bac97993 100644
        if (type == "select") {
          return kSelect;
        }
-@@ -487,6 +493,7 @@ namespace ui {
+@@ -568,6 +574,7 @@ namespace ui {
      std::string submitCallbackName;  // last-wired input onSubmit target
      std::string dragEndCallbackName; // last-wired slider onDragEnd target
      std::string imagePath;           // last-applied resolved image source
@@ -96,7 +68,7 @@ index f164e0e9b..7bac97993 100644
      float imageTargetSize = 0.0f;
      // Controlled-with-change-detection: a value-driven control (toggle/slider/
      // select) only re-applies its declared value when it differs from the last
-@@ -604,6 +611,9 @@ namespace ui {
+@@ -694,6 +701,9 @@ namespace ui {
      if (desired.type == "input") {
        return std::make_unique<Input>();
      }
@@ -106,7 +78,7 @@ index f164e0e9b..7bac97993 100644
      if (desired.type == "select") {
        return std::make_unique<Select>();
      }
-@@ -1403,6 +1413,25 @@ namespace ui {
+@@ -1593,6 +1603,25 @@ namespace ui {
        return;
      }
  
@@ -133,5 +105,5 @@ index f164e0e9b..7bac97993 100644
        auto* scroll = static_cast<ScrollView*>(node);
        if (auto fill = parseColor(desired, "fill")) {
 -- 
-2.54.0
+2.55.0
 
