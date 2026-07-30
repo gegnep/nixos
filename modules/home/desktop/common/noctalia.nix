@@ -10,6 +10,7 @@
           ../../../../patches/noctalia/0002-feat-plugin-ui-add-scroll-stickToBottom-onScroll-and.patch
           ../../../../patches/noctalia/0003-feat-plugin-ui-register-markdown-node-type-backed-by.patch
           ../../../../patches/noctalia/0005-fix-ui-measure-MarkdownView-with-wrapped-label-sizes.patch
+          ../../../../patches/noctalia/0006-feat-plugins-introduce-plugin-API-20-for-new-ui-surf.patch
         ];
       })
     );

@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From a47f6be326ee7966a1e0f36a588f465e6a2b398c Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:53:54 -0400
-Subject: [PATCH 1/4] feat(plugin-ui): add input submitOnEnter prop for
+Subject: [PATCH 1/5] feat(plugin-ui): add input submitOnEnter prop for
  chat-style submit
 
 Plugin panels building chat composers need Enter-to-send with
