@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From b8508701b506a3b115773ad88602a13be8d2f750 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:54:21 -0400
-Subject: [PATCH 2/4] feat(plugin-ui): add scroll stickToBottom, onScroll and
+Subject: [PATCH 2/5] feat(plugin-ui): add scroll stickToBottom, onScroll and
  scrollToBottomRev props
 
 Chat-style plugin panels need follow-scroll while streaming content,
@@ -12,25 +12,39 @@ are opt-in; native ScrollView users are unaffected.
 
 Assisted-by: Fable 5 (main session), claude-code v2.1.220
 ---
- src/ui/controls/scroll_view.cpp | 16 ++++++++++++++++
- src/ui/controls/scroll_view.h   |  3 +++
- src/ui/ui_tree_reconciler.cpp   | 27 +++++++++++++++++++++++----
- 3 files changed, 42 insertions(+), 4 deletions(-)
+ src/ui/controls/scroll_view.cpp | 27 +++++++++++++++++++++++++++
+ src/ui/controls/scroll_view.h   |  9 +++++++++
+ src/ui/ui_tree_reconciler.cpp   | 29 +++++++++++++++++++++++++----
+ 3 files changed, 61 insertions(+), 4 deletions(-)
 
 diff --git a/src/ui/controls/scroll_view.cpp b/src/ui/controls/scroll_view.cpp
-index 9fd474d75..5c7f135a6 100644
+index 9fd474d75..439982ffe 100644
 --- a/src/ui/controls/scroll_view.cpp
 +++ b/src/ui/controls/scroll_view.cpp
-@@ -293,6 +293,8 @@ void ScrollView::bindState(ScrollViewState* state) {
+@@ -13,6 +13,7 @@
+ #include <cmath>
+ #include <linux/input-event-codes.h>
+ #include <memory>
++#include <utility>
+ #include <wayland-client-protocol.h>
+ 
+ namespace {
+@@ -293,6 +294,14 @@ void ScrollView::bindState(ScrollViewState* state) {
  
  void ScrollView::setOnScrollChanged(std::function<void(float)> callback) { m_onScrollChanged = std::move(callback); }
  
 +void ScrollView::setStickToBottom(bool enabled) { m_stickToBottom = enabled; }
 +
++void ScrollView::requestScrollToBottom() {
++  stopScrollAnimation();
++  m_pendingScrollToBottom = true;
++  markLayoutDirty();
++}
++
  void ScrollView::setViewportPaddingH(float padding) {
    m_viewportPaddingH = padding;
    markLayoutDirty();
-@@ -342,6 +344,10 @@ void ScrollView::doLayout(Renderer& renderer) {
+@@ -342,6 +351,10 @@ void ScrollView::doLayout(Renderer& renderer) {
    const float viewportY = m_viewportPaddingV;
    const float availableW = std::max(0.0f, w - m_viewportPaddingH * 2.0f);
  
@@ -41,11 +55,15 @@ index 9fd474d75..5c7f135a6 100644
    m_content->setPosition(0.0f, 0.0f);
  
    if (m_orientation == ScrollOrientation::Horizontal) {
-@@ -420,6 +426,16 @@ void ScrollView::doLayout(Renderer& renderer) {
+@@ -420,6 +433,20 @@ void ScrollView::doLayout(Renderer& renderer) {
    } else {
      m_targetScrollOffset = m_scrollOffset;
    }
-+  if (m_stickToBottom && wasAtBottom && m_scrollOffset < m_maxScrollOffset) {
++  // A pending jump consumes its flag even when the assignment below is
++  // skipped, so a request issued while already at the bottom cannot fire
++  // again on a later, unrelated pass.
++  const bool jumpToBottom = std::exchange(m_pendingScrollToBottom, false);
++  if ((jumpToBottom || (m_stickToBottom && wasAtBottom)) && m_scrollOffset < m_maxScrollOffset) {
 +    m_scrollOffset = m_maxScrollOffset;
 +    m_targetScrollOffset = m_maxScrollOffset;
 +    if (m_boundState != nullptr) {
@@ -59,28 +77,34 @@ index 9fd474d75..5c7f135a6 100644
    applyScrollOffset();
  }
 diff --git a/src/ui/controls/scroll_view.h b/src/ui/controls/scroll_view.h
-index d2a1823f6..4a9da1de0 100644
+index d2a1823f6..fe5343355 100644
 --- a/src/ui/controls/scroll_view.h
 +++ b/src/ui/controls/scroll_view.h
-@@ -26,6 +26,8 @@ public:
+@@ -26,6 +26,13 @@ public:
    [[nodiscard]] const Flex* content() const noexcept { return m_content; }
  
    void setScrollOffset(float offset);
 +  // Keep the view pinned to the bottom while content grows, as long as the user has not scrolled away from the bottom.
 +  void setStickToBottom(bool enabled);
++  // One-shot jump to the bottom, deferred to the next layout pass: callers
++  // that mutate content in the same frame (e.g. the plugin reconciler) need
++  // the jump to target the new extent, while an immediate setScrollOffset
++  // would clamp against the previous pass's maxScrollOffset().
++  void requestScrollToBottom();
    void scrollBy(float delta);
    void setScrollbarVisible(bool visible);
    // Vertical clearance at both track ends (e.g. the host card's corner radius).
-@@ -74,6 +76,7 @@ private:
+@@ -74,6 +81,8 @@ private:
    Scrollbar* m_scrollbar = nullptr;
  
    ScrollViewState* m_boundState = nullptr;
 +  bool m_stickToBottom = false;
++  bool m_pendingScrollToBottom = false;
    std::function<void(float)> m_onScrollChanged;
    ColorSpec m_backgroundFill = clearColorSpec();
    ColorSpec m_backgroundBorder = clearColorSpec();
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index 769b5c041..3b0020dda 100644
+index 769b5c041..7e23dde54 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
 @@ -488,10 +488,11 @@ namespace ui {
@@ -99,7 +123,7 @@ index 769b5c041..3b0020dda 100644
        static const std::unordered_set<std::string> kDragSource = {
            "width",   "height",   "flexGrow",    "opacity",         "visible",       "gap",
            "padding", "paddingH", "paddingV",    "align",           "justify",       "fill",
-@@ -1604,6 +1605,24 @@ namespace ui {
+@@ -1604,6 +1605,26 @@ namespace ui {
          const double* borderWidth = numProp(desired, "borderWidth");
          scroll->setBorder(*border, borderWidth != nullptr ? scaled(*borderWidth) : 1.0f);
        }
@@ -118,7 +142,9 @@ index 769b5c041..3b0020dda 100644
 +      if (const double* scrollToBottomRev = numProp(desired, "scrollToBottomRev")) {
 +        if (!slot.lastScalar.has_value() || *slot.lastScalar != *scrollToBottomRev) {
 +          slot.lastScalar = *scrollToBottomRev;
-+          scroll->setScrollOffset(scroll->maxScrollOffset());
++          // Deferred: children reconcile after applyProps, so an immediate
++          // setScrollOffset would clamp against the previous scroll extent.
++          scroll->requestScrollToBottom();
 +        }
 +      }
        // gap / padding / align / justify configure the inner content Flex that

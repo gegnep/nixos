@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 8aff00afda24f74678d77adc27649590acb9aa82 Mon Sep 17 00:00:00 2001
 From: gegnep <96670443+gegnep@users.noreply.github.com>
 Date: Tue, 7 Jul 2026 23:54:53 -0400
-Subject: [PATCH 3/4] feat(plugin-ui): register markdown node type backed by
+Subject: [PATCH 3/5] feat(plugin-ui): register markdown node type backed by
  MarkdownView
 
 Exposes the existing md4c MarkdownView control to plugin UI trees as
@@ -14,8 +14,8 @@ sizing follows parent layout like other leaf controls.
 Assisted-by: Fable 5 (main session), claude-code v2.1.220
 ---
  src/scripting/ui_prelude.h    |  1 +
- src/ui/ui_tree_reconciler.cpp | 29 +++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
+ src/ui/ui_tree_reconciler.cpp | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
 diff --git a/src/scripting/ui_prelude.h b/src/scripting/ui_prelude.h
 index 6be61ad2a..08cca80d1 100644
@@ -30,7 +30,7 @@ index 6be61ad2a..08cca80d1 100644
  ui.slider = ctor("slider")
  ui.toggle = ctor("toggle")
 diff --git a/src/ui/ui_tree_reconciler.cpp b/src/ui/ui_tree_reconciler.cpp
-index 3b0020dda..30ac22077 100644
+index 7e23dde54..79bb01405 100644
 --- a/src/ui/ui_tree_reconciler.cpp
 +++ b/src/ui/ui_tree_reconciler.cpp
 @@ -15,6 +15,7 @@
@@ -60,15 +60,16 @@ index 3b0020dda..30ac22077 100644
        if (type == "select") {
          return kSelect;
        }
-@@ -568,6 +574,7 @@ namespace ui {
+@@ -568,6 +574,8 @@ namespace ui {
      std::string submitCallbackName;  // last-wired input onSubmit target
      std::string dragEndCallbackName; // last-wired slider onDragEnd target
      std::string imagePath;           // last-applied resolved image source
 +    std::string lastText;            // markdown source cache - setMarkdown re-parses, only call on change
++    float lastMarkdownScale = 0.0f;  // scale baked into the parsed markdown; a rescale must re-call setMarkdown
      float imageTargetSize = 0.0f;
      // Controlled-with-change-detection: a value-driven control (toggle/slider/
      // select) only re-applies its declared value when it differs from the last
-@@ -694,6 +701,9 @@ namespace ui {
+@@ -694,6 +702,9 @@ namespace ui {
      if (desired.type == "input") {
        return std::make_unique<Input>();
      }
@@ -78,17 +79,21 @@ index 3b0020dda..30ac22077 100644
      if (desired.type == "select") {
        return std::make_unique<Select>();
      }
-@@ -1593,6 +1603,25 @@ namespace ui {
+@@ -1593,6 +1604,29 @@ namespace ui {
        return;
      }
  
 +    if (desired.type == "markdown") {
 +      auto* md = static_cast<MarkdownView*>(node);
-+      if (const std::string* text = strProp(desired, "text")) {
-+        if (*text != slot.lastText) {
++      // The scale check sits outside the text-presence gate: a render that
++      // omits text (retained-prop convention) must still pick up a rescale.
++      const std::string* text = strProp(desired, "text");
++      if ((text != nullptr && *text != slot.lastText) || m_scale != slot.lastMarkdownScale) {
++        if (text != nullptr) {
 +          slot.lastText = *text;
-+          md->setMarkdown(*text, m_scale);
 +        }
++        slot.lastMarkdownScale = m_scale;
++        md->setMarkdown(slot.lastText, m_scale);
 +      }
 +      if (width != nullptr) {
 +        md->setMinWidth(scaled(*width));
