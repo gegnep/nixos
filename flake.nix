@@ -36,11 +36,6 @@
 
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
-    moonlight = {
-      url = "github:moonlight-mod/moonlight";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     regionlock = {
       url = "github:gegnep/regionlock";
       inputs.nixpkgs.follows = "nixpkgs";
