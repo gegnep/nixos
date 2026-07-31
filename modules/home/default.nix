@@ -13,7 +13,6 @@
     inputs.catppuccin.homeModules.catppuccin
     inputs.nix-index-database.homeModules.nix-index
     inputs.noctalia.homeModules.default
-    inputs.moonlight.homeModules.default
 
     inputs.nvf.homeManagerModules.default
     inputs.spicetify-nix.homeManagerModules.spicetify
