@@ -44,7 +44,7 @@
         variant = "mocha";
         accents = [ "lavender" ];
         size = "standard"; # or compact
-        tweaks = [ ];
+        tweaks = [ "rimless" ];
       };
     };
     gtk4.theme = null;
