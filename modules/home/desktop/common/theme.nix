@@ -39,16 +39,12 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Colloid-Purple-Dark-Catppuccin";
-      package = pkgs.colloid-gtk-theme.override {
-        themeVariants = [ "purple" ];
-        colorVariants = [ "dark" ];
-        sizeVariants = [ "standard" ];
-        tweaks = [
-          "catppuccin"
-          "rimless"
-          "normal"
-        ];
+      name = "catppuccin-mocha-lavender-standard";
+      package = pkgs.catppuccin-gtk.override {
+        variant = "mocha";
+        accents = [ "lavender" ];
+        size = "standard"; # or compact
+        tweaks = [ "rimless" ];
       };
     };
     gtk4.theme = null;
@@ -64,5 +60,7 @@
       "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
     "gtk-4.0/gtk-dark.css".source =
       "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
+    "gtk-4.0/assets".source =
+      "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
   };
 }

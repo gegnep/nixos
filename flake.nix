@@ -29,42 +29,26 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # home module only, from the very-refactor branch: supports custom kdl
-    # includes + blur config, neither of which are in main yet
-    niri = {
-      url = "github:sodiboo/niri-flake/very-refactor";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # packages only (niri-unstable, xwayland-satellite), from main so they
-    # come prebuilt from the niri-flake cachix cache
-    niri-pkgs = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nirinit = {
       url = "github:amaanq/nirinit";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia/legacy-v4";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
     moonlight = {
       url = "github:moonlight-mod/moonlight";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    regionlock = {
+      url = "github:gegnep/regionlock";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     catppuccin.url = "github:catppuccin/nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-    # pinned 2026-07-09: `next` broke cargo-vendor-dir mid CEF-hook refactor
-    # (missing Cargo.lock under src/instrumentation/loopback). last commit that
-    # built clean below. bump by hand once upstream settles, or flip back to
-    # `ref = "next"` later.
-    millennium.url = "github:SteamClientHomebrew/Millennium/cf12bf3734b4b2ce609b08bdb14a4cfd222b4fd4?dir=packages/nix";
+    millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nix-bwrapper.url = "https://flakehub.com/f/Naxdy/nix-bwrapper/1.*";
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
@@ -95,6 +79,8 @@
             inputs.chaotic.nixosModules.nyx-overlay
             inputs.chaotic.nixosModules.nyx-cache
             inputs.catppuccin.nixosModules.catppuccin
+            inputs.regionlock.nixosModules.regionlock
+
             home-manager.nixosModules.home-manager
             (
               { config, ... }:
