@@ -21,6 +21,14 @@
     localNetworkGameTransfers.openFirewall = true;
   };
 
+  programs.regionlock = {
+    enable = true;
+    persist = true;
+    settings = {
+      default_game = "deadlock";
+    };
+  };
+
   fonts.packages = with pkgs; [
     fira-sans
     roboto

@@ -1,46 +1,47 @@
 {
-  inputs,
   lib,
-  pkgs,
   hostOptions,
   ...
 }:
 
 let
   mkOutput = m: {
-    name = m.name;
-    value = {
-      mode = {
-        width = m.width;
-        height = m.height;
-        refresh = m.refresh;
-      };
-      position = {
+    output = {
+      _args = [ m.name ];
+      mode = "${toString m.width}x${toString m.height}@${toString m.refresh}";
+      scale = m.scale;
+      position._props = {
         x = m.x;
         y = m.y;
       };
-      scale = m.scale;
     }
     // lib.optionalAttrs m.vrr {
-      variable-refresh-rate = true;
+      variable-refresh-rate = { };
     };
   };
-  niriPkgs = inputs.niri-pkgs.packages.${pkgs.stdenv.hostPlatform.system};
+
+  gradient = from: to: {
+    _props = {
+      angle = 135;
+      inherit from to;
+      "in" = "oklch shorter hue";
+      relative-to = "window";
+    };
+  };
 in
 {
-  imports = [
-    ./binds.nix
-    inputs.niri.homeModules.niri
-  ];
+  imports = [ ./binds.nix ];
 
-  programs.niri = {
-    package = niriPkgs.niri-unstable;
+  wayland.windowManager.niri = {
+    enable = true;
+    # nixpkgs `programs.niri` (modules/nixos/wm/niri.nix) already installs the
+    # session units system-wide; don't duplicate them in the user profile
+    systemd.enable = false;
+    # portals are handled at system scope (modules/nixos/desktop.nix) — a
+    # user-level portal package would shadow the system portal files
+    portalPackage = null;
+
     settings = {
-      # Import config options not yet in the flake
-      includes = lib.mkAfter [
-        (./extra-config.kdl)
-      ];
-
       # Environment
       environment = {
         NIXOS_OZONE_WL = "1";
@@ -51,198 +52,180 @@ in
       };
 
       # Input
+      # NOTE: flag-only children (tap, dwt, middle-emulation, ...) must be
+      # `{ }` (bare node), not `= true` — niri rejects arguments on them
       input = {
-        keyboard.xkb = {
-          layout = "us";
+        keyboard.xkb.layout = "us";
+        touchpad = {
+          tap = { };
+          dwt = { }; # disable-while-typing
+          middle-emulation = { }; # three finger tap = middle click
+          click-method = "clickfinger";
+          accel-speed = 0.3;
+          accel-profile = "adaptive";
+          scroll-method = "two-finger";
+          tap-button-map = "left-right-middle";
         };
         mouse = {
           accel-profile = "flat";
           accel-speed = 0.2;
         };
-        touchpad = {
-          tap = true;
-          natural-scroll = false;
-          click-method = "clickfinger";
-          dwt = true; # disable-while-typing
-          middle-emulation = true; # three finger tap = middle click
-          scroll-method = "two-finger";
-          accel-profile = "adaptive";
-          accel-speed = 0.3;
-          tap-button-map = "left-right-middle";
-        };
-        tablet = {
-          map-to-output = "eDP-1";
-        };
-        focus-follows-mouse = {
-          enable = true;
-          max-scroll-amount = "0%";
-        };
-        warp-mouse-to-focus.enable = true;
+        tablet.map-to-output = "eDP-1";
+        warp-mouse-to-focus = { };
+        focus-follows-mouse._props.max-scroll-amount = "0%";
       };
-
-      # Outputs
-      outputs = lib.listToAttrs (map mkOutput hostOptions.desktop.monitors);
 
       # Layout
       layout = {
+        background-color = "transparent";
         gaps = 8;
         border = {
-          enable = true;
+          on = { };
           width = 4;
-          active.gradient = {
-            from = "#cba6f7";
-            to = "#89b4fa";
-            angle = 135;
-            in' = "oklch shorter hue";
-          };
-          inactive.gradient = {
-            from = "#6c7086";
-            to = "#45475a";
-            angle = 135;
-            in' = "oklch shorter hue";
-          };
-          urgent.gradient = {
-            from = "#f38ba8";
-            to = "#fab387";
-            angle = 135;
-            in' = "oklch shorter hue";
-          };
+          active-gradient = gradient "#cba6f7" "#89b4fa";
+          inactive-gradient = gradient "#6c7086" "#45475a";
+          urgent-gradient = gradient "#f38ba8" "#fab387";
         };
-        background-color = "transparent";
-        focus-ring.enable = false;
-        preset-column-widths = [
+        focus-ring.off = { };
+        preset-column-widths._children = [
           { proportion = 1.0 / 3.0; }
           { proportion = 1.0 / 2.0; }
           { proportion = 2.0 / 3.0; }
         ];
-        default-column-width = {
-          proportion = 1.0 / 2.0;
-        };
-        preset-window-heights = [
+        default-column-width.proportion = 1.0 / 2.0;
+        preset-window-heights._children = [
           { proportion = 1.0 / 5.0; }
           { proportion = 1.0 / 3.0; }
           { proportion = 1.0 / 2.0; }
         ];
       };
 
-      # Exec
-      spawn-at-startup = [
-        {
-          command = [
-            "sh"
-            "-c"
-            "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-gtk.service"
-          ];
-        }
-        {
-          command = [
-            "sh"
-            "-c"
-            "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri NIRI_SOCKET XDG_SESSION_TYPE && systemctl --user restart xdg-desktop-portal.service"
-          ];
-        }
-        { command = [ "noctalia-shell" ]; }
-      ]
-      ++ lib.optionals (hostOptions.hardware.form == "laptop") [
-        {
-          command = [
-            "sh"
-            "-c"
-            "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; systemctl --user restart xdg-desktop-portal-gnome.service"
-          ];
-        }
-      ];
-
-      # Rules
-      window-rules = [
-        {
-          geometry-corner-radius = {
-            top-left = 12.0;
-            top-right = 12.0;
-            bottom-left = 12.0;
-            bottom-right = 12.0;
-          };
-          clip-to-geometry = true;
-        }
-        {
-          matches = [
-            {
-              app-id = "^steam$";
-              title = "^notificationtoasts_";
-            }
-          ];
-          open-floating = true;
-          open-focused = false;
-          default-floating-position = {
-            x = 12;
-            y = 12;
-            relative-to = "bottom-right";
-          };
-        }
-        {
-          matches = [
-            {
-              app-id = "^steam$";
-              title = "^Friends List";
-            }
-          ];
-          open-floating = true;
-        }
-        {
-          matches = [
-            {
-              app-id = "^com\\.mitchellh\\.ghostty$";
-            }
-          ];
-          opacity = 1.0;
-        }
-        {
-          matches = [
-            {
-              app-id = "^firefox$";
-              title = "^Picture-in-Picture$";
-            }
-          ];
-          open-floating = true;
-          default-floating-position = {
-            x = 12;
-            y = 12;
-            relative-to = "top-right";
-          };
-        }
-        {
-          matches = [
-            {
-              app-id = "^org\\.keepassxc\\.KeePassXC$";
-            }
-          ];
-          open-floating = true;
-          block-out-from = "screen-capture";
-        }
-      ];
-
-      layer-rules = [
-        {
-          matches = [
-            {
-              namespace = "^noctalia-wallpaper";
-            }
-          ];
-          place-within-backdrop = true;
-        }
-      ];
+      # Background blur
+      blur = {
+        passes = 2;
+        offset = 3.0;
+        noise = 0.03;
+        saturation = 1.25;
+      };
 
       # Cursor
       cursor = {
-        theme = "phinger-cursors-light";
-        size = 36;
+        xcursor-theme = "phinger-cursors-light";
+        xcursor-size = 36;
       };
 
       # Misc
-      animations.enable = true;
-      prefer-no-csd = true; # fix rounded corners
+      animations.on = { };
+      prefer-no-csd = { }; # fix rounded corners
       screenshot-path = "~/pictures/screenshots/niri-%Y-%m-%d-%H-%M-%S.png";
       hotkey-overlay.skip-at-startup = true;
+
+      # Ordered/repeated top-level nodes: outputs, rules, startup spawns
+      _children =
+        (map mkOutput hostOptions.desktop.monitors)
+
+        # Window rules (order matters: later rules override earlier ones)
+        ++ (map (r: { window-rule = r; }) [
+          {
+            geometry-corner-radius = [
+              12.0
+              12.0
+              12.0
+              12.0
+            ];
+            clip-to-geometry = true;
+          }
+          {
+            match._props = {
+              app-id = "^steam$";
+              title = "^notificationtoasts_";
+            };
+            open-floating = true;
+            open-focused = false;
+            default-floating-position._props = {
+              relative-to = "bottom-right";
+              x = 12;
+              y = 12;
+            };
+          }
+          {
+            match._props = {
+              app-id = "^steam$";
+              title = "^Friends List";
+            };
+            open-floating = true;
+          }
+          {
+            match._props.app-id = "^com\\.mitchellh\\.ghostty$";
+            opacity = 1.0;
+          }
+          {
+            match._props = {
+              app-id = "^firefox$";
+              title = "^Picture-in-Picture$";
+            };
+            open-floating = true;
+            default-floating-position._props = {
+              relative-to = "top-right";
+              x = 12;
+              y = 12;
+            };
+          }
+          {
+            match._props.app-id = "^org\\.keepassxc\\.KeePassXC$";
+            open-floating = true;
+            block-out-from = "screen-capture";
+          }
+          {
+            # blur behind terminals/neovide
+            _children = [
+              { match._props.app-id = "^com\\.mitchellh\\.ghostty$"; }
+              { match._props.app-id = "^Alacritty$"; }
+              { match._props.app-id = "^neovide$"; }
+            ];
+            background-effect = {
+              blur = true;
+              xray = true;
+            };
+          }
+        ])
+
+        # Layer rules
+        ++ (map (r: { layer-rule = r; }) [
+          {
+            match._props.namespace = "^noctalia-backdrop";
+            place-within-backdrop = true;
+          }
+          {
+            # noctalia surfaces get real (non-xray) blur
+            match._props.namespace = ''^noctalia-(bar-[^"]+|notification|dock|panel|attached-panel|osd)$'';
+            background-effect.xray = false;
+          }
+        ])
+
+        # Startup
+        ++ (map (cmd: { spawn-at-startup = cmd; }) (
+          [
+            [
+              "sh"
+              "-c"
+              "dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-gtk.service"
+            ]
+            [
+              "sh"
+              "-c"
+              "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri NIRI_SOCKET XDG_SESSION_TYPE && systemctl --user restart xdg-desktop-portal.service"
+            ]
+            [ "noctalia" ]
+          ]
+          ++ lib.optionals (hostOptions.hardware.form == "laptop") [
+            [
+              "sh"
+              "-c"
+              "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; systemctl --user restart xdg-desktop-portal-gnome.service"
+            ]
+          ]
+        ));
     };
   };
 }
