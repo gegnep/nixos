@@ -3,17 +3,7 @@
 {
   programs.noctalia = {
     enable = true;
-    package = (
-      inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-        patches = (old.patches or [ ]) ++ [
-          ../../../../patches/noctalia/0001-feat-plugin-ui-add-input-submitOnEnter-prop-for-chat.patch
-          ../../../../patches/noctalia/0002-feat-plugin-ui-add-scroll-stickToBottom-onScroll-and.patch
-          ../../../../patches/noctalia/0003-feat-plugin-ui-register-markdown-node-type-backed-by.patch
-          ../../../../patches/noctalia/0005-fix-ui-measure-MarkdownView-with-wrapped-label-sizes.patch
-          ../../../../patches/noctalia/0006-feat-plugins-introduce-plugin-API-20-for-new-ui-surf.patch
-        ];
-      })
-    );
+    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
     systemd.enable = true;
 
     # Reconciled from `noctalia config export merged` 2026-07-29.
