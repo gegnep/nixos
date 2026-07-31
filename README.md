@@ -23,7 +23,7 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 
 ### `mySystem.hardware`
 
-- `form` — `desktop` or `laptop`. Gates the kernel (CachyOS v3 on desktop, linuxPackages_latest on laptop), swap strategy, power management stack, and scx scheduler.
+- `form` — `desktop` or `laptop`. Gates the kernel (CachyOS on desktop, linuxPackages_latest on laptop), swap strategy, power management stack, and scx scheduler.
 - `gpu` — `amd`, `intel`, `nvidia`, or `none`. Activates the appropriate GPU module.
 - `swapfile.enable` / `swapfile.sizeGB` — opt-in swapfile at `/var/lib/swapfile`.
 - `peripherals.wooting` — Wooting keyboard udev rules.
@@ -33,6 +33,17 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 - `gaming` — Steam extras, Proton tooling, Prism (jdk8/17/21), mod managers.
 - `streaming` — OBS, DaVinci Resolve, v4l2loopback kernel module.
 - `audioProduction` — Bitwig, yabridge, Wine, audio plugins.
+
+### `mySystem.homelab`
+
+- `cache.enable` — pull from the homelab Harmonia binary cache.
+- `remoteBuilder.enable` — use the homelab as a distributed-build machine.
+
+### `mySystem.backup`
+
+- `enable` — restic push to the homelab REST server.
+- `paths` / `exclude` — what gets backed up and what doesn't.
+- `onCalendar` — systemd timer schedule.
 
 ## Structure
 
@@ -56,20 +67,25 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
     │   ├── options.nix                # mySystem.* option definitions
     │   ├── boot.nix                   # systemd-boot, kernel (form-gated), swap
     │   ├── desktop.nix                # pipewire, ly, locale, scx (desktop-gated)
+    │   ├── flatpak.nix                # declarative flatpaks via nix-flatpak
+    │   ├── homelab.nix                # Harmonia cache + remote builder (mySystem.homelab)
     │   ├── networking.nix             # resolved, tailscale, mullvad, NM (laptop-gated)
     │   ├── nix.nix                    # lix, substituters, nh
     │   ├── performance.nix            # sysctl tweaks, gamemode
-    │   ├── programs.nix               # steam, fonts, nix-ld, appimage
+    │   ├── programs.nix               # steam (millennium), regionlock, fonts, nix-ld, appimage
+    │   ├── restic.nix                 # restic push to homelab REST server (mySystem.backup)
+    │   ├── secrets.nix                # sops-nix
     │   ├── users.nix
     │   ├── hardware/                  # gated hardware modules
     │   │   ├── default.nix            # bluetooth, TPM2
     │   │   ├── amd.nix                # amdgpu, lact, opencl
     │   │   ├── intel.nix              # intel-media-driver, iHD, compute runtime
+    │   │   ├── nvidia.nix
     │   │   ├── laptop.nix             # PPD, thermald, fprintd, power tunables
     │   │   └── wooting.nix            # udev rules
     │   └── wm/
     │       ├── hyprland.nix
-    │       └── niri.nix               # pulls niri-flake and xwayland-satellite
+    │       └── niri.nix               # nixpkgs niri + nirinit session restore
     │
     └── home/                          # home-manager
         ├── default.nix
@@ -89,18 +105,21 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
         │       └── niri/{default.nix,binds.nix}
         ├── programs/
         │   ├── default.nix            # feature-gated imports
+        │   ├── agent-sandbox.nix      # shared bwrapper preset for agent sandboxes (not in the import tree)
         │   ├── audio.nix              # bitwig, yabridge (gated on audioProduction)
-        │   ├── chat.nix               # chatterino, vesktop + slack (bwrapper-sandboxed)
+        │   ├── chat.nix               # chatterino, discord (moonlight) + slack (bwrapper-sandboxed)
         │   ├── claude.nix             # claude-code, bwrapper-sandboxed (claude + claude-work)
         │   ├── cli.nix
-        │   ├── codex.nix              # codex CLI, bwrapper-sandboxed
         │   ├── fastfetch/             # module + λ-styled logo
         │   ├── firefox.nix
         │   ├── gaming.nix             # steam extras, prism, mod managers (gated on gaming)
         │   ├── git.nix
+        │   ├── kiro.nix               # kiro-cli (work agent), bwrapper-sandboxed
         │   ├── laptop.nix             # pen/tablet + misc laptop utils
         │   ├── neovim.nix             # via nvf
         │   ├── obs.nix                # (gated on streaming)
+        │   ├── opencode.nix           # opencode CLI, bwrapper-sandboxed (OpenRouter routing)
+        │   ├── rustypaste.nix         # rustypaste client + paste-clip (homelab pastebin)
         │   ├── spotify.nix            # spicetify
         │   ├── terminals.nix          # ghostty + alacritty
         │   └── zed.nix                # zed + sandboxed ACP agents (claude, codex)
@@ -113,14 +132,20 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 
 ## Notable inputs
 
-- **[niri-flake](https://github.com/sodiboo/niri-flake)** — niri compositor + declarative KDL-via-Nix
+niri itself now comes from nixpkgs (`programs.niri`) — the niri-flake input is gone.
+
 - **[nvf](https://github.com/notashelf/nvf)** — Neovim configuration framework
-- **[noctalia-shell](https://github.com/noctalia-dev/noctalia-shell)** — quickshell-based bar, universal across compositors
+- **[noctalia](https://github.com/noctalia-dev/noctalia)** — quickshell-based bar, universal across compositors (`cachix` branch)
 - **[Chaotic-Nyx](https://github.com/chaotic-cx/nyx)** — CachyOS kernel + binary cache (desktop only)
-- **[nix-bwrapper](https://github.com/Naxdy/nix-bwrapper)** — bubblewrap sandboxing (claude-code, codex, ACP agents, slack, vesktop)
+- **[nix-bwrapper](https://github.com/Naxdy/nix-bwrapper)** — bubblewrap sandboxing (claude-code, opencode, kiro, ACP agents, slack, discord)
 - **[nirinit](https://github.com/amaanq/nirinit)** — session restore for niri
+- **[sops-nix](https://github.com/Mic92/sops-nix)** — secrets management
 - **[catppuccin/nix](https://github.com/catppuccin/nix)** — Theming
 - **[spicetify-nix](https://github.com/Gerg-L/spicetify-nix)** — Spotify Theming
+- **[moonlight](https://github.com/moonlight-mod/moonlight)** — Discord mod loader (declarative extensions + theming)
+- **[regionlock](https://github.com/gegnep/regionlock)** — SDR matchmaking region biasing (Deadlock)
+- **[nix-flatpak](https://github.com/gmodena/nix-flatpak)** — declarative flatpak management
+- **[nix-index-database](https://github.com/nix-community/nix-index-database)** — prebuilt nix-index + comma
 - **[NUR](https://github.com/nix-community/NUR)** — Firefox extensions
 - **[Millennium](https://github.com/SteamClientHomebrew/Millennium)** — Steam theming + extensions
 
@@ -149,15 +174,16 @@ Catppuccin Mocha Lavender across the stack. `catppuccin.autoEnable = true` theme
 - **Firefox** — opted out of catppuccin/nix (it fights the managed extension set); userChrome.css with inlined hex colors via `profiles.default.settings`, content theming via Stylus + manually-imported per-site userstyles.
 - **Hyprland** — opted out; manual mocha palette in `wm/hyprland` (the module currently injects a broken lua-inline block into hyprlang).
 - **GTK4 / libadwaita** — symlinks from the catppuccin-gtk package into `~/.config/gtk-4.0/` via `xdg.configFile` (see `modules/home/desktop/common/theme.nix`). Required because GTK4 doesn't read themes the way GTK3 does.
-- **Vesktop/Discord** — one-time Catppuccin toggle in Vencord settings, not declarative.
+- **Discord** — themed declaratively through moonlight: `programs.moonlight` pulls the upstream `catppuccin-mocha-lavender` theme CSS.
 
 ## Per-host notes
 
 ### blackbox
-- systemd-boot, CachyOS v3 kernel, 32 GiB swapfile, scx scheduler active
+- systemd-boot, CachyOS kernel, 32 GiB swapfile, scx scheduler active
 - LACT for AMD GPU power/fan control
 - 2560x1440@165 + 1920x1080@100 dual monitor
 - Both hyprland and niri sessions available
+- Homelab Harmonia cache; restic backups (home + bulk storage) to the homelab
 
 ### nixpad
 - systemd-boot, mainline kernel, 16 GiB swapfile, LUKS2 on root
@@ -165,6 +191,7 @@ Catppuccin Mocha Lavender across the stack. `catppuccin.autoEnable = true` theme
 - NetworkManager (laptop-gated)
 - Aggressive PCI/USB/audio runtime PM via powerManagement.powertop + modprobe options
 - niri-only
+- Homelab Harmonia cache + remote builder; restic backups to the homelab
 
 ## Building
 
