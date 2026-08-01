@@ -39,6 +39,9 @@
   gtk = {
     enable = true;
     theme = {
+      # catppuccin-gtk appends "+<tweaks>" to the theme dir whenever tweaks is
+      # non-empty. Keep in sync with `tweaks` below or the gtk-4.0 sources
+      # become dangling symlinks — silently, HM links missing sources green.
       name = "catppuccin-mocha-lavender-standard+rimless";
       package = pkgs.catppuccin-gtk.override {
         variant = "mocha";
