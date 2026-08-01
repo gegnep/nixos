@@ -41,6 +41,7 @@
     allowUnfree = true;
     permittedInsecurePackages = [
       "ventoy-1.1.12" # unfixed upstream CVEs; still a handy USB utility
+      "electron-40.10.5" # grimoire
     ];
   };
 }

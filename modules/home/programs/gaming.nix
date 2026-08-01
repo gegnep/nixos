@@ -30,7 +30,7 @@
 
     # Mod Managers
     gale # thunderstore
-    deadlock-mod-manager # gamebanana -> deadlock
+    grimoire # gamebanana -> deadlock
     ckan # comprehensive kerbal archive network
     satisfactorymodmanager # ficsit.app
   ];
