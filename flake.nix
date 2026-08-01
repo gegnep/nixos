@@ -41,6 +41,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    grimoire.url = "github:gegnep/grimoire/feat/nix-devshell";
+
     catppuccin.url = "github:catppuccin/nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
@@ -67,6 +69,7 @@
                 inputs.nur.overlays.default
                 inputs.millennium.overlays.default
                 inputs.nix-bwrapper.overlays.default
+                inputs.grimoire.overlays.default
               ];
             }
             inputs.sops-nix.nixosModules.sops
