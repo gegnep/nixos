@@ -9,18 +9,15 @@
         "nix-command"
         "flakes"
       ];
+      # nyx-cache.chaotic.cx + key come from inputs.chaotic.nixosModules.nyx-cache
       substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
-        "https://noctalia.cachix.org"
-        "https://nyx-cache.chaotic.cx"
         "https://noctalia.cachix.org"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-        "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       ];
     };
@@ -44,10 +41,6 @@
     allowUnfree = true;
     permittedInsecurePackages = [
       "ventoy-1.1.12" # unfixed upstream CVEs; still a handy USB utility
-      # pnpm-10.29.2 is marked insecure in nixpkgs. Keep the permit until
-      # `nix why-depends` confirms pnpm left the closure (vesktop, its
-      # consumer, was dropped in 67a0d93). A permit matching nothing is a no-op.
-      "pnpm-10.29.2"
     ];
   };
 }
