@@ -28,7 +28,6 @@ let
     "/home/pengeg/.config/*/Service Worker"
     # chat sandboxes are server-synced; claude sandboxes stay (minus caches)
     "/home/pengeg/.bwrapper/vesktop"
-    "/home/pengeg/.bwrapper/discord"
     "/home/pengeg/.bwrapper/slack"
     "/home/pengeg/.bwrapper/*/.cache"
     "/home/pengeg/.bwrapper/*/.npm"
@@ -36,6 +35,10 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
+    # 26.11 made programs.fuse opt-in; without it `restic mount` (interactive
+    # restore-by-browsing) fails at runtime. Scheduled backups don't need it.
+    programs.fuse.enable = true;
+
     # URL embeds the REST auth password; password file is repo encryption.
     sops.secrets."restic-repo-url-${host}" = { };
     sops.secrets."restic-repo-password-${host}" = { };
