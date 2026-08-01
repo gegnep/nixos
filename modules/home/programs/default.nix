@@ -7,19 +7,17 @@
 
 {
   imports = [
+    ./agents.nix
     ./chat.nix
-    ./claude.nix
     ./cli.nix
     ./fastfetch
     ./firefox.nix
     ./git.nix
     ./kiro.nix
     ./neovim.nix
-    ./opencode.nix
     ./rustypaste.nix
     ./spotify.nix
     ./terminals.nix
-    ./zed.nix
   ]
   ++ lib.optional hostOptions.features.audioProduction ./audio.nix
   ++ lib.optional hostOptions.features.gaming ./gaming.nix

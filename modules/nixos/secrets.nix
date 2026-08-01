@@ -19,7 +19,7 @@
       owner = "pengeg";
       mode = "0600";
     };
-    openrouter-key = {
+    opencode-go-key = {
       owner = "pengeg";
       mode = "0600";
     };
