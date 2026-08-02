@@ -41,7 +41,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    grimoire.url = "github:gegnep/grimoire/feat/nix-devshell";
+    grimoire.url = "github:Slush97/grimoire";
 
     catppuccin.url = "github:catppuccin/nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
