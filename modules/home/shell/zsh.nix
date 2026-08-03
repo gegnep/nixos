@@ -30,6 +30,7 @@
       nh-boot = "(cd ~/nixos && git add . && nh os boot)";
       updt-flake = "(cd ~/nixos && git pull --rebase --autostash)";
       updt-flake-local = "(cd ~/nixos && nix flake update && git add flake.lock)";
+      flake-check = "git add --intent-to-add -A . && nix flake check";
 
       shtdwn = "shutdown -h now";
       svim = "sudo -E nvim";
@@ -92,6 +93,14 @@
             >&2 printf 'zsh: command not found: %s\n' "$1"
           fi
           return 127
+        }
+        git-new() {
+          local name=$1; shift
+          local url
+          url=$(ssh homelab git-new "$name" "$@") || return
+          git remote add homelab "$url"
+          git push -u homelab main
+          echo "→ http://git.homelab/''${name}"
         }
       '')
     ];
