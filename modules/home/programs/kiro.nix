@@ -1,17 +1,20 @@
 { pkgs, ... }:
 
 let
+  kiro-cli = pkgs.kiro-cli-unwrapped.overrideAttrs { pname = "kiro-cli"; };
+
   kiro-sandboxed = pkgs.mkBwrapper {
     imports = [
       pkgs.bwrapperPresets.devshell
       ./agent-sandbox.nix
     ];
     app = {
-      package = pkgs.kiro-cli;
+      package = kiro-cli;
       runScript = "kiro-cli";
       bwrapPath = "kiro";
       id = "dev.pengeg.kiro";
     };
+
     mounts.sandbox = [
       {
         name = "kiro";
