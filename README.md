@@ -1,7 +1,8 @@
 # nixos
 
 NixOS flake config for my personal machines.
-[GitHub](https://github.com/gegnep/nixos) [GitLab](https://gitlab.com/pengeg/nixos)
+
+![alt text](https://p.pengeg.com/AjQgdvXM.png "desktop screenshot containing fastfetch")
 
 ## Hosts
 
