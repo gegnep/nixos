@@ -56,7 +56,7 @@
     seahorse
 
     # Misc
-    cowsay
+    prusa-slicer
     desktop-file-utils
     cabextract
   ];
