@@ -26,7 +26,7 @@ let
     "/home/pengeg/.config/*/Code Cache"
     "/home/pengeg/.config/*/GPUCache"
     "/home/pengeg/.config/*/Service Worker"
-    # chat sandboxes are server-synced; claude sandboxes stay (minus caches)
+    # chat sandboxes are server-synced; remaining agent sandboxes stay (minus caches)
     "/home/pengeg/.bwrapper/vesktop"
     "/home/pengeg/.bwrapper/slack"
     "/home/pengeg/.bwrapper/*/.cache"

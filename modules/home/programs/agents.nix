@@ -11,7 +11,7 @@ let
   mkClaude =
     name:
     pkgs.writeShellScriptBin name ''
-      export CLAUDE_CONFIG_DIR="$HOME/.bwrapper/${name}/claude"
+      export CLAUDE_CONFIG_DIR="$HOME/.${name}"
       export DISABLE_AUTOUPDATER=1
       export EDITOR=nvim VISUAL=nvim
       exec ${pkgs.claude-code}/bin/claude "$@"
