@@ -17,7 +17,7 @@ lib.mkIf (config.mySystem.hardware.gpu == "amd") {
       ppfeaturemask = "0xfffd7fff";
     };
   };
-  #services.lact.enable = true;
+  services.lact.enable = true;
 
   environment.systemPackages = with pkgs; [
     clinfo
