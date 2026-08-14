@@ -295,7 +295,7 @@
           glyph = "";
         };
 
-        cpu.show_label = false;
+        cpu.show_value = false;
 
         media = {
           album_art_only = true;
@@ -317,7 +317,7 @@
 
         privacy.active_color = "secondary";
 
-        ram.show_label = false;
+        ram.show_value = false;
 
         taskbar_2 = {
           display = "none";
@@ -325,7 +325,7 @@
           type = "gegnep/niri-taskbar:taskbar";
         };
 
-        temp.show_label = false;
+        temp.show_value = false;
 
         tray = {
           detached_panel = true;
