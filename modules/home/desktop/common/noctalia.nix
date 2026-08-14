@@ -192,7 +192,7 @@
             "sonnet"
             "haiku"
           ];
-          transcripts_dir = "~/.bwrapper/claude/claude/projects/-home-pengeg--local-state-noctalia-claude-launcher-workspace";
+          transcripts_dir = "~/.claude/projects/-home-pengeg--local-state-noctalia-claude-launcher-workspace";
         };
       };
 
