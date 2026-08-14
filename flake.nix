@@ -29,6 +29,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    chaotic = {
+      url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     nirinit = {
       url = "github:amaanq/nirinit";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,12 +46,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    grimoire.url = "github:Slush97/grimoire";
+    grimoire = {
+      url = "github:Slush97/grimoire";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     catppuccin.url = "github:catppuccin/nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nix-bwrapper.url = "https://flakehub.com/f/Naxdy/nix-bwrapper/1.*";
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
   };

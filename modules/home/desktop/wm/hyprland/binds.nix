@@ -19,7 +19,7 @@ in
     "$ctrlMod" = "$mainMod CTRL";
 
     bind = [
-      "$shiftMod, M, exec, noctalia-shell ipc call sessionMenu toggle"
+      "$shiftMod, M, exec, noctalia msg panel-toggle session"
       "$shiftMod, C, killactive"
       "$mainMod, V, togglefloating"
       "$mainMod, F, fullscreen, 1"
@@ -83,7 +83,7 @@ in
       # Applications
       "$mainMod, E, exec, nautilus"
       "$mainMod, Q, exec, ghostty"
-      "$mainMod, R, exec, noctalia-shell ipc call launcher toggle"
+      "$mainMod, R, exec, noctalia msg panel-toggle launcher"
       "$mainMod, B, exec, firefox"
 
       # Media keys
@@ -91,9 +91,9 @@ in
       ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
       ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
       "SHIFT, XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-      ", XF86AudioNext, exec, noctalia-shell ipc call media next"
-      ", XF86AudioPrev, exec, noctalia-shell ipc call media previous"
-      ", XF86AudioPlay, exec, noctalia-shell ipc call media playPause"
+      ", XF86AudioNext, exec, noctalia msg media next"
+      ", XF86AudioPrev, exec, noctalia msg media previous"
+      ", XF86AudioPlay, exec, noctalia msg media toggle"
 
       # Brightness
       ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
@@ -105,7 +105,7 @@ in
       "$shiftMod, PRINT, exec, hyprshot -z -m window"
 
       # Lock
-      "$mainMod, L, exec, noctalia-shell ipc call lockScreen lock"
+      "$mainMod, L, exec, noctalia msg session lock"
     ]
     ++ swapBind;
 

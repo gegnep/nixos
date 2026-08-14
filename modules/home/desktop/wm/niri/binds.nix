@@ -54,7 +54,7 @@ in
     "Mod+B" = spawn [ "firefox" ];
     "Mod+Space" = noctalia "panel-toggle launcher";
     "Mod+Ctrl+Space" = noctalia "panel-toggle gegnep/claude-launcher:chat";
-    "Mod+Escape" = noctalia "lockScreen lock";
+    "Mod+Escape" = noctalia "session lock";
     "Mod+M" = noctalia "panel-toggle session";
     "Mod+N" = noctalia "notification-dnd-toggle";
     "Mod+C" = noctalia "panel-toggle control-center";

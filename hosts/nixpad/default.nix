@@ -16,7 +16,7 @@
       wms = [ "niri" ];
       monitors = [
         {
-          name = "e-DP-1";
+          name = "eDP-1";
           width = 1920;
           height = 1200;
           refresh = 60.02;

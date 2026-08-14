@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   nix = {
@@ -39,9 +39,9 @@
 
   nixpkgs.config = {
     allowUnfree = true;
-    permittedInsecurePackages = [
-      "ventoy-1.1.12" # unfixed upstream CVEs; still a handy USB utility
-      "electron-40.10.5" # grimoire
-    ];
+    allowInsecurePredicate =
+      pkg:
+      lib.getName pkg == "electron" # grimoire; node-abi caps at electron 40
+      || "${lib.getName pkg}-${lib.getVersion pkg}" == "ventoy-1.1.12"; # unfixed CVEs, re-review on bump
   };
 }
