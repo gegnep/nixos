@@ -20,12 +20,12 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 ### `mySystem.desktop`
 
 - `wms` — compositors to enable on this host. Options: `hyprland`, `niri`.
-- `monitors` — list of displays with name, resolution, refresh rate, position, scale, VRR flag. Consumed by both hyprland and niri configs.
+- `monitors` — list of displays with name, resolution, refresh rate, position, scale, VRR flag, and a `primary` designation (used by noctalia and steam). Consumed by both hyprland and niri configs.
 
 ### `mySystem.hardware`
 
-- `form` — `desktop` or `laptop`. Gates the kernel (CachyOS on desktop, linuxPackages_latest on laptop), swap strategy, power management stack, and scx scheduler.
-- `gpu` — `amd`, `intel`, `nvidia`, or `none`. Activates the appropriate GPU module.
+- `form` — `desktop` or `laptop`. Gates the kernel (CachyOS on desktop, linuxPackages_latest on laptop), the power management stack, and the scx scheduler.
+- `gpu` — `amd`, `intel`, `nvidia`, or `none`. Activates the matching GPU module (`nvidia` is currently an empty stub).
 - `swapfile.enable` / `swapfile.sizeGB` — opt-in swapfile at `/var/lib/swapfile`.
 - `peripherals.wooting` — Wooting keyboard udev rules.
 
@@ -33,7 +33,7 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 
 - `gaming` — Steam extras, Proton tooling, Prism (jdk8/17/21), mod managers.
 - `streaming` — OBS, DaVinci Resolve, v4l2loopback kernel module.
-- `audioProduction` — Bitwig, yabridge, Wine, audio plugins.
+- `audioProduction` — Bitwig, yabridge, Wine, plugin paths.
 
 ### `mySystem.homelab`
 
@@ -106,10 +106,10 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
         │       └── niri/{default.nix,binds.nix}
         ├── programs/
         │   ├── default.nix            # feature-gated imports
-        │   ├── agent-sandbox.nix      # shared bwrapper preset for agent sandboxes (not in the import tree)
+        │   ├── agent-sandbox.nix      # shared bwrapper preset for agent sandboxes
+        │   ├── agents.nix             # claude + claude-work (unsandboxed), codex + opencode (bwrapper-sandboxed)
         │   ├── audio.nix              # bitwig, yabridge (gated on audioProduction)
-        │   ├── chat.nix               # chatterino, discord (moonlight) + slack (bwrapper-sandboxed)
-        │   ├── claude.nix             # claude-code, bwrapper-sandboxed (claude + claude-work)
+        │   ├── chat.nix               # chatterino; vesktop + slack (bwrapper-sandboxed)
         │   ├── cli.nix
         │   ├── fastfetch/             # module + λ-styled logo
         │   ├── firefox.nix
@@ -119,11 +119,10 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
         │   ├── laptop.nix             # pen/tablet + misc laptop utils
         │   ├── neovim.nix             # via nvf
         │   ├── obs.nix                # (gated on streaming)
-        │   ├── opencode.nix           # opencode CLI, bwrapper-sandboxed (OpenRouter routing)
         │   ├── rustypaste.nix         # rustypaste client + paste-clip (homelab pastebin)
         │   ├── spotify.nix            # spicetify
         │   ├── terminals.nix          # ghostty + alacritty
-        │   └── zed.nix                # zed + sandboxed ACP agents (claude, codex)
+        │   └── thunderbird.nix
         └── shell/
             ├── default.nix
             └── zsh.nix                # zsh + p10k (also imported by the homelab flake)
@@ -135,16 +134,17 @@ Hosts configure themselves through `mySystem.*` options defined in `modules/nixo
 
 niri itself now comes from nixpkgs (`programs.niri`) — the niri-flake input is gone.
 
+- **[home-manager](https://github.com/nix-community/home-manager)** — user environment, imported as a NixOS module
 - **[nvf](https://github.com/notashelf/nvf)** — Neovim configuration framework
 - **[noctalia](https://github.com/noctalia-dev/noctalia)** — quickshell-based bar, universal across compositors (`cachix` branch)
-- **[Chaotic-Nyx](https://github.com/chaotic-cx/nyx)** — CachyOS kernel + binary cache (desktop only)
-- **[nix-bwrapper](https://github.com/Naxdy/nix-bwrapper)** — bubblewrap sandboxing (claude-code, opencode, kiro, ACP agents, slack, discord)
+- **[Chaotic-Nyx](https://github.com/chaotic-cx/nyx)** — CachyOS kernel (desktop only) + nyx binary cache (all hosts)
+- **[nix-bwrapper](https://github.com/Naxdy/nix-bwrapper)** — bubblewrap sandboxing (codex, opencode, kiro, slack, vesktop)
 - **[nirinit](https://github.com/amaanq/nirinit)** — session restore for niri
 - **[sops-nix](https://github.com/Mic92/sops-nix)** — secrets management
 - **[catppuccin/nix](https://github.com/catppuccin/nix)** — Theming
 - **[spicetify-nix](https://github.com/Gerg-L/spicetify-nix)** — Spotify Theming
-- **[moonlight](https://github.com/moonlight-mod/moonlight)** — Discord mod loader (declarative extensions + theming)
 - **[regionlock](https://github.com/gegnep/regionlock)** — SDR matchmaking region biasing (Deadlock)
+- **[grimoire](https://github.com/Slush97/grimoire)** — GameBanana mod manager (Deadlock mods)
 - **[nix-flatpak](https://github.com/gmodena/nix-flatpak)** — declarative flatpak management
 - **[nix-index-database](https://github.com/nix-community/nix-index-database)** — prebuilt nix-index + comma
 - **[NUR](https://github.com/nix-community/NUR)** — Firefox extensions
@@ -152,11 +152,11 @@ niri itself now comes from nixpkgs (`programs.niri`) — the niri-flake input is
 
 ## Automation
 
-The homelab runs the maintenance loop for the desktop flake (`gegnep/nixos`) end to end — bump, build, serve, scan, report. The desktops never compile or evaluate anything the homelab hasn't already built.
+The homelab runs the maintenance loop for the desktop flake (`gegnep/nixos`) end to end — bump, build, serve, scan, report. In normal operation the desktops substitute everything from the homelab instead of compiling; only a local change ahead of the homelab's last build forces local work.
 
 - **flake-builder** (`services/flake-builder.nix`) — nightly timer that maintains an isolated clone of `github:gegnep/nixos`, runs `nix flake update` (all inputs), builds **both** `blackbox` and `nixpad` toplevels, and only if both succeed commits and pushes the lock (`chore: bump flake.lock (automated)`). A failed build never advances the lock — the hosts must evaluate exactly the lock the homelab built, or substitution breaks. Last successful pair of toplevels is kept as gcroots under `/var/lib/flake-builder` so `nh clean` can't evict closures before the hosts pull them. Runs at `Nice=19`/`CPUWeight=25` so nightly kernel compiles don't starve services.
 - **Harmonia** (`services/buildserver.nix`) — serves the resulting store paths; the desktops list `http://homelab:5000` + the `homelab-1` key as a substituter.
-- **nightly scan** — a scheduled Claude routine that runs after the bump window and reports to `gegnep/nixos` issues. It triages any open build failure first (root cause from the embedded log, snippet-ready fix commented on the issue, labeled `triaged`), then scans the config for deprecated/renamed/removed options and packages — verified against the *locked* input revs via the [mcp-nixos](https://github.com/utensils/mcp-nixos) connector (also hosted here, `services/mcp-nixos.nix`), not channel HEAD. Findings are graded Critical / Warning / Info with file:line, a ready-to-apply fix, and a source link; each run diffs against the previous scan so unchanged items carry as one-liners.
+- **nightly scan** — a scheduled Claude routine that runs after the bump window and reports to `gegnep/nixos` issues. It covers both this repo and the homelab flake (`gegnep/nixos-prod`), tagging each finding with its repo. It triages any open build failure first (root cause from the embedded log, snippet-ready fix commented on the issue, labeled `triaged`), then scans both configs for deprecated/renamed/removed options and packages — verified against the *locked* input revs via the [mcp-nixos](https://github.com/utensils/mcp-nixos) connector (also hosted here, `services/mcp-nixos.nix`), not channel HEAD. Findings are graded Critical / Warning / Info with file:line, a ready-to-apply fix, and a source link; each run diffs against the previous scan so unchanged items carry as one-liners, and each new report closes the previous night's issue as superseded.
 
 Issue labels are the state machine:
 
@@ -164,7 +164,7 @@ Issue labels are the state machine:
 |---|---|---|---|
 | `flake-builder` + `automated` | the bump job, on failure | lock not advanced, hosts pinned to last-good; log tail embedded | the next green bump |
 | ↳ + `triaged` | the scan | diagnosis + fix commented | — |
-| `nightly-scan` + `automated` | the scan, daily | that night's findings report | manually (or immediately, on a clean run) |
+| `nightly-scan` + `automated` | the scan, daily | that night's findings report | the next scan (superseded); immediately, on a clean run |
 
 Failure path: bump fails → `flake-builder` issue (+ ntfy push) → scan triages it that night → fix lands in the desktop repo → next bump goes green, closes the issue, Harmonia serves the new closures.
 
@@ -172,10 +172,10 @@ Failure path: bump fails → `flake-builder` issue (+ ntfy push) → scan triage
 
 Catppuccin Mocha Lavender across the stack. `catppuccin.autoEnable = true` themes everything the `catppuccin/nix` modules support (bat, btop, fzf, ghostty, lazygit, tmux, atuin, eza, mpv, mangohud, obs, kvantum, gtk icons, ...); spicetify and nvf theme through their own mechanisms. The exceptions, documented in the relevant module:
 
-- **Firefox** — opted out of catppuccin/nix (it fights the managed extension set); userChrome.css with inlined hex colors via `profiles.default.settings`, content theming via Stylus + manually-imported per-site userstyles.
+- **Firefox** — opted out of catppuccin/nix (it fights the managed extension set); content theming via Stylus with manually-imported per-site userstyles.
 - **Hyprland** — opted out; manual mocha palette in `wm/hyprland` (the module currently injects a broken lua-inline block into hyprlang).
 - **GTK4 / libadwaita** — symlinks from the catppuccin-gtk package into `~/.config/gtk-4.0/` via `xdg.configFile` (see `modules/home/desktop/common/theme.nix`). Required because GTK4 doesn't read themes the way GTK3 does.
-- **Discord** — themed declaratively through moonlight: `programs.moonlight` pulls the upstream `catppuccin-mocha-lavender` theme CSS.
+- **Discord** — runs as bwrapper-sandboxed Vesktop; catppuccin is a one-time Vencord toggle whose state persists in the sandbox home (`~/.bwrapper/vesktop/`).
 
 ## Per-host notes
 
