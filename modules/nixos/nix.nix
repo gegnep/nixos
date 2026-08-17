@@ -40,8 +40,6 @@
   nixpkgs.config = {
     allowUnfree = true;
     allowInsecurePredicate =
-      pkg:
-      lib.getName pkg == "electron" # grimoire; node-abi caps at electron 40
-      || "${lib.getName pkg}-${lib.getVersion pkg}" == "ventoy-1.1.12"; # unfixed CVEs, re-review on bump
+      pkg: lib.getName pkg == "electron" || "${lib.getName pkg}-${lib.getVersion pkg}" == "ventoy-1.1.17";
   };
 }
