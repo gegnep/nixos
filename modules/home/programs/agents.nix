@@ -9,9 +9,9 @@ let
   opencodeGoKey = osConfig.sops.secrets.opencode-go-key.path;
 
   mkClaude =
-    name:
+    name: dir:
     pkgs.writeShellScriptBin name ''
-      export CLAUDE_CONFIG_DIR="$HOME/.${name}"
+      export CLAUDE_CONFIG_DIR="$HOME/${dir}"
       export DISABLE_AUTOUPDATER=1
       export EDITOR=nvim VISUAL=nvim
       exec ${pkgs.claude-code}/bin/claude "$@"
@@ -72,8 +72,8 @@ let
 in
 {
   home.packages = [
-    (mkClaude "claude")
-    (mkClaude "claude-work")
+    (mkClaude "claude" ".claude-personal")
+    (mkClaude "claude-work" ".claude-work")
     codex-sandboxed
     opencode-sandboxed
   ];
