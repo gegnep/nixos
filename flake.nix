@@ -60,7 +60,10 @@
     };
 
     grimoire = {
-      url = "github:Slush97/grimoire";
+      # Temporary: upstream main has carried a stale pnpm-deps hash since
+      # 2026-08-19, which fails the nightly build. This branch is the fix,
+      # PR pending. Point back at Slush97/grimoire once it merges.
+      url = "github:gegnep/grimoire/fix/nix-pnpm-deps-hash";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
