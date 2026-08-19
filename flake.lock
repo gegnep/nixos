@@ -143,16 +143,15 @@
         "vpkmerge": "vpkmerge"
       },
       "locked": {
-        "lastModified": 1787119521,
-        "narHash": "sha256-5RRz6q9O/omh+/9GusfSCVjiItBshjp27YRYTB0gFgo=",
-        "owner": "gegnep",
+        "lastModified": 1787129691,
+        "narHash": "sha256-dUCuYNM3NrJs0m7JUlZ05PuhJM1etLGYZULmpVOFpoU=",
+        "owner": "Slush97",
         "repo": "grimoire",
-        "rev": "4b7d3525f30c5901c301d1c5f606a9a7d7581731",
+        "rev": "71e032cd86e4ab82015ad4f4e90c3ae0fe8b748c",
         "type": "github"
       },
       "original": {
-        "owner": "gegnep",
-        "ref": "fix/nix-pnpm-deps-hash",
+        "owner": "Slush97",
         "repo": "grimoire",
         "type": "github"
       }
