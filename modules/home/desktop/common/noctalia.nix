@@ -1,6 +1,9 @@
 { inputs, pkgs, ... }:
 
 {
+  # Disable HM built-in
+  disabledModules = [ "programs/noctalia.nix" ];
+
   programs.noctalia = {
     enable = true;
     package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
@@ -8,7 +11,7 @@
 
     # Reconciled from `noctalia config export merged` 2026-07-29.
     # Runtime state (wallpaper.last, wallpaper.monitors.*) intentionally
-    # excluded — noctalia writes those to the state dir at runtime.
+    # excluded, noctalia writes those to the state dir at runtime.
     settings = {
       backdrop = {
         enabled = true;
