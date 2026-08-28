@@ -46,10 +46,6 @@
     libreoffice-fresh
     gimp-with-plugins
 
-    # IDE and such
-    vscodium
-    kiro
-
     # General GUI utilities
     imv
     ventoy-full

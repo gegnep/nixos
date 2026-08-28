@@ -12,6 +12,7 @@
     # opt-outs from autoEnable
     firefox.enable = false;
     cursors.enable = false;
+    vscodium.profiles.default.icons.enable = true;
   };
 
   home.pointerCursor = {

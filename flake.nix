@@ -59,6 +59,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     regionlock = {
       url = "github:gegnep/regionlock";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -91,6 +96,7 @@
                 inputs.millennium.overlays.default
                 inputs.nix-bwrapper.overlays.default
                 inputs.grimoire.overlays.default
+                inputs.nix-vscode-extensions.overlays.default
               ];
             }
             inputs.sops-nix.nixosModules.sops
