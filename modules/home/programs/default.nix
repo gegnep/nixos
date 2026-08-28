@@ -19,6 +19,7 @@
     ./spotify.nix
     ./terminals.nix
     ./thunderbird.nix
+    ./vscodium.nix
     ./zen.nix
   ]
   ++ lib.optional hostOptions.features.audioProduction ./audio.nix
