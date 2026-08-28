@@ -8,12 +8,12 @@
     setAsDefaultBrowser = true;
     profiles.pengeg = {
       isDefault = true;
+      presets.betterfox.enable = true;
       presets.catppuccin = {
         enable = true;
         flavor = "Mocha";
         accent = "Lavender";
       };
-      presets.betterfox.enable = true;
 
       containersForce = true;
       containers = {
@@ -74,6 +74,11 @@
       ];
 
       settings = {
+        # --- Zen ---
+        "zen.widget.linux.transparency" = false;
+        "browser.tabs.allow_transparent_browser" = false;
+        "widget.transparent-windows" = false;
+
         # --- UI ---
         "browser.aboutConfig.showWarning" = false;
         "browser.tabs.warnOnClose" = false;
@@ -159,6 +164,7 @@
           "wikipedia".metaData.hidden = false;
         };
       };
+
     };
   };
 }

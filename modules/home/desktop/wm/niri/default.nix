@@ -161,7 +161,7 @@ in
           }
           {
             match._props = {
-              app-id = "^firefox$";
+              app-id = "^zen-beta$";
               title = "^Picture-in-Picture$";
             };
             open-floating = true;
