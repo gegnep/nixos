@@ -51,7 +51,7 @@ in
     # Apps & Bar controls
     "Mod+Q" = spawn [ "ghostty" ];
     "Mod+E" = spawn [ "nautilus" ];
-    "Mod+B" = spawn [ "firefox" ];
+    "Mod+B" = spawn [ "zen-beta" ];
     "Mod+Space" = noctalia "panel-toggle launcher";
     "Mod+Ctrl+Space" = noctalia "panel-toggle gegnep/claude-launcher:chat";
     "Mod+Escape" = noctalia "session lock";
