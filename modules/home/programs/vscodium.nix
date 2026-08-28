@@ -26,6 +26,7 @@
   programs.vscodium = {
     enable = true;
     mutableExtensionsDir = false;
+    argvSettings."password-store" = "gnome-libsecret";
     profiles.default = {
       enableUpdateCheck = false;
       enableExtensionUpdateCheck = false;
@@ -54,6 +55,16 @@
         "editor.formatOnSave" = true;
         "editor.minimap.enabled" = false;
         "workbench.editor.enablePreview" = false;
+
+        "files.watcherExclude" = {
+          "**/.direnv/**" = true;
+          "**/result/**" = true;
+        };
+        "search.exclude" = {
+          "**/.direnv" = true;
+          "**/result" = true;
+        };
+        "extensions.ignoreRecommendations" = true;
 
         "vim.leader" = "<space>";
         "vim.useSystemClipboard" = true;

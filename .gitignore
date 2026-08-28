@@ -40,3 +40,12 @@ build/
 # LLM Artifacts
 .claude/
 CLAUDE.md
+
+.bash_profile
+.bashrc
+.idea
+.mcp.json
+.profile
+.ripgreprc
+.zprofile
+.zshrc

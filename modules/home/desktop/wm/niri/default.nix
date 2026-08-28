@@ -182,6 +182,7 @@ in
               { match._props.app-id = "^com\\.mitchellh\\.ghostty$"; }
               { match._props.app-id = "^Alacritty$"; }
               { match._props.app-id = "^neovide$"; }
+              { match._props.app-id = "^codium$"; }
             ];
             background-effect = {
               blur = true;
