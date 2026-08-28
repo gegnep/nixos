@@ -143,7 +143,7 @@
         "media.hardware-video-decoding.force-enabled" = true;
         "layers.acceleration.force-enabled" = true;
 
-        # --- Wayland / Hyprland ---
+        # --- Wayland ---
         "widget.use-xdg-desktop-portal.file-picker" = 1;
         "widget.use-xdg-desktop-portal.mime-handler" = 1;
 

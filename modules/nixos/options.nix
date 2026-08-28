@@ -6,7 +6,6 @@
       wms = lib.mkOption {
         type = lib.types.listOf (
           lib.types.enum [
-            "hyprland"
             "niri"
           ]
         );
