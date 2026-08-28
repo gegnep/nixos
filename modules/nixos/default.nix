@@ -16,7 +16,6 @@
     ./secrets.nix
     ./users.nix
 
-    ./wm/hyprland.nix
     ./wm/niri.nix
   ];
 }

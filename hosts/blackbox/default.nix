@@ -14,7 +14,6 @@
   mySystem = {
     desktop = {
       wms = [
-        "hyprland"
         "niri"
       ];
       monitors = [
