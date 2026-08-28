@@ -1,6 +1,6 @@
 # nixos
 
-NixOS flake config for my personal machines.
+NixOS flake for my personal machines.
 
 ![alt text](https://p.pengeg.com/AjQgdvXM.png "desktop screenshot containing fastfetch")
 
@@ -8,200 +8,101 @@ NixOS flake config for my personal machines.
 
 | Host | Machine | Role |
 |------|---------|------|
-| **blackbox** | Ryzen 7 5800X3D, Radeon RX 9070 XT | Desktop — gaming, audio production, streaming |
-| **nixpad** | ThinkPad X1 Yoga Gen 6 (i7-1185G7, Iris Xe) | Laptop — niri-only convertible with LUKS |
+| **blackbox** | Ryzen 7 5800X3D, RX 9070 XT | Desktop — gaming, audio production, streaming. CachyOS kernel, scx, LACT. |
+| **nixpad** | ThinkPad X1 Yoga Gen 6 | Laptop — LUKS2, fprintd, aggressive runtime PM. |
 
-Each host is a `mkHost` call in `flake.nix` and a directory under `hosts/` containing `default.nix` (options) and `hardware-configuration.nix`.
+Each host is one `mkHost` call in `flake.nix` plus `hosts/<name>/{default.nix, hardware-configuration.nix}`. Host config is a handful of `mySystem.*` options; everything else derives from them:
 
-## Options
+```nix
+mySystem = {
+  desktop  = { wms = [ "niri" ]; monitors = [ ... ]; };
+  hardware = { form = "desktop|laptop"; gpu = "amd|intel|nvidia|none";
+               swapfile = { ... }; peripherals.wooting = bool; };
+  features = { gaming; streaming; audioProduction; };          # bools
+  homelab  = { cache.enable; remoteBuilder.enable; };
+  backup   = { enable; paths; exclude; onCalendar; };          # restic → homelab
+};
+```
 
-Hosts configure themselves through `mySystem.*` options defined in `modules/nixos/options.nix`. This drives conditional module loading and feature gating.
-
-### `mySystem.desktop`
-
-- `wms` — compositors to enable on this host. Options: `hyprland`, `niri`.
-- `monitors` — list of displays with name, resolution, refresh rate, position, scale, VRR flag, and a `primary` designation (used by noctalia and steam). Consumed by both hyprland and niri configs.
-
-### `mySystem.hardware`
-
-- `form` — `desktop` or `laptop`. Gates the kernel (CachyOS on desktop, linuxPackages_latest on laptop), the power management stack, and the scx scheduler.
-- `gpu` — `amd`, `intel`, `nvidia`, or `none`. Activates the matching GPU module (`nvidia` is currently an empty stub).
-- `swapfile.enable` / `swapfile.sizeGB` — opt-in swapfile at `/var/lib/swapfile`.
-- `peripherals.wooting` — Wooting keyboard udev rules.
-
-### `mySystem.features`
-
-- `gaming` — Steam extras, Proton tooling, Prism (jdk8/17/21), mod managers.
-- `streaming` — OBS, DaVinci Resolve, v4l2loopback kernel module.
-- `audioProduction` — Bitwig, yabridge, Wine, plugin paths.
-
-### `mySystem.homelab`
-
-- `cache.enable` — pull from the homelab Harmonia binary cache.
-- `remoteBuilder.enable` — use the homelab as a distributed-build machine.
-
-### `mySystem.backup`
-
-- `enable` — restic push to the homelab REST server.
-- `paths` / `exclude` — what gets backed up and what doesn't.
-- `onCalendar` — systemd timer schedule.
-
-## Structure
+## Layout
 
 <details>
 <summary>Click to expand</summary>
 
 ```text
 .
-├── flake.nix
-├── flake.lock
+├── flake.nix / flake.lock
 ├── hosts/
 │   ├── blackbox/                      # desktop
-│   │   ├── default.nix
-│   │   └── hardware-configuration.nix
 │   └── nixpad/                        # laptop (LUKS)
-│       ├── default.nix
-│       └── hardware-configuration.nix
 └── modules/
     ├── nixos/                         # system-level
-    │   ├── default.nix
-    │   ├── options.nix                # mySystem.* option definitions
+    │   ├── options.nix                # mySystem.* definitions
     │   ├── boot.nix                   # systemd-boot, kernel (form-gated), swap
     │   ├── desktop.nix                # pipewire, ly, locale, scx (desktop-gated)
     │   ├── flatpak.nix                # declarative flatpaks via nix-flatpak
-    │   ├── homelab.nix                # Harmonia cache + remote builder (mySystem.homelab)
+    │   ├── homelab.nix                # Harmonia cache + remote builder
     │   ├── networking.nix             # resolved, tailscale, mullvad, NM (laptop-gated)
     │   ├── nix.nix                    # lix, substituters, nh
     │   ├── performance.nix            # sysctl tweaks, gamemode
-    │   ├── programs.nix               # steam (millennium), regionlock, fonts, nix-ld, appimage
-    │   ├── restic.nix                 # restic push to homelab REST server (mySystem.backup)
+    │   ├── programs.nix               # steam (millennium), regionlock, fonts, nix-ld
+    │   ├── restic.nix                 # backups to homelab REST server
     │   ├── secrets.nix                # sops-nix
     │   ├── users.nix
-    │   ├── hardware/                  # gated hardware modules
-    │   │   ├── default.nix            # bluetooth, TPM2
-    │   │   ├── amd.nix                # amdgpu, lact, opencl
-    │   │   ├── intel.nix              # intel-media-driver, iHD, compute runtime
-    │   │   ├── nvidia.nix
-    │   │   ├── laptop.nix             # PPD, thermald, fprintd, power tunables
-    │   │   └── wooting.nix            # udev rules
-    │   └── wm/
-    │       ├── hyprland.nix
-    │       └── niri.nix               # nixpkgs niri + nirinit session restore
+    │   ├── hardware/                  # gated: amd, intel, nvidia, laptop, wooting
+    │   └── wm/niri.nix                # nixpkgs niri + nirinit session restore
     │
     └── home/                          # home-manager
-        ├── default.nix
         ├── packages.nix               # general CLI/GUI tools
         ├── desktop/
-        │   ├── default.nix            # conditionally imports per-WM modules
-        │   ├── common/                # compositor-agnostic
-        │   │   ├── default.nix
-        │   │   ├── packages.nix
-        │   │   ├── services.nix       # cliphist, udiskie
-        │   │   ├── theme.nix          # GTK/Qt/kvantum catppuccin
-        │   │   ├── nautilus.nix       # nautilus + GTK bookmarks
-        │   │   ├── noctalia.nix
-        │   │   └── xdg.nix            # portals, mime, userDirs
-        │   └── wm/
-        │       ├── hyprland/{default.nix,binds.nix}
-        │       └── niri/{default.nix,binds.nix}
+        │   ├── common/                # packages, services, theme, nautilus, noctalia, xdg
+        │   └── wm/niri/               # config + binds
         ├── programs/
-        │   ├── default.nix            # feature-gated imports
         │   ├── agent-sandbox.nix      # shared bwrapper preset for agent sandboxes
-        │   ├── agents.nix             # claude + claude-work (unsandboxed), codex + opencode (bwrapper-sandboxed)
+        │   ├── agents.nix             # claude + claude-work (bare), codex + opencode (sandboxed)
         │   ├── audio.nix              # bitwig, yabridge (gated on audioProduction)
-        │   ├── chat.nix               # chatterino; vesktop + slack (bwrapper-sandboxed)
+        │   ├── chat.nix               # chatterino; vesktop + slack (sandboxed)
         │   ├── cli.nix
         │   ├── fastfetch/             # module + λ-styled logo
         │   ├── firefox.nix
-        │   ├── gaming.nix             # steam extras, prism, mod managers (gated on gaming)
+        │   ├── gaming.nix             # steam extras, prism, mod managers (gated)
         │   ├── git.nix
-        │   ├── kiro.nix               # kiro-cli (work agent), bwrapper-sandboxed
+        │   ├── kiro.nix               # kiro-cli (work agent), sandboxed
         │   ├── laptop.nix             # pen/tablet + misc laptop utils
         │   ├── neovim.nix             # via nvf
         │   ├── obs.nix                # (gated on streaming)
-        │   ├── rustypaste.nix         # rustypaste client + paste-clip (homelab pastebin)
+        │   ├── rustypaste.nix         # homelab pastebin client
         │   ├── spotify.nix            # spicetify
         │   ├── terminals.nix          # ghostty + alacritty
-        │   └── thunderbird.nix
-        └── shell/
-            ├── default.nix
-            └── zsh.nix                # zsh + p10k (also imported by the homelab flake)
+        │   ├── thunderbird.nix
+        │   └── zen.nix                # zen browser (default), catppuccin + betterfox
+        └── shell/zsh.nix              # zsh + p10k (also imported by the homelab flake)
 ```
 
 </details>
 
-## Notable inputs
+Gating: system modules wrap `config` in `lib.mkIf`; home modules use `lib.optional` imports. AI agents: `claude`/`claude-work` run bare (per-profile `CLAUDE_CONFIG_DIR` wrappers); codex, opencode, and kiro-cli run bwrapper-sandboxed via a shared preset (`agent-sandbox.nix`), as do slack and vesktop.
 
-niri itself now comes from nixpkgs (`programs.niri`) — the niri-flake input is gone.
+## Inputs
 
-- **[home-manager](https://github.com/nix-community/home-manager)** — user environment, imported as a NixOS module
-- **[nvf](https://github.com/notashelf/nvf)** — Neovim configuration framework
-- **[noctalia](https://github.com/noctalia-dev/noctalia)** — quickshell-based bar, universal across compositors (`cachix` branch)
-- **[Chaotic-Nyx](https://github.com/chaotic-cx/nyx)** — CachyOS kernel (desktop only) + nyx binary cache (all hosts)
-- **[nix-bwrapper](https://github.com/Naxdy/nix-bwrapper)** — bubblewrap sandboxing (codex, opencode, kiro, slack, vesktop)
-- **[nirinit](https://github.com/amaanq/nirinit)** — session restore for niri
-- **[sops-nix](https://github.com/Mic92/sops-nix)** — secrets management
-- **[catppuccin/nix](https://github.com/catppuccin/nix)** — Theming
-- **[spicetify-nix](https://github.com/Gerg-L/spicetify-nix)** — Spotify Theming
-- **[regionlock](https://github.com/gegnep/regionlock)** — SDR matchmaking region biasing (Deadlock)
-- **[grimoire](https://github.com/Slush97/grimoire)** — GameBanana mod manager (Deadlock mods)
-- **[nix-flatpak](https://github.com/gmodena/nix-flatpak)** — declarative flatpak management
-- **[nix-index-database](https://github.com/nix-community/nix-index-database)** — prebuilt nix-index + comma
-- **[NUR](https://github.com/nix-community/NUR)** — Firefox extensions
-- **[Millennium](https://github.com/SteamClientHomebrew/Millennium)** — Steam theming + extensions
+[home-manager](https://github.com/nix-community/home-manager) · [nvf](https://github.com/notashelf/nvf) · [noctalia](https://github.com/noctalia-dev/noctalia) · [Chaotic-Nyx](https://github.com/chaotic-cx/nyx) (CachyOS kernel + cache) · [nix-bwrapper](https://github.com/Naxdy/nix-bwrapper) · [nirinit](https://github.com/amaanq/nirinit) · [sops-nix](https://github.com/Mic92/sops-nix) · [catppuccin/nix](https://github.com/catppuccin/nix) · [zen-browser](https://github.com/0xc000022070/zen-browser-flake) · [spicetify-nix](https://github.com/Gerg-L/spicetify-nix) · [nix-flatpak](https://github.com/gmodena/nix-flatpak) · [nix-index-database](https://github.com/nix-community/nix-index-database) · [NUR](https://github.com/nix-community/NUR) · [Millennium](https://github.com/SteamClientHomebrew/Millennium) · [regionlock](https://github.com/gegnep/regionlock) · [grimoire](https://github.com/Slush97/grimoire)
+
+niri comes from nixpkgs (`programs.niri`), not a flake.
 
 ## Automation
 
-The homelab runs the maintenance loop for the desktop flake (`gegnep/nixos`) end to end — bump, build, serve, scan, report. In normal operation the desktops substitute everything from the homelab instead of compiling; only a local change ahead of the homelab's last build forces local work.
-
-- **flake-builder** (`services/flake-builder.nix`) — nightly timer that maintains an isolated clone of `github:gegnep/nixos`, runs `nix flake update` (all inputs), builds **both** `blackbox` and `nixpad` toplevels, and only if both succeed commits and pushes the lock (`chore: bump flake.lock (automated)`). A failed build never advances the lock — the hosts must evaluate exactly the lock the homelab built, or substitution breaks. Last successful pair of toplevels is kept as gcroots under `/var/lib/flake-builder` so `nh clean` can't evict closures before the hosts pull them. Runs at `Nice=19`/`CPUWeight=25` so nightly kernel compiles don't starve services.
-- **Harmonia** (`services/buildserver.nix`) — serves the resulting store paths; the desktops list `http://homelab:5000` + the `homelab-1` key as a substituter.
-- **nightly scan** — a scheduled Claude routine that runs after the bump window and reports to `gegnep/nixos` issues. It covers both this repo and the homelab flake (`gegnep/nixos-prod`), tagging each finding with its repo. It triages any open build failure first (root cause from the embedded log, snippet-ready fix commented on the issue, labeled `triaged`), then scans both configs for deprecated/renamed/removed options and packages — verified against the *locked* input revs via the [mcp-nixos](https://github.com/utensils/mcp-nixos) connector (also hosted here, `services/mcp-nixos.nix`), not channel HEAD. Findings are graded Critical / Warning / Info with file:line, a ready-to-apply fix, and a source link; each run diffs against the previous scan so unchanged items carry as one-liners, and each new report closes the previous night's issue as superseded.
-
-Issue labels are the state machine:
-
-| Labels | Opened by | Meaning | Closed by |
-|---|---|---|---|
-| `flake-builder` + `automated` | the bump job, on failure | lock not advanced, hosts pinned to last-good; log tail embedded | the next green bump |
-| ↳ + `triaged` | the scan | diagnosis + fix commented | — |
-| `nightly-scan` + `automated` | the scan, daily | that night's findings report | the next scan (superseded); immediately, on a clean run |
-
-Failure path: bump fails → `flake-builder` issue (+ ntfy push) → scan triages it that night → fix lands in the desktop repo → next bump goes green, closes the issue, Harmonia serves the new closures.
+The homelab ([gegnep/nixos-prod](https://github.com/gegnep/nixos-prod)) runs the maintenance loop: a nightly job bumps `flake.lock`, builds both host toplevels, and pushes only if both succeed; Harmonia serves the closures so the hosts substitute instead of compiling. A nightly Claude scan triages build failures and files deprecation findings as issues here. Failures never advance the lock.
 
 ## Theming
 
-Catppuccin Mocha Lavender across the stack. `catppuccin.autoEnable = true` themes everything the `catppuccin/nix` modules support (bat, btop, fzf, ghostty, lazygit, tmux, atuin, eza, mpv, mangohud, obs, kvantum, gtk icons, ...); spicetify and nvf theme through their own mechanisms. The exceptions, documented in the relevant module:
-
-- **Firefox** — opted out of catppuccin/nix (it fights the managed extension set); content theming via Stylus with manually-imported per-site userstyles.
-- **Hyprland** — opted out; manual mocha palette in `wm/hyprland` (the module currently injects a broken lua-inline block into hyprlang).
-- **GTK4 / libadwaita** — symlinks from the catppuccin-gtk package into `~/.config/gtk-4.0/` via `xdg.configFile` (see `modules/home/desktop/common/theme.nix`). Required because GTK4 doesn't read themes the way GTK3 does.
-- **Discord** — runs as bwrapper-sandboxed Vesktop; catppuccin is a one-time Vencord toggle whose state persists in the sandbox home (`~/.bwrapper/vesktop/`).
-
-## Per-host notes
-
-### blackbox
-- systemd-boot, CachyOS kernel, 32 GiB swapfile, scx scheduler active
-- LACT for AMD GPU power/fan control
-- 2560x1440@165 + 1920x1080@100 dual monitor
-- Both hyprland and niri sessions available
-- Homelab Harmonia cache; restic backups (home + bulk storage) to the homelab
-
-### nixpad
-- systemd-boot, mainline kernel, 16 GiB swapfile, LUKS2 on root
-- Power-profiles-daemon, thermald, fprintd, fwupd, battery thresholds at 75/90
-- NetworkManager (laptop-gated)
-- Aggressive PCI/USB/audio runtime PM via powerManagement.powertop + modprobe options
-- niri-only
-- Homelab Harmonia cache + remote builder; restic backups to the homelab
+`catppuccin.autoEnable = true` covers most surfaces. Exceptions live next to their modules: Zen (flake's own catppuccin preset), Firefox (Stylus userstyles), GTK4 (manual symlinks), Vesktop (in-sandbox Vencord toggle).
 
 ## Building
 
 ```sh
-# On the target host:
-nh os switch
-
-# Or from anywhere:
-sudo nixos-rebuild switch --flake /path/to/flake.#<hostname>
+nh os switch                                        # on the host
+sudo nixos-rebuild switch --flake .#<hostname>      # anywhere
 ```
+
 ---
 *portions of this configuration were developed in collaboration with [Claude](https://claude.ai); AI suggestions should never replace your own understanding of your system*
