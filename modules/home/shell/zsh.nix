@@ -49,6 +49,15 @@
       catn = "bat --paging=never";
       catpn = "bat --plain --paging=never";
       cata = "bat --show-all";
+
+      ol-ls = "curl -sS http://homelab:11434/api/tags | jq -r '.models[].name'";
+      ol-ps = "ssh homelab ollama ps";
+      ol-up = "ol_load";
+      ol-down = "ssh homelab ollama stop";
+      ol-pull = "ssh homelab ollama pull";
+      ol-rm = "ssh homelab ollama rm";
+      ol-import = "ssh homelab ollama-import";
+      ol-prune = "ssh homelab sudo ollama-prune";
     };
 
     enableCompletion = true;
@@ -101,6 +110,17 @@
           git remote add homelab "$url"
           git push -u homelab main
           echo "→ http://git.homelab/''${name}"
+        }
+        ol_load() {
+          # ollama run blocks on stdin without a TTY; /api/generate with no
+          # prompt loads and returns. keep_alive -1 pins until ol-down.
+          local m=$1 ttl=''${2:--1}
+          [[ -n $m ]] || { >&2 echo "usage: ol-up <model> [ttl]"; return 1; }
+          curl -sS --fail-with-body -X POST http://homelab:11434/api/generate \
+            -H 'Content-Type: application/json' \
+            -d "$(jq -nc --arg m "$m" --arg k "$ttl" \
+                  '{model:$m, keep_alive:(($k|tonumber)? // $k)}')" >/dev/null || return
+          ssh homelab ollama ps
         }
       '')
     ];
