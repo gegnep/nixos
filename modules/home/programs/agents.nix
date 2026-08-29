@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   osConfig,
   ...
@@ -6,6 +7,11 @@
 
 let
   opencodeGoKey = osConfig.sops.secrets.opencode-go-key.path;
+
+  # Authored harness config lives in ~/dev/harness; links are out-of-store so
+  # edits land in the repo without a rebuild.
+  harness = "${config.home.homeDirectory}/dev/harness";
+  link = path: config.lib.file.mkOutOfStoreSymlink "${harness}/${path}";
 
   mkClaude =
     name: dir:
@@ -15,30 +21,6 @@ let
       export EDITOR=nvim VISUAL=nvim
       exec ${pkgs.claude-code}/bin/claude "$@"
     '';
-
-  codex-sandboxed = pkgs.mkBwrapper {
-    imports = [
-      pkgs.bwrapperPresets.devshell
-      ./agent-sandbox.nix
-    ];
-    app = {
-      package = pkgs.codex;
-      runScript = "codex";
-      bwrapPath = "codex";
-      id = "dev.pengeg.codex";
-    };
-    mounts.sandbox = [
-      {
-        name = "codex";
-        path = "$HOME/.codex";
-      }
-    ];
-    mounts.readWrite = [
-      "$HOME/dev"
-      "$HOME/documents"
-      "$HOME/nixos"
-    ];
-  };
 
   opencode-sandboxed = pkgs.mkBwrapper {
     imports = [
@@ -66,23 +48,30 @@ let
       "$HOME/documents"
       "$HOME/nixos"
     ];
-    mounts.read = [ opencodeGoKey ];
+    mounts.read = [
+      opencodeGoKey
+      {
+        from = "$HOME/dev/harness/claude/skills";
+        to = "$HOME/.claude/skills";
+      }
+    ];
   };
 in
 {
   home.packages = [
     (mkClaude "claude" ".claude-personal")
     (mkClaude "claude-work" ".claude-work")
-    codex-sandboxed
     opencode-sandboxed
   ];
 
-  programs.opencode = {
-    enable = true;
-    package = null;
-    settings = {
-      autoupdate = false;
-      provider.opencode-go.options.apiKey = "{file:${opencodeGoKey}}";
-    };
+  home.file = {
+    ".claude-personal/CLAUDE.md".source = link "claude/CLAUDE.md";
+    ".claude-personal/models.md".source = link "claude/models.md";
+    ".claude-personal/settings.json".source = link "claude/settings.json";
+    ".claude-personal/agents".source = link "claude/agents";
+    ".claude-personal/skills".source = link "claude/skills";
+    ".config/opencode/AGENTS.md".source = link "opencode/AGENTS.md";
+    ".config/opencode/agents".source = link "opencode/agents";
+    ".config/opencode/opencode.json".source = link "opencode/opencode.json";
   };
 }
