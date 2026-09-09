@@ -182,6 +182,25 @@ in
             open-focused = true;
           }
           {
+            match._props.app-id = "^zoom$";
+            open-floating = true;
+            open-focused = false;
+            border.off = { };
+            default-floating-position._props = {
+              relative-to = "bottom-right";
+              x = 12;
+              y = 12;
+            };
+          }
+          {
+            match._props = {
+              app-id = "^zoom$";
+              title = "^(Zoom Workplace|Zoom Meeting)";
+            };
+            open-floating = false;
+            border.on = { };
+          }
+          {
             # blur behind terminals/neovide
             _children = [
               { match._props.app-id = "^com\\.mitchellh\\.ghostty$"; }
