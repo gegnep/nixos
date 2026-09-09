@@ -74,6 +74,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    llm-agents.url = "github:numtide/llm-agents.nix";
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
   };
 

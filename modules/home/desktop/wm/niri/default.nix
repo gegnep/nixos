@@ -177,6 +177,11 @@ in
             block-out-from = "screen-capture";
           }
           {
+            match._props.app-id = "^dev\\.pengeg\\.tuicr$";
+            default-column-width.proportion = 0.5;
+            open-focused = true;
+          }
+          {
             # blur behind terminals/neovide
             _children = [
               { match._props.app-id = "^com\\.mitchellh\\.ghostty$"; }
