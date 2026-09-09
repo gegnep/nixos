@@ -28,7 +28,7 @@
       # subshells so the aliases don't strand the shell in ~/nixos
       nh-switch = "(cd ~/nixos && git add . && nh os switch)";
       nh-boot = "(cd ~/nixos && git add . && nh os boot)";
-      updt-flake = "(cd ~/nixos && git pull --rebase --autostash)";
+      updt-flake = "(cd ~/dev/harness && git pull --rebase --autostash) && (cd ~/nixos && git pull --rebase --autostash)";
       updt-flake-local = "(cd ~/nixos && nix flake update && git add flake.lock)";
       flake-check = "git add --intent-to-add -A . && nix flake check";
 
