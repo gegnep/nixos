@@ -12,6 +12,7 @@
     xdg-utils
     glow
     libsecret
+    glab
 
     # Nix tools
     nix-output-monitor
