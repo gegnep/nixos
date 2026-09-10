@@ -12,6 +12,7 @@ in
     networkmanager.enable = isLaptop;
     firewall = {
       enable = true;
+      checkReversePath = "loose";
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
       trustedInterfaces = [ "tailscale0" ];

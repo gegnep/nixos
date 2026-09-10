@@ -10,7 +10,6 @@
     VISUAL = "nvim";
     SOPS_EDITOR = "nvim -n -i NONE -u NORC";
 
-    HYPRSHOT_DIR = "$HOME/pictures/screenshots";
     NIXOS_OZONE_WL = "1";
     XDG_DATA_DIRS = "/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS";
   };
