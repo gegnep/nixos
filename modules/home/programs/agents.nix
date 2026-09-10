@@ -112,7 +112,13 @@ let
         path = "$HOME/.npm";
       }
     ];
-    mounts.readWrite = agentMounts;
+    mounts.readWrite = [
+      {
+        from = "$HOME/.local/share/tuicr";
+        to = "$HOME/.local/share/tuicr";
+      }
+    ]
+    ++ agentMounts;
     mounts.read = [
       {
         from = "$HOME/dev/harness/claude-work/kiro-agents";
