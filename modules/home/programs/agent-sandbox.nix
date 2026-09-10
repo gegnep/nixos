@@ -12,6 +12,7 @@
       curl
       neovim
       nodejs
+      ripwire
     ];
 
     sockets.wayland = lib.mkDefault true;
