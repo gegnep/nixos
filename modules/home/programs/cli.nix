@@ -23,7 +23,7 @@
 
   programs.direnv = {
     enable = true;
-    nix-direnv.enable = true;
+    enableGitIntegration = true;
   };
 
   programs.eza = {

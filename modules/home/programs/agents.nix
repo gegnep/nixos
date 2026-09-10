@@ -121,6 +121,7 @@ in
     kiro-sandboxed
 
     llm.tuicr
+    pkgs.ripwire
   ];
 
   home.file = {

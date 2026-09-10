@@ -23,7 +23,6 @@
     ignores = [
       "result"
       "result-*"
-      ".direnv/"
       "*.swp"
       "*.swo"
       "*~"

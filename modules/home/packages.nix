@@ -44,7 +44,7 @@
 
     # Desktop apps
     keepassxc
-    libreoffice-fresh
+    libreoffice-stable
     gimp-with-plugins
 
     # General GUI utilities
