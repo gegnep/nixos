@@ -49,6 +49,7 @@ let
       runScript = "opencode";
       bwrapPath = "opencode";
       id = "dev.pengeg.opencode";
+      addPkgs = [ llm.tuicr ];
     };
     mounts.sandbox = [
       {
@@ -61,6 +62,10 @@ let
         from = "$HOME/.config/opencode";
         to = "$HOME/.config/opencode";
       }
+      {
+        from = "$HOME/.local/share/tuicr";
+        to = "$HOME/.local/share/tuicr";
+      }
     ]
     ++ agentMounts;
     mounts.read = [
@@ -68,6 +73,10 @@ let
       {
         from = "$HOME/dev/harness/claude/skills";
         to = "$HOME/.claude/skills";
+      }
+      {
+        from = "$HOME/.config/tuicr";
+        to = "$HOME/.config/tuicr";
       }
     ];
   };
