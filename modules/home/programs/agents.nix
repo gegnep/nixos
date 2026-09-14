@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   osConfig,
@@ -143,14 +144,12 @@ in
     # personal profile
     ".claude-personal/CLAUDE.md".source = link "claude/CLAUDE.md";
     ".claude-personal/models.md".source = link "claude/models.md";
-    ".claude-personal/settings.json".source = link "claude/settings.json";
     ".claude-personal/agents".source = link "claude/agents";
     ".claude-personal/skills".source = link "claude/skills";
     # work profile: own steering and agents, shared skills and hooks
     ".claude-work/CLAUDE.md".source = link "claude-work/CLAUDE.md";
     ".claude-work/work.md".source = link "claude-work/work.md";
     ".claude-work/models.md".source = link "claude-work/models.md";
-    ".claude-work/settings.json".source = link "claude-work/settings.json";
     ".claude-work/agents".source = link "claude-work/agents";
     ".claude-work/mcp.json".source = link "claude-work/mcp.json";
     ".claude-work/skills".source = link "claude/skills";
@@ -160,6 +159,15 @@ in
     ".config/opencode/opencode.json".source = link "opencode/opencode.json";
     ".config/opencode/plugins".source = link "opencode/plugins";
   };
+
+  # settings.json is the one linked file Claude Code writes (plugin
+  # marketplaces, permission edits). Its atomic save follows one symlink hop
+  # and writes a temp file next to the target; through mkOutOfStoreSymlink
+  # that hop lands in the store and fails with EROFS. Link it directly.
+  home.activation.claudeSettingsLinks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ln -sfn "${harness}/claude/settings.json" "${config.home.homeDirectory}/.claude-personal/settings.json"
+    run ln -sfn "${harness}/claude-work/settings.json" "${config.home.homeDirectory}/.claude-work/settings.json"
+  '';
 
   xdg.configFile."tuicr/config.toml".text = ''
     theme = "catppuccin-mocha"
