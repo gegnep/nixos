@@ -1,5 +1,43 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  hostOptions,
+  ...
+}:
 
+let
+  primaryMonitor = lib.findFirst (m: m.primary) null hostOptions.desktop.monitors;
+  onPrimary = lib.optionalAttrs (primaryMonitor != null) { monitors = [ primaryMonitor.name ]; };
+
+  loginBoxId = m: "lockscreen-login-box@${m.name}";
+  loginBox = m: rec {
+    box_height = 196.0;
+    box_width = 720.0;
+    placement_width = m.width / m.scale;
+    placement_height = m.height / m.scale;
+    cx = placement_width / 2;
+    cy = placement_height - 119;
+    output = m.name;
+    rotation = 0.0;
+    type = "login_box";
+    settings = {
+      background_color = "surface_variant";
+      background_opacity = 0.88;
+      background_radius = 12.0;
+      input_opacity = 1.0;
+      input_radius = 6.0;
+      layout = "regular";
+      show_caps_lock = true;
+      show_keyboard_layout = true;
+      show_login_button = true;
+      show_media = true;
+      show_session_buttons = true;
+      show_unlock_hint = true;
+      show_weather = true;
+    };
+  };
+in
 {
   # Disable HM built-in
   disabledModules = [ "programs/noctalia.nix" ];
@@ -9,7 +47,7 @@
     package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
     systemd.enable = true;
 
-    # Reconciled from `noctalia config export merged` 2026-07-29.
+    # Reconciled from `noctalia config export merged` 2026-09-21.
     # Runtime state (wallpaper.last, wallpaper.monitors.*) intentionally
     # excluded, noctalia writes those to the state dir at runtime.
     settings = {
@@ -118,60 +156,62 @@
       lockscreen_widgets = {
         enabled = false;
         schema_version = 2;
-        widget_order = [
-          "lockscreen-login-box@HDMI-A-1"
-          "lockscreen-login-box@DP-3"
-        ];
+        widget_order = map loginBoxId hostOptions.desktop.monitors;
         grid = {
           cell_size = 16;
           major_interval = 4;
           visible = true;
         };
-        widget = {
-          "lockscreen-login-box@DP-3" = {
-            box_height = 70.0;
-            box_width = 400.0;
-            cx = 1280.0;
-            cy = 1321.0;
-            output = "DP-3";
-            rotation = 0.0;
-            type = "login_box";
-            settings = {
-              background_color = "surface_variant";
-              background_opacity = 0.88;
-              background_radius = 12.0;
-              input_opacity = 1.0;
-              input_radius = 6.0;
-              show_login_button = true;
-            };
-          };
-          "lockscreen-login-box@HDMI-A-1" = {
-            box_height = 70.0;
-            box_width = 400.0;
-            cx = 960.0;
-            cy = 961.0;
-            output = "HDMI-A-1";
-            rotation = 0.0;
-            type = "login_box";
-            settings = {
-              background_color = "surface_variant";
-              background_opacity = 0.88;
-              background_radius = 12.0;
-              input_opacity = 1.0;
-              input_radius = 6.0;
-              show_login_button = true;
-            };
-          };
-        };
+        widget = lib.listToAttrs (
+          map (m: lib.nameValuePair (loginBoxId m) (loginBox m)) hostOptions.desktop.monitors
+        );
       };
 
-      notification.background_opacity = 0.8;
+      notification = {
+        background_opacity = 0.8;
+        filter_order = [
+          "filter"
+          "filter-2"
+          "filter-3"
+        ];
+        filter = {
+          filter = {
+            allow_permanent = false;
+            bypass_dnd = false;
+            enabled = true;
+            match = "slack";
+            play_sound = false;
+            save_history = false;
+            show_toast = true;
+          };
+          "filter-2" = {
+            allow_permanent = false;
+            bypass_dnd = false;
+            enabled = true;
+            match = "zoom";
+            play_sound = false;
+            save_history = false;
+            show_toast = true;
+          };
+          "filter-3" = {
+            allow_permanent = false;
+            bypass_dnd = false;
+            enabled = true;
+            match = "thunderbird";
+            play_sound = false;
+            save_history = false;
+            show_toast = false;
+          };
+        };
+      }
+      // onPrimary;
 
       osd = {
         background_opacity = 0.8;
         orientation = "vertical";
         position_vertical = "center_right";
-      };
+      }
+      // onPrimary;
 
       plugin_settings = {
         "avivbintangaringga/nix-monitor" = {
@@ -188,11 +228,11 @@
           allow_tools = true;
           chat_placement = "floating";
           effort = "high";
-          model = "sonnet";
+          model = "claude-sonnet-5";
           models = [
-            "fable"
-            "opus"
-            "sonnet"
+            "claude-fable-5-1"
+            "claude-opus-5"
+            "claude-sonnet-5"
             "haiku"
           ];
           transcripts_dir = "~/.claude-personal/projects/-home-pengeg--local-state-noctalia-claude-launcher-workspace";
@@ -202,9 +242,9 @@
       plugins = {
         enabled = [
           "noctalia/kaomoji"
-          "gegnep/claude-launcher"
           "avivbintangaringga/nix-monitor"
           "gegnep/niri-taskbar"
+          "gegnep/claude-launcher"
         ];
         source = [
           {
@@ -226,6 +266,7 @@
       };
 
       shell = {
+        avatar_path = "/home/pengeg/pictures/ChudAlert.gif";
         font_family = "Hack Nerd Font";
         launch_apps_as_systemd_services = true;
         screen_time_enabled = true;
@@ -269,6 +310,12 @@
           {
             path = "/home/pengeg/pictures/wallpapers/art002e009301~large.jpg";
             theme_mode = "auto";
+          }
+          {
+            community_palette = "Catppuccin Mocha Lavender";
+            palette_source = "community";
+            path = "/home/pengeg/pictures/wallpapers/HOlk_4pW8AAmJrU.jpg";
+            theme_mode = "dark";
           }
         ];
       };
@@ -334,8 +381,6 @@
           detached_panel = true;
           drawer = true;
         };
-
-        volume.show_label = false;
 
         weather = {
           max_length = 196;

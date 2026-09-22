@@ -46,7 +46,7 @@
               primary = lib.mkOption {
                 type = lib.types.bool;
                 default = false;
-                description = "Designates primary monitor (used by noctalia and steam)";
+                description = "Designates primary monitor for games and notifications";
               };
             };
           }
