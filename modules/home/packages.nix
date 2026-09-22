@@ -6,6 +6,7 @@
     tldr
     ripgrep
     jq
+    fd
     file
     tree
     gnupg
