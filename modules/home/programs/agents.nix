@@ -164,7 +164,8 @@ in
   # marketplaces, permission edits). Its atomic save follows one symlink hop
   # and writes a temp file next to the target; through mkOutOfStoreSymlink
   # that hop lands in the store and fails with EROFS. Link it directly.
-  home.activation.claudeSettingsLinks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.claudeSettingsLinks = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    run mkdir -p $VERBOSE_ARG "${config.home.homeDirectory}/.claude-personal" "${config.home.homeDirectory}/.claude-work"
     run ln -sfn "${harness}/claude/settings.json" "${config.home.homeDirectory}/.claude-personal/settings.json"
     run ln -sfn "${harness}/claude-work/settings.json" "${config.home.homeDirectory}/.claude-work/settings.json"
   '';
