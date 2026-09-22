@@ -5,6 +5,8 @@
 }:
 
 let
+  primaryMonitor = lib.findFirst (m: m.primary) null hostOptions.desktop.monitors;
+
   mkOutput = m: {
     output = {
       _args = [ m.name ];
@@ -242,6 +244,13 @@ in
               "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri NIRI_SOCKET XDG_SESSION_TYPE && systemctl --user restart xdg-desktop-portal.service"
             ]
             [ "noctalia" ]
+          ]
+          ++ lib.optionals (primaryMonitor != null) [
+            [
+              "sh"
+              "-c"
+              "for _ in $(seq 50); do xrandr --output ${primaryMonitor.name} --primary 2>/dev/null && break; sleep 0.2; done"
+            ]
           ]
           ++ lib.optionals (hostOptions.hardware.form == "laptop") [
             [
