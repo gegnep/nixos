@@ -182,8 +182,9 @@ in
 {
   home.packages = [
     (mkClaude "claude" ".claude-personal" "")
-    # work: MCP servers come from the repo file, not claude.ai connectors
-    (mkClaude "claude-work" ".claude-work" "--mcp-config $HOME/.claude-work/mcp.json")
+    # work: MCP servers are user scope in ~/.claude-work/.claude.json (shared with
+    # claude-desktop-work); add them with `claude-work mcp add --scope user`.
+    (mkClaude "claude-work" ".claude-work" "")
     (mkClaudeDesktop "claude-desktop" ".claude-personal" "")
     (mkClaudeDesktop "claude-desktop-work" ".claude-work" "--user-data-dir=$HOME/.config/Claude-work")
     claude-desktop-share
@@ -205,7 +206,6 @@ in
     ".claude-work/work.md".source = link "claude-work/work.md";
     ".claude-work/models.md".source = link "claude-work/models.md";
     ".claude-work/agents".source = link "claude-work/agents";
-    ".claude-work/mcp.json".source = link "claude-work/mcp.json";
     ".claude-work/skills".source = link "claude/skills";
     # opencode
     ".config/opencode/AGENTS.md".source = link "opencode/AGENTS.md";
