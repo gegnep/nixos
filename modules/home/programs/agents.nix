@@ -28,8 +28,59 @@ let
       export CLAUDE_CONFIG_DIR="$HOME/${dir}"
       export DISABLE_AUTOUPDATER=1
       export EDITOR=nvim VISUAL=nvim
+      # Subcommands reject root options placed before them (`mcp add --scope`),
+      # so extraArgs apply to sessions only.
+      case "$1" in
+        mcp | plugin | auth | doctor | update | install | setup-token | migrate-installer)
+          exec ${llm.claude-code}/bin/claude "$@"
+          ;;
+      esac
       exec ${llm.claude-code}/bin/claude ${extraArgs} "$@"
     '';
+
+  # Claude Desktop: one FHS env, one launcher per profile, same pattern as mkClaude.
+  # numtide's own FHS env lacks what Cowork looks for at fixed paths:
+  # qemu-system-x86_64 on PATH, /usr/share/OVMF/OVMF_{CODE,VARS}{,_4M}.fd,
+  # and /usr/bin/virtiofsd.
+  ovmfCompat = pkgs.runCommand "ovmf-compat" { } ''
+    mkdir -p $out/share/OVMF
+    for n in CODE VARS; do
+      test -e ${pkgs.OVMF.fd}/FV/OVMF_$n.fd
+      ln -s ${pkgs.OVMF.fd}/FV/OVMF_$n.fd $out/share/OVMF/OVMF_$n.fd
+      ln -s ${pkgs.OVMF.fd}/FV/OVMF_$n.fd $out/share/OVMF/OVMF_''${n}_4M.fd
+    done
+  '';
+
+  claude-desktop-fhs = pkgs.buildFHSEnv {
+    name = "claude-desktop-fhs";
+    targetPkgs = p: [
+      llm.claude-desktop.unwrapped
+      p.gcc-unwrapped.lib
+      p.libglvnd
+      p.mesa
+      p.libgbm
+      p.vulkan-loader
+      p.qemu_kvm
+      p.virtiofsd
+      ovmfCompat
+    ];
+    runScript = "claude-desktop";
+  };
+
+  # Each profile gets its own Electron user-data dir (login, VM image,
+  # single-instance lock) and its own CLAUDE_CONFIG_DIR.
+  mkClaudeDesktop =
+    name: dir: extraArgs:
+    pkgs.writeShellScriptBin name ''
+      export CLAUDE_CONFIG_DIR="$HOME/${dir}"
+      exec ${claude-desktop-fhs}/bin/claude-desktop-fhs ${extraArgs} "$@"
+    '';
+
+  # Icons, plus upstream's claude-desktop.desktop (Exec=claude-desktop, claude:// handler).
+  claude-desktop-share = pkgs.runCommand "claude-desktop-share" { } ''
+    mkdir -p $out
+    ln -s ${llm.claude-desktop.unwrapped}/share $out/share
+  '';
 
   # Repos every delegate may write to. A write outside these lands in the
   # sandbox tmpfs and vanishes.
@@ -133,6 +184,9 @@ in
     (mkClaude "claude" ".claude-personal" "")
     # work: MCP servers come from the repo file, not claude.ai connectors
     (mkClaude "claude-work" ".claude-work" "--mcp-config $HOME/.claude-work/mcp.json")
+    (mkClaudeDesktop "claude-desktop" ".claude-personal" "")
+    (mkClaudeDesktop "claude-desktop-work" ".claude-work" "--user-data-dir=$HOME/.config/Claude-work")
+    claude-desktop-share
     opencode-sandboxed
     kiro-sandboxed
 
@@ -158,6 +212,18 @@ in
     ".config/opencode/agents".source = link "opencode/agents";
     ".config/opencode/opencode.json".source = link "opencode/opencode.json";
     ".config/opencode/plugins".source = link "opencode/plugins";
+  };
+
+  xdg.desktopEntries.claude-desktop-work = {
+    name = "Claude (work)";
+    genericName = "AI Assistant";
+    exec = "claude-desktop-work %U";
+    icon = "claude-desktop";
+    categories = [
+      "Utility"
+      "Development"
+    ];
+    startupNotify = true;
   };
 
   # settings.json is the one linked file Claude Code writes (plugin
