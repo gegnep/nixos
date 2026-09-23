@@ -17,6 +17,9 @@
         last = "log -1 HEAD --stat";
       };
       pull.rebase = true;
+      # Upstream reflog entries from a partly rejected multi-URL push made
+      # fork-point drop a local commit on pull --rebase (2026-09-23).
+      rebase.forkPoint = false;
       init.defaultBranch = "main";
       diff.algorithm = "histogram";
     };
