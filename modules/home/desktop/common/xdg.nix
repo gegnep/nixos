@@ -77,6 +77,9 @@
 
         # email (web-based)
         "x-scheme-handler/mailto" = "thunderbird.desktop";
+
+        # claude desktop sign-in callback (personal instance)
+        "x-scheme-handler/claude" = "claude-desktop.desktop";
       };
     };
   };

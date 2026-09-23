@@ -34,6 +34,7 @@ in
 
     kernelModules = [
       "ntsync"
+      "vhost_vsock"
     ]
     ++ lib.optional config.mySystem.features.streaming "v4l2loopback";
 
