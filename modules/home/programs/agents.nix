@@ -8,7 +8,12 @@
 }:
 
 let
-  opencodeGoKey = osConfig.sops.secrets.opencode-go-key.path;
+  opencodeKeys = map (n: osConfig.sops.secrets.${n}.path) [
+    "opencode-go-key"
+    "openrouter-key"
+    "zai-coding-plan-key"
+    "github-mcp-pat"
+  ];
 
   # numtide/llm-agents.nix: daily-updated, prebuilt on cache.numtide.com.
   # Its README still advertises overlays.default; the flake only exports
@@ -120,8 +125,7 @@ let
       }
     ]
     ++ agentMounts;
-    mounts.read = [
-      opencodeGoKey
+    mounts.read = opencodeKeys ++ [
       {
         from = "$HOME/dev/harness/claude/skills";
         to = "$HOME/.claude/skills";
