@@ -28,7 +28,9 @@ in
       "console=tty1"
       "quiet"
       "rd.udev.log_level=3"
-    ];
+    ]
+    ++ lib.optional isDesktop "ttm.page_pool_size=2097152";
+
     consoleLogLevel = 0;
     initrd.verbose = false;
 
