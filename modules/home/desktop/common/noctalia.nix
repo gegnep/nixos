@@ -40,7 +40,10 @@ let
 in
 {
   # Disable HM built-in
-  disabledModules = [ "programs/noctalia.nix" ];
+  disabledModules = [
+    "programs/noctalia.nix"
+    "programs/noctalia"
+  ];
 
   programs.noctalia = {
     enable = true;
@@ -51,6 +54,8 @@ in
     # Runtime state (wallpaper.last, wallpaper.monitors.*) intentionally
     # excluded, noctalia writes those to the state dir at runtime.
     settings = {
+      audio.enable_sounds = false;
+
       backdrop = {
         enabled = true;
         blur_intensity = 0.5;
@@ -284,6 +289,7 @@ in
           wallpaper_placement = "floating";
         };
         shadow.direction = "down_right";
+        readline_shortcuts = true;
       };
 
       theme = {
