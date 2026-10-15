@@ -101,6 +101,25 @@
                 inputs.nix-bwrapper.overlays.default
                 inputs.grimoire.overlays.default
                 inputs.nix-vscode-extensions.overlays.default
+
+                # TEMP: nixpkgs#572951 (typescript-language-server pnpm hash).
+                # Remove once nixos-unstable is past 6e41dcb842bd.
+                (final: prev: {
+                  typescript-language-server =
+                    if prev.typescript-language-server.version == "6.0.2" then
+                      prev.typescript-language-server.overrideAttrs (
+                        finalAttrs: _: {
+                          pnpmDeps = final.fetchPnpmDeps {
+                            inherit (finalAttrs) pname version src;
+                            pnpm = final.pnpm_12;
+                            fetcherVersion = 4;
+                            hash = "sha256-xR/EF60lVBsITKgH7wCM2wHM46PFQevD51KfCENSUH4=";
+                          };
+                        }
+                      )
+                    else
+                      prev.typescript-language-server;
+                })
               ];
             }
             inputs.sops-nix.nixosModules.sops
