@@ -37,11 +37,6 @@
     nix-bwrapper.url = "https://flakehub.com/f/Naxdy/nix-bwrapper/1.*";
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
-    nirinit = {
-      url = "github:amaanq/nirinit";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     noctalia = {
       url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -50,7 +50,7 @@ mySystem = {
     │   ├── secrets.nix                # sops-nix
     │   ├── users.nix
     │   ├── hardware/                  # gated: amd, intel, nvidia, laptop, wooting
-    │   └── wm/niri.nix                # nixpkgs niri + nirinit session restore
+    │   └── wm/niri.nix                # nixpkgs niri
     │
     └── home/                          # home-manager
         ├── packages.nix               # general CLI/GUI tools
@@ -85,7 +85,7 @@ Gating: system modules wrap `config` in `lib.mkIf`; home modules use `lib.option
 
 ## Inputs
 
-[home-manager](https://github.com/nix-community/home-manager) · [nvf](https://github.com/notashelf/nvf) · [noctalia](https://github.com/noctalia-dev/noctalia) · [Chaotic-Nyx](https://github.com/chaotic-cx/nyx) (CachyOS kernel + cache) · [nix-bwrapper](https://github.com/Naxdy/nix-bwrapper) · [nirinit](https://github.com/amaanq/nirinit) · [sops-nix](https://github.com/Mic92/sops-nix) · [catppuccin/nix](https://github.com/catppuccin/nix) · [zen-browser](https://github.com/0xc000022070/zen-browser-flake) · [spicetify-nix](https://github.com/Gerg-L/spicetify-nix) · [nix-flatpak](https://github.com/gmodena/nix-flatpak) · [nix-index-database](https://github.com/nix-community/nix-index-database) · [NUR](https://github.com/nix-community/NUR) · [Millennium](https://github.com/SteamClientHomebrew/Millennium) · [regionlock](https://github.com/gegnep/regionlock) · [grimoire](https://github.com/Slush97/grimoire)
+[home-manager](https://github.com/nix-community/home-manager) · [nvf](https://github.com/notashelf/nvf) · [noctalia](https://github.com/noctalia-dev/noctalia) · [Chaotic-Nyx](https://github.com/chaotic-cx/nyx) (CachyOS kernel + cache) · [nix-bwrapper](https://github.com/Naxdy/nix-bwrapper) · [sops-nix](https://github.com/Mic92/sops-nix) · [catppuccin/nix](https://github.com/catppuccin/nix) · [zen-browser](https://github.com/0xc000022070/zen-browser-flake) · [spicetify-nix](https://github.com/Gerg-L/spicetify-nix) · [nix-flatpak](https://github.com/gmodena/nix-flatpak) · [nix-index-database](https://github.com/nix-community/nix-index-database) · [NUR](https://github.com/nix-community/NUR) · [Millennium](https://github.com/SteamClientHomebrew/Millennium) · [regionlock](https://github.com/gegnep/regionlock) · [grimoire](https://github.com/Slush97/grimoire)
 
 niri comes from nixpkgs (`programs.niri`), not a flake.
 
