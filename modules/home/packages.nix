@@ -17,6 +17,7 @@
 
     # Nix tools
     nix-output-monitor
+    nix-search-tv
     sops
     age
 

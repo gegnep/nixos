@@ -9,6 +9,7 @@
   imports = [
     ./agents.nix
     ./chat.nix
+    ./chromium.nix
     ./cli.nix
     ./fastfetch
     ./firefox.nix
