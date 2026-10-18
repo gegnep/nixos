@@ -42,6 +42,10 @@
   nixpkgs.config = {
     allowUnfree = true;
     allowInsecurePredicate =
-      pkg: lib.getName pkg == "electron" || "${lib.getName pkg}-${lib.getVersion pkg}" == "ventoy-1.1.17";
+      pkg:
+      builtins.elem (lib.getName pkg) [
+        "electron"
+        "ventoy"
+      ];
   };
 }
