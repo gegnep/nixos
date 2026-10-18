@@ -227,14 +227,13 @@ in
           allow_tools = true;
           chat_placement = "floating";
           effort = "high";
-          model = "claude-sonnet-5";
+          model = "claude-sonnet-5-5";
           models = [
             "claude-fable-5-1"
-            "claude-opus-5"
-            "claude-sonnet-5"
-            "haiku"
+            "claude-opus-5-5"
+            "claude-sonnet-5-5"
+            "claude-haiku-5-5"
           ];
-          transcripts_dir = "~/.claude-personal/projects/-home-pengeg--local-state-noctalia-claude-launcher-workspace";
         };
       };
 
