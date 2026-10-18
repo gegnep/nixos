@@ -39,12 +39,6 @@ let
   };
 in
 {
-  # Disable HM built-in
-  disabledModules = [
-    "programs/noctalia.nix"
-    "programs/noctalia"
-  ];
-
   programs.noctalia = {
     enable = true;
     package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
