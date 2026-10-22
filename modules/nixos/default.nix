@@ -11,6 +11,7 @@
     ./nix.nix
     ./options.nix
     ./performance.nix
+    ./pki.nix
     ./programs.nix
     ./restic.nix
     ./secrets.nix
