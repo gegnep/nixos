@@ -42,7 +42,6 @@ in
     ++ lib.optional isDesktop "ttm.page_pool_size=2097152";
 
     consoleLogLevel = 0;
-    initrd.verbose = false;
 
     kernelModules = [
       "ntsync"
