@@ -13,6 +13,7 @@
     "file:///home/pengeg/downloads dwnld"
     "file:///home/pengeg/documents doc"
     "file:///home/pengeg/pictures pic"
+    "file:///home/pengeg/dev dev"
     "file:///home/pengeg/Sync sync"
     "file:///home/pengeg/nixos nix"
     "file:///mnt/homelab homelab"
