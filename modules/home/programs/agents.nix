@@ -220,6 +220,7 @@ in
     ".pi/agent/models.json".source = link "pi/models.json";
     ".pi/agent/extensions".source = link "pi/extensions";
     ".pi/agent/agents".source = link "pi/agents";
+    ".pi/agent/themes".source = link "pi/themes";
   };
 
   xdg.desktopEntries.claude-desktop-work = {
