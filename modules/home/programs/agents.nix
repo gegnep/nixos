@@ -69,6 +69,8 @@ let
       p.vulkan-loader
       p.qemu_kvm
       p.virtiofsd
+      p.bubblewrap
+      p.socat
       ovmfCompat
     ];
     runScript = "claude-desktop";
