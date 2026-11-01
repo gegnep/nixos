@@ -8,10 +8,12 @@
 }:
 
 let
-  opencodeKeys = map (n: osConfig.sops.secrets.${n}.path) [
+  # Bound read-only into the pi sandbox. harness pi/models.json reads the provider
+  # keys with `!cat /run/secrets/<name>` at request time, so no key sits in the
+  # agent's environment. github-mcp-pat: no pi consumer yet; kept for manual testing.
+  piKeys = map (n: osConfig.sops.secrets.${n}.path) [
     "opencode-go-key"
     "openrouter-key"
-    "zai-coding-plan-key"
     "github-mcp-pat"
   ];
 
@@ -95,29 +97,31 @@ let
     "$HOME/nixos"
   ];
 
-  # opencode: personal-profile delegate (GPT sub, Z.AI plan, Go sub, OpenRouter).
-  opencode-sandboxed = pkgs.mkBwrapper {
+  # pi: personal-profile delegate and interactive harness (ChatGPT sub, Go sub,
+  # OpenRouter, homelab). ~/.pi is readWrite so auth.json (ChatGPT OAuth) and
+  # interactive sessions persist on the host, where harness-mods can read them.
+  # Delegate runs keep their sessions under ~/documents/.agents/runs (agentMounts).
+  pi-sandboxed = pkgs.mkBwrapper {
     imports = [
       pkgs.bwrapperPresets.devshell
       ./agent-sandbox.nix
     ];
     app = {
-      package = llm.opencode;
-      runScript = "opencode";
-      bwrapPath = "opencode";
-      id = "dev.pengeg.opencode";
+      package = llm.pi;
+      runScript = "pi";
+      bwrapPath = "pi";
+      id = "dev.pengeg.pi";
       addPkgs = [ llm.tuicr ];
+      env = {
+        # llm-agents owns the version; telemetry also drops provider attribution headers.
+        PI_SKIP_VERSION_CHECK = "1";
+        PI_TELEMETRY = "0";
+      };
     };
-    mounts.sandbox = [
-      {
-        name = "data";
-        path = "$HOME/.local/share/opencode";
-      }
-    ];
     mounts.readWrite = [
       {
-        from = "$HOME/.config/opencode";
-        to = "$HOME/.config/opencode";
+        from = "$HOME/.pi";
+        to = "$HOME/.pi";
       }
       {
         from = "$HOME/.local/share/tuicr";
@@ -125,11 +129,7 @@ let
       }
     ]
     ++ agentMounts;
-    mounts.read = opencodeKeys ++ [
-      {
-        from = "$HOME/dev/harness/claude/skills";
-        to = "$HOME/.claude/skills";
-      }
+    mounts.read = piKeys ++ [
       {
         from = "$HOME/.config/tuicr";
         to = "$HOME/.config/tuicr";
@@ -192,7 +192,7 @@ in
     (mkClaudeDesktop "claude-desktop" ".claude-personal" "")
     (mkClaudeDesktop "claude-desktop-work" ".claude-work" "--user-data-dir=$HOME/.config/Claude-work")
     claude-desktop-share
-    opencode-sandboxed
+    pi-sandboxed
     kiro-sandboxed
 
     llm.tuicr
@@ -211,11 +211,13 @@ in
     ".claude-work/models.md".source = link "claude-work/models.md";
     ".claude-work/agents".source = link "claude-work/agents";
     ".claude-work/skills".source = link "claude/skills";
-    # opencode
-    ".config/opencode/AGENTS.md".source = link "opencode/AGENTS.md";
-    ".config/opencode/agents".source = link "opencode/agents";
-    ".config/opencode/opencode.json".source = link "opencode/opencode.json";
-    ".config/opencode/plugins".source = link "opencode/plugins";
+    # pi: all config lives in harness pi/. settings.json stays a plain link:
+    # pi rewrites it with writeFileSync, which follows the link into the repo.
+    ".pi/agent/AGENTS.md".source = link "pi/AGENTS.md";
+    ".pi/agent/settings.json".source = link "pi/settings.json";
+    ".pi/agent/models.json".source = link "pi/models.json";
+    ".pi/agent/extensions".source = link "pi/extensions";
+    ".pi/agent/agents".source = link "pi/agents";
   };
 
   xdg.desktopEntries.claude-desktop-work = {

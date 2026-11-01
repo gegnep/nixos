@@ -27,10 +27,6 @@
       owner = "pengeg";
       mode = "0600";
     };
-    zai-coding-plan-key = {
-      owner = "pengeg";
-      mode = "0600";
-    };
     github-mcp-pat = {
       owner = "pengeg";
       mode = "0600";
