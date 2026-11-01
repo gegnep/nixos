@@ -218,6 +218,7 @@ in
     ".pi/agent/AGENTS.md".source = link "pi/AGENTS.md";
     ".pi/agent/settings.json".source = link "pi/settings.json";
     ".pi/agent/models.json".source = link "pi/models.json";
+    ".pi/agent/mcp.json".source = link "pi/mcp.json";
     ".pi/agent/extensions".source = link "pi/extensions";
     ".pi/agent/agents".source = link "pi/agents";
     ".pi/agent/themes".source = link "pi/themes";
