@@ -63,18 +63,16 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1793799470,
-        "narHash": "sha256-h0g/LjEm7ohI9i+/tN3tev63yRX1hhYaVg7WKNjHhM8=",
-        "owner": "chaotic-cx",
-        "repo": "nyx",
-        "rev": "abc850ab3183d4d25020b84f210a7dc7de6a7511",
-        "type": "github"
+        "lastModified": 1793871223,
+        "narHash": "sha256-SUpTyVEjKx0H9Pe+vlfPw1pRvJeaRwZU0pOif/FWCx4=",
+        "rev": "d0384448d48be881b6e006b52663b4a45090edd4",
+        "revCount": 8385,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/chaotic-cx/nyx/0.1.8385%2Brev-d0384448d48be881b6e006b52663b4a45090edd4/01a1ac7a-5401-71d1-8a5b-2e9eec94b751/source.tar.gz?rev=d0384448d48be881b6e006b52663b4a45090edd4&revCount=8385"
       },
       "original": {
-        "owner": "chaotic-cx",
-        "ref": "nyxpkgs-unstable",
-        "repo": "nyx",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/chaotic-cx/nyx/0.1.%2A"
       }
     },
     "crane": {
@@ -248,15 +246,14 @@
       "locked": {
         "lastModified": 1793757180,
         "narHash": "sha256-gyV7AtCwLnOImcrfSETP4J3Ie96bz19DY47B7m7Y3HM=",
-        "owner": "nix-community",
-        "repo": "home-manager",
         "rev": "b787c48e2ec57a9d098f5c2721882a3bc1e16f97",
-        "type": "github"
+        "revCount": 7576,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/nix-community/home-manager/0.1.7576%2Brev-b787c48e2ec57a9d098f5c2721882a3bc1e16f97/01a1a50e-eb71-7020-9369-756107e594f9/source.tar.gz?rev=b787c48e2ec57a9d098f5c2721882a3bc1e16f97&revCount=7576"
       },
       "original": {
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/nix-community/home-manager/0.1.%2A"
       }
     },
     "home-manager_2": {
@@ -409,16 +406,14 @@
       "locked": {
         "lastModified": 1790428548,
         "narHash": "sha256-OsZ/I7v3ArCrk0XOUvkiU1dFtGtE1qZTHRGjvBXIKUU=",
-        "owner": "gmodena",
-        "repo": "nix-flatpak",
         "rev": "f1f045fc8b35ff59f88982c1752d3f3a42ca6a61",
-        "type": "github"
+        "revCount": 123,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/gmodena/nix-flatpak/0.8.0/01a1264e-700a-7780-af50-c7a07fe185fa/source.tar.gz?rev=f1f045fc8b35ff59f88982c1752d3f3a42ca6a61&revCount=123"
       },
       "original": {
-        "owner": "gmodena",
-        "ref": "latest",
-        "repo": "nix-flatpak",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/gmodena/nix-flatpak/%2A"
       }
     },
     "nix-index-database": {
@@ -568,17 +563,14 @@
     "nixpkgs_7": {
       "locked": {
         "lastModified": 1793726008,
-        "narHash": "sha256-jQp1wKvbwWdLBASTXkSi/VYmDJ5AbBi1WvcMt9HWJC8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
+        "narHash": "sha256-iNjybNORi/2+shilhMlkNr01UHWKOHRGzQyIyvobs9o=",
         "rev": "1d060086d60cb76a40cf37109f979d88a5bd6396",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1107793.1d060086d60c/nixexprs.tar.zst?lastModified=1793726008&rev=1d060086d60cb76a40cf37109f979d88a5bd6396"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"
       }
     },
     "noctalia": {
@@ -736,15 +728,14 @@
       "locked": {
         "lastModified": 1793657466,
         "narHash": "sha256-GoOvpdsjO5hqZuO6T6ok9u6sJEjO0iPli2zRr9oNUNw=",
-        "owner": "Mic92",
-        "repo": "sops-nix",
         "rev": "b18e01ce148eb3efff5de2f2d3181ca53b2b2a54",
-        "type": "github"
+        "revCount": 1264,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/Mic92/sops-nix/0.1.1264%2Brev-b18e01ce148eb3efff5de2f2d3181ca53b2b2a54/01a19fe8-e9b6-7fd3-b895-6c7e0c23e898/source.tar.gz?rev=b18e01ce148eb3efff5de2f2d3181ca53b2b2a54&revCount=1264"
       },
       "original": {
-        "owner": "Mic92",
-        "repo": "sops-nix",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/Mic92/sops-nix/0.1.%2A"
       }
     },
     "spicetify-nix": {
