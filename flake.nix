@@ -73,8 +73,6 @@
     };
 
     llm-agents.url = "github:numtide/llm-agents.nix";
-    # TEMP: v3.6.1 ships a bad bun-deps hash (same as #909). Unpin once upstream fixes it.
-    millennium.url = "github:SteamClientHomebrew/Millennium/fb75bf7629562474a7a4cc06a03bb827de28a601?dir=packages/nix";
   };
 
   outputs =
@@ -93,7 +91,6 @@
             {
               nixpkgs.overlays = [
                 inputs.nur.overlays.default
-                inputs.millennium.overlays.default
                 inputs.nix-bwrapper.overlays.default
                 inputs.grimoire.overlays.default
                 inputs.nix-vscode-extensions.overlays.default

@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 {
   environment.systemPackages = with pkgs; [
@@ -16,7 +21,16 @@
 
   programs.steam = {
     enable = true;
-    package = pkgs.millennium-steam;
+    package = pkgs.steamWithMillennium;
+    extraCompatPackages = lib.optionals config.mySystem.features.gaming (
+      with pkgs;
+      [
+        proton-ge-bin
+        proton-cachyos_x86_64_v3
+        steamtinkerlaunch
+        steam-play-none
+      ]
+    );
     remotePlay.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
   };

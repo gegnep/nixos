@@ -25,7 +25,6 @@
     packwiz
 
     steam-run
-    protonup-rs
     gamescope
 
     # Mod Managers
