@@ -35,8 +35,10 @@
 
   security.polkit.enable = true;
 
-  # CachyOS scheduler
-  services.scx.enable = config.mySystem.hardware.form == "desktop";
+  services.scx-loader = {
+    enable = config.mySystem.hardware.form == "desktop";
+    config.default_sched = "scx_rustland";
+  };
 
   services.displayManager.ly = {
     enable = true;
