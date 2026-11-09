@@ -48,4 +48,17 @@
         "ventoy"
       ];
   };
+
+  # TEMP overlays
+  nixpkgs.overlays = [
+    (final: prev: {
+      # TEMP: cargo-setup-hook now forces AWS_LC_SYS_USE_SYSTEM=1; nixpkgs gale lacks aws-lc. Drop once fixed upstream.
+      gale = prev.gale.overrideAttrs (old: {
+        buildInputs = (old.buildInputs or [ ]) ++ [
+          final.aws-lc
+          final.sqlite
+        ];
+      });
+    })
+  ];
 }
