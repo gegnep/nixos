@@ -35,9 +35,20 @@
 
   security.polkit.enable = true;
 
+  # Scheduler Stuffs
   services.scx-loader = {
-    enable = config.mySystem.hardware.form == "desktop";
-    config.default_sched = "scx_rustland";
+    enable = true;
+    config =
+      if config.mySystem.hardware.form == "desktop" then
+        {
+          default_sched = "scx_lavd";
+          default_mode = "Gaming";
+        }
+      else
+        {
+          default_sched = "scx_lavd";
+          default_mode = "Auto"; # todo: try PowerSave
+        };
   };
 
   services.displayManager.ly = {
