@@ -29,6 +29,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     chaotic = {
       url = "https://flakehub.com/f/chaotic-cx/nyx/0.1.*";
       inputs.home-manager.follows = "home-manager";
