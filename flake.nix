@@ -136,6 +136,7 @@
     {
       nixosConfigurations = {
         blackbox = mkHost { hostname = "blackbox"; };
+        theseus = mkHost { hostname = "theseus"; };
         nixpad = mkHost { hostname = "nixpad"; };
       };
 
