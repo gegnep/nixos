@@ -1,7 +1,7 @@
 {
   disko.devices.disk.main = {
     type = "disk";
-    device = "/dev/nvme0n1"; # swap for the /dev/disk/by-id path once the SSD is in
+    device = "/dev/disk/by-id/nvme-WD_Green_SN350_2TB_25417F800779";
     content = {
       type = "gpt";
       partitions = {

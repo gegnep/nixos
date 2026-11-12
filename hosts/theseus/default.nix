@@ -18,6 +18,16 @@
     vaapiDriver = "intel-media-driver";
   };
 
+  systemd.services.laptop-battery-thresholds = {
+    description = "Set charge limit on battery";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      echo 85 > /sys/class/power_supply/BAT1/charge_control_end_threshold || true
+    '';
+  };
+
   fileSystems."/mnt/homelab" = {
     device = "homelab:/";
     fsType = "nfs4";
@@ -40,8 +50,8 @@
           name = "eDP-1";
           width = 2880;
           height = 1920;
-          refresh = 120.0; # placeholder, take the exact value from `niri msg outputs`
-          scale = 1.0;
+          refresh = 120.0;
+          scale = 1.5;
           primary = true;
         }
       ];
