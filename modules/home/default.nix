@@ -14,7 +14,7 @@
     inputs.nix-index-database.homeModules.nix-index
     inputs.noctalia.homeModules.default
 
-    inputs.nvf.homeManagerModules.default
+    inputs.nvf.homeModules.default
     inputs.spicetify-nix.homeManagerModules.spicetify
   ];
 
