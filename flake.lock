@@ -219,44 +219,6 @@
         "type": "github"
       }
     },
-    "grimoire": {
-      "inputs": {
-        "grimoire-social": "grimoire-social",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "vpkmerge": "vpkmerge"
-      },
-      "locked": {
-        "lastModified": 1794866556,
-        "narHash": "sha256-8dphbILeNP9JJQynhpkQrmXhP8AEh8tzwdXBhR+p/6k=",
-        "owner": "Slush97",
-        "repo": "grimoire",
-        "rev": "8941439e784acd78dafaea132e3a9fe26a13b698",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Slush97",
-        "repo": "grimoire",
-        "type": "github"
-      }
-    },
-    "grimoire-social": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1790726909,
-        "narHash": "sha256-D69CEBrGshmGTyoYA8d0CYTdTtmY0xIrpFHDnI2vNdY=",
-        "owner": "Slush97",
-        "repo": "grimoire-social",
-        "rev": "b5811d361450ebe8d863276392ad387a31d8295b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Slush97",
-        "repo": "grimoire-social",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -656,7 +618,6 @@
         "catppuccin": "catppuccin",
         "chaotic": "chaotic",
         "disko": "disko",
-        "grimoire": "grimoire",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "nix-bwrapper": "nix-bwrapper",
@@ -857,23 +818,6 @@
       "original": {
         "type": "tarball",
         "url": "https://flakehub.com/f/numtide/treefmt-nix/%2A"
-      }
-    },
-    "vpkmerge": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1794434646,
-        "narHash": "sha256-mPMSHBLE3BROnTUis7d+7v0tc2BpOx9nHOVGmjJXRx4=",
-        "owner": "Slush97",
-        "repo": "vpkmerge",
-        "rev": "f25d6d426d933451ce9fa7479d48abedec36349e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Slush97",
-        "ref": "v0.30.1",
-        "repo": "vpkmerge",
-        "type": "github"
       }
     },
     "zen-browser": {

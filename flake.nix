@@ -77,11 +77,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    grimoire = {
-      url = "github:Slush97/grimoire";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
@@ -102,7 +97,6 @@
               nixpkgs.overlays = [
                 inputs.nur.overlays.default
                 inputs.nix-bwrapper.overlays.default
-                inputs.grimoire.overlays.default
                 inputs.nix-vscode-extensions.overlays.default
               ];
             }
