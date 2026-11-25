@@ -64,6 +64,9 @@
         sizeGB = 16;
       };
     };
+    features = {
+      gaming = true;
+    };
     homelab.cache.enable = true;
     # remoteBuilder and backup stay off until the nixos-prod side exists
   };
